@@ -9,15 +9,15 @@
 
 ComplexCell - кол-во клеток внутри
 ComplexCell - инициализация соседей внутри
-ComplexCell:invertState
-ComplexCell::draw - верхушку
-SimpleCell::draw - если верхние, то димеры в другую сторону
-RowBuilder - изменение направленности рядов
-RowBuilder - отдача рядов
 RenderArea - отдача смещения верхней части
+ComplexCell::draw - верхушку
 RenderArea - клик мышки по верхним
-RenderArea - клик правой кнопкой
+ComplexCell:invertState
+SimpleCell::draw - если верхние, то димеры в другую сторону
+RowBuilder - отдача рядов
 RenderArea, RowBuilder - изменение димеров перенести
+RowBuilder - изменение направленности рядов
+RenderArea - клик правой кнопкой
 
 Отдельный класс Cellular
 Вынести визуализацию (+ из файла)
