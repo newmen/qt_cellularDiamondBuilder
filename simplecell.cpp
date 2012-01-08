@@ -6,6 +6,8 @@ SimpleCell::SimpleCell() : Cell(8), _state(0), _next_state(0), _dimer(-1) {//_hc
     _pbrush0 = SingleColorTool<QBrush>::instance(Qt::white);
     _pbrush1 = SingleColorTool<QBrush>::instance(Qt::darkGreen);
     _ppen = SingleColorTool<QPen>::instance(Qt::transparent);
+    _pdimer_pen = SingleColorTool<QPen>::instance(Qt::darkRed);
+    _pdimer_pen->setWidth(4);
 }
 
 //SimpleCell::~SimpleCell() {
@@ -45,9 +47,7 @@ void SimpleCell::draw(QPainter* ppainter, int x, int y) const {
 
     if (_dimer == -1) return;
 
-    QPen *pdimer_pen = SingleColorTool<QPen>::instance(Qt::darkRed);
-    pdimer_pen->setWidth(4);
-    ppainter->setPen(*pdimer_pen);
+    ppainter->setPen(*_pdimer_pen);
 
     ppainter->save();
     int half = RenderArea::SIMPLE_CELL_SIDE_LENGTH / 2;

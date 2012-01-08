@@ -8,21 +8,6 @@ ComplexCell::ComplexCell() : Cell(6) {
 }
 
 void ComplexCell::initNestedNeighbours() {
-//    int index = 0;
-//    for (int i = 0; i < neighbours_num(); ++i) {
-//        if (i == 0) {
-//            first()->setNeighbour(index, neighbour(i)->last());
-//            last()->setNeighbour(index++, first());
-//        } else if (i == neighbours_num() - 1) {
-//            first()->setNeighbour(index, last());
-//            last()->setNeighbour(index, neighbour(i)->first());
-//        } else {
-//            first()->setNeighbour(index, neighbour(i)->first());
-//            last()->setNeighbour(index++, neighbour(i)->last());
-//        }
-//    }
-
-    // чисто проверка, что правильно определили соседей сложной ячейки
     first()->setNeighbour(0, neighbour(1)->last());
     first()->setNeighbour(1, neighbour(2)->first());
     first()->setNeighbour(2, neighbour(2)->last());

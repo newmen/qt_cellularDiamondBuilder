@@ -33,10 +33,9 @@ private:
     int _state, _next_state;
 //    HydroCarbon* _hc;
 
-    QRect* _prect;
-    QBrush* _pbrush0;
-    QBrush* _pbrush1;
-    QPen* _ppen;
+    QRect *_prect;
+    QBrush *_pbrush0, *_pbrush1;
+    QPen *_ppen, *_pdimer_pen;
 
     int _dimer;
 };

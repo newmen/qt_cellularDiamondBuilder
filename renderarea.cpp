@@ -2,7 +2,7 @@
 #include "dimerrowsplanebuilder.h"
 
 const int RenderArea::COMPLEX_CELLS_NUM_X = 16;
-const int RenderArea::COMPLEX_CELLS_NUM_Y = 9;
+const int RenderArea::COMPLEX_CELLS_NUM_Y = 10;
 const int RenderArea::SIMPLE_CELL_SIDE_LENGTH = 26;
 
 RenderArea::RenderArea(QWidget *parent) : QWidget(parent) {
@@ -58,17 +58,17 @@ void RenderArea::paintEvent(QPaintEvent*) {
 }
 
 void RenderArea::next() {
-//    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
-//        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
-//            _cells[y][x].resolvNextState();
-//        }
-//    }
+    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
+        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
+            _cells[y][x].resolvNextState();
+        }
+    }
 
-//    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
-//        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
-//            _cells[y][x].next();
-//        }
-//    }
+    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
+        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
+            _cells[y][x].next();
+        }
+    }
 
     buildDimers();
     update();
@@ -78,7 +78,7 @@ void RenderArea::initNeighbours() {
     int nx, ny;
     for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
         for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
-            int index = 0;
+            int neighbour_index = 0;
 
             for (int iy = -1; iy < 2; ++iy) {
                 for (int ix = -1; ix < 2; ++ix) {
@@ -94,7 +94,7 @@ void RenderArea::initNeighbours() {
                     if (ny < 0) ny = COMPLEX_CELLS_NUM_Y - 1;
                     else if (ny >= COMPLEX_CELLS_NUM_Y) ny = 0;
 
-                    _cells[y][x].setNeighbour(index++, &_cells[ny][nx]);
+                    _cells[y][x].setNeighbour(neighbour_index++, &_cells[ny][nx]);
                 }
             }
         }
