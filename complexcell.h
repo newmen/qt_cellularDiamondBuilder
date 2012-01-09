@@ -12,6 +12,8 @@
 class ComplexCell : public Cell<ComplexCell>, public Displayed
 {
 public:
+    enum Part { DOWN = 0, UP };
+
     ComplexCell();
 
     void initNestedNeighbours();
@@ -21,8 +23,8 @@ public:
 
     void draw(QPainter *ppainter, int x, int y) const;
 
-    SimpleCell* first() { return &_cells[0]; }
-    SimpleCell* last() { return &_cells[1]; }
+    SimpleCell *first(Part part_index) { return &_cells[2 * part_index]; }
+    SimpleCell *last(Part part_index) { return &_cells[2 * part_index + 1]; }
 
     void invertState(int x_seek, int y_seek);
 
@@ -31,9 +33,9 @@ public:
 private:
     SimpleCell _cells[NUMBER_OF_SIMPLE_CELLS];
 
-    QRect* _prect;
-    QBrush* _pbrush;
-    QPen* _ppen;
+    QRect *_prect;
+    QBrush *_pbrush;
+    QPen *_ppen;
 };
 
 #endif // COMPLEXCELL_H

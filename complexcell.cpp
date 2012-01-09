@@ -8,23 +8,23 @@ ComplexCell::ComplexCell() : Cell(6) {
 }
 
 void ComplexCell::initNestedNeighbours() {
-    first()->setNeighbour(0, neighbour(1)->last());
-    first()->setNeighbour(1, neighbour(2)->first());
-    first()->setNeighbour(2, neighbour(2)->last());
-    first()->setNeighbour(3, neighbour(4)->first());
-    first()->setNeighbour(4, last());
-    first()->setNeighbour(5, neighbour(3)->first());
-    first()->setNeighbour(6, neighbour(0)->last());
-    first()->setNeighbour(7, neighbour(0)->first());
+    first(DOWN)->setNeighbour(0, neighbour(1)->last(DOWN));
+    first(DOWN)->setNeighbour(1, neighbour(2)->first(DOWN));
+    first(DOWN)->setNeighbour(2, neighbour(2)->last(DOWN));
+    first(DOWN)->setNeighbour(3, neighbour(4)->first(DOWN));
+    first(DOWN)->setNeighbour(4, last(DOWN));
+    first(DOWN)->setNeighbour(5, neighbour(3)->first(DOWN));
+    first(DOWN)->setNeighbour(6, neighbour(0)->last(DOWN));
+    first(DOWN)->setNeighbour(7, neighbour(0)->first(DOWN));
 
-    last()->setNeighbour(0, first());
-    last()->setNeighbour(1, neighbour(2)->last());
-    last()->setNeighbour(2, neighbour(4)->first());
-    last()->setNeighbour(3, neighbour(4)->last());
-    last()->setNeighbour(4, neighbour(5)->first());
-    last()->setNeighbour(5, neighbour(3)->last());
-    last()->setNeighbour(6, neighbour(3)->first());
-    last()->setNeighbour(7, neighbour(0)->last());
+    last(DOWN)->setNeighbour(0, first(DOWN));
+    last(DOWN)->setNeighbour(1, neighbour(2)->last(DOWN));
+    last(DOWN)->setNeighbour(2, neighbour(4)->first(DOWN));
+    last(DOWN)->setNeighbour(3, neighbour(4)->last(DOWN));
+    last(DOWN)->setNeighbour(4, neighbour(5)->first(DOWN));
+    last(DOWN)->setNeighbour(5, neighbour(3)->last(DOWN));
+    last(DOWN)->setNeighbour(6, neighbour(3)->first(DOWN));
+    last(DOWN)->setNeighbour(7, neighbour(0)->last(DOWN));
 }
 
 void ComplexCell::resolvNextState() {
@@ -55,9 +55,9 @@ void ComplexCell::draw(QPainter* ppainter, int x, int y) const {
 
 void ComplexCell::invertState(int x_seek, int y_seek) {
     if (y_seek < RenderArea::SIMPLE_CELL_SIDE_LENGTH) {
-        first()->invertState();
+        first(DOWN)->invertState();
     } else {
-        last()->invertState();
+        last(DOWN)->invertState();
     }
 }
 

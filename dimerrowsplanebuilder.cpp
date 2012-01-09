@@ -1,5 +1,6 @@
 #include "dimerrowsplanebuilder.h"
 #include <algorithm>
+#include <cstdlib>
 //#include <iostream>
 
 DimerRowsPlaneBuilder::DimerRowsPlaneBuilder(int max_vertical_index, int max_horizontal_index)
@@ -63,16 +64,27 @@ void DimerRowsPlaneBuilder::destroyRow(DimerRow *row) {
 void DimerRowsPlaneBuilder::shiftLargestRow() {
 //    std::cout << "shift [" << _all_rows.size() << "]" << std::endl;
     if (_all_rows.empty()) return;
-
     _all_rows.sort(RowsSorter());
 
-    DimerRow *largest_row = *(_all_rows.begin());
-    _real_rows.push_back(largest_row);
-    _all_rows.pop_front();
+    int num_of_same_length = 1;
+    DimerRows::iterator prev_dr = _all_rows.begin();
+    DimerRows::iterator curr_dr = _all_rows.begin();
+    advance(curr_dr, 1);
+    for (; curr_dr != _all_rows.end(); ++prev_dr, ++curr_dr) {
+        if ((*prev_dr)->length() != (*curr_dr)->length()) break;
+        ++num_of_same_length;
+    }
 
-    int vertical_index = largest_row->verticalIndex();
-    truncateRows(vertical_index - 1, largest_row);
-    truncateRows(vertical_index + 1, largest_row);
+//    std::cout << "nums of same length = " << num_of_same_length << std::endl;
+    DimerRows::iterator i_largest_row = _all_rows.begin();
+    advance(i_largest_row, rand() % num_of_same_length);
+
+    _real_rows.push_back(*i_largest_row);
+    _all_rows.erase(i_largest_row);
+
+    int vertical_index = (*i_largest_row)->verticalIndex();
+    truncateRows(vertical_index - 1, *i_largest_row);
+    truncateRows(vertical_index + 1, *i_largest_row);
 
     shiftLargestRow();
 }

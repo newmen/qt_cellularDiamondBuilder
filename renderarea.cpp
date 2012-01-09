@@ -58,17 +58,17 @@ void RenderArea::paintEvent(QPaintEvent*) {
 }
 
 void RenderArea::next() {
-    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
-        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
-            _cells[y][x].resolvNextState();
-        }
-    }
+//    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
+//        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
+//            _cells[y][x].resolvNextState();
+//        }
+//    }
 
-    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
-        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
-            _cells[y][x].next();
-        }
-    }
+//    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
+//        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
+//            _cells[y][x].next();
+//        }
+//    }
 
     buildDimers();
     update();
@@ -121,9 +121,9 @@ void RenderArea::buildDimers() {
         for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
             for (int i = 0; i < 2; ++i) {
                 if (x % 2 == 0) {
-                    second = (i % 2 == 0) ? _cells[y][x].first() : _cells[y][x].last();
+                    second = (i % 2 == 0) ? _cells[y][x].first(ComplexCell::DOWN) : _cells[y][x].last(ComplexCell::DOWN);
                 } else {
-                    second = _cells[y][x].first();
+                    second = _cells[y][x].first(ComplexCell::DOWN);
                     if (i % 2 == 0) second = second->top();
                 }
                 first = second->top();
