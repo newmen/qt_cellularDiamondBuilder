@@ -14,7 +14,7 @@ public:
 
     QSize minimumSizeHint() const;
 
-    void mousePressEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent*);
     void paintEvent(QPaintEvent*);
 
     static const int COMPLEX_CELLS_NUM_X;

@@ -1,7 +1,7 @@
 #include "complexcell.h"
 #include "renderarea.h"
 
-ComplexCell::ComplexCell() : Cell(6) {
+ComplexCell::ComplexCell() {
     _prect = SingleRect::instance(0, 0, RenderArea::SIMPLE_CELL_SIDE_LENGTH, 2 * RenderArea::SIMPLE_CELL_SIDE_LENGTH);
     _pbrush = SingleColorTool<QBrush>::instance(Qt::transparent);
     _ppen = SingleColorTool<QPen>::instance(Qt::black);

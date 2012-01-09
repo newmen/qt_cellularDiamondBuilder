@@ -1,14 +1,10 @@
 #ifndef CELL_H
 #define CELL_H
 
-template<class CellClass>
+template<class CellClass, int NNeighbours>
 class Cell
 {
 public:
-    virtual ~Cell() {
-        delete [] _neighbours;
-    }
-
     virtual void resolvNextState() = 0;
     virtual void next() = 0;
 
@@ -17,18 +13,15 @@ public:
     }
 
 protected:
-    Cell(int neighbours_num) : _neighbours_num(neighbours_num) {
-        _neighbours = new CellClass*[_neighbours_num];
-    }
+//    Cell() {}
 
-    int neighbours_num() const { return _neighbours_num; }
+    int neighbours_num() const { return NNeighbours; }
     CellClass* neighbour(int index) const { return _neighbours[index]; }
 
 private:
-    Cell();
+//    Cell();
 
-    CellClass** _neighbours;
-    const int _neighbours_num;
+    CellClass* _neighbours[NNeighbours];
 };
 
 #endif // CELL_H

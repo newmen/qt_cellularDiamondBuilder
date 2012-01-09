@@ -25,7 +25,7 @@ QSize RenderArea::minimumSizeHint() const {
     return QSize(COMPLEX_CELLS_NUM_X * SIMPLE_CELL_SIDE_LENGTH, (2 * COMPLEX_CELLS_NUM_Y + 1) * SIMPLE_CELL_SIDE_LENGTH);
 }
 
-void RenderArea::mousePressEvent(QMouseEvent* event) {
+void RenderArea::mousePressEvent(QMouseEvent *event) {
     int x = event->x() / SIMPLE_CELL_SIDE_LENGTH;
     if (x >= COMPLEX_CELLS_NUM_X) return;
     int inner_seek_x = event->x() % SIMPLE_CELL_SIDE_LENGTH;

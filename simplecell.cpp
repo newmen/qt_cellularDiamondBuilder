@@ -1,7 +1,7 @@
 #include "simplecell.h"
 #include "renderarea.h"
 
-SimpleCell::SimpleCell() : Cell(8), _state(0), _next_state(0), _dimer(-1) {//_hc(0) {
+SimpleCell::SimpleCell() : _state(0), _next_state(0), _dimer(-1) {//_hc(0) {
     _prect = SingleRect::instance(0, 0, RenderArea::SIMPLE_CELL_SIDE_LENGTH, RenderArea::SIMPLE_CELL_SIDE_LENGTH);
     _pbrush0 = SingleColorTool<QBrush>::instance(Qt::white);
     _pbrush1 = SingleColorTool<QBrush>::instance(Qt::darkGreen);

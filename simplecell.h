@@ -9,7 +9,7 @@
 #include "singlerect.h"
 #include "singlecolortool.h"
 
-class SimpleCell : public Cell<SimpleCell>, public Displayed
+class SimpleCell : public Cell<SimpleCell, 8>, public Displayed
 {
 public:
     SimpleCell();

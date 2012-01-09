@@ -7,9 +7,9 @@
 #include "singlerect.h"
 #include "singlecolortool.h"
 
-#define NUMBER_OF_SIMPLE_CELLS 2
+#define NUMBER_OF_SIMPLE_CELLS 4
 
-class ComplexCell : public Cell<ComplexCell>, public Displayed
+class ComplexCell : public Cell<ComplexCell, 6>, public Displayed
 {
 public:
     enum Part { DOWN = 0, UP };
