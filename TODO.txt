@@ -11,6 +11,7 @@ ComplexCell - кол-во клеток внутри
 ComplexCell - инициализация соседей внутри
 RenderArea - отдача смещения верхней части
 ComplexCell::draw - верхушку
+
 RenderArea - клик мышки по верхним
 ComplexCell:invertState
 SimpleCell::draw - если верхние, то димеры в другую сторону

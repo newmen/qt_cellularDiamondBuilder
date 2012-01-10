@@ -9,7 +9,7 @@
 
 #define NUMBER_OF_SIMPLE_CELLS 4
 
-class ComplexCell : public Cell<ComplexCell, 6>, public Displayed
+class ComplexCell : public Cell<ComplexCell, 8>, public Displayed
 {
 public:
     enum Part { DOWN = 0, UP };
@@ -26,14 +26,14 @@ public:
     SimpleCell *first(Part part_index) { return &_cells[2 * part_index]; }
     SimpleCell *last(Part part_index) { return &_cells[2 * part_index + 1]; }
 
-    void invertState(int x_seek, int y_seek);
+    void invertState(Part part, int x_seek, int y_seek);
 
     void resetDimers();
 
 private:
     SimpleCell _cells[NUMBER_OF_SIMPLE_CELLS];
 
-    QRect *_prect;
+    QRect *_prect_down, *_prect_up;
     QBrush *_pbrush;
     QPen *_ppen;
 };

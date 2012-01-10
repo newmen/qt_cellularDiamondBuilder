@@ -1,9 +1,17 @@
 #include "renderarea.h"
 #include "dimerrowsplanebuilder.h"
 
-const int RenderArea::COMPLEX_CELLS_NUM_X = 16;
-const int RenderArea::COMPLEX_CELLS_NUM_Y = 10;
+const int RenderArea::COMPLEX_CELLS_NUM_X = 4;//16;
+const int RenderArea::COMPLEX_CELLS_NUM_Y = 4;//10;
 const int RenderArea::SIMPLE_CELL_SIDE_LENGTH = 26;
+
+int RenderArea::topLayerXSeek() {
+    return (int)((1.5 + COMPLEX_CELLS_NUM_X) * SIMPLE_CELL_SIDE_LENGTH);
+}
+
+int RenderArea::topLayerYSeek() {
+    return (int)(0.5 * SIMPLE_CELL_SIDE_LENGTH);
+}
 
 RenderArea::RenderArea(QWidget *parent) : QWidget(parent) {
     _cells = new ComplexCell*[COMPLEX_CELLS_NUM_Y];
@@ -22,23 +30,49 @@ RenderArea::~RenderArea() {
 }
 
 QSize RenderArea::minimumSizeHint() const {
-    return QSize(COMPLEX_CELLS_NUM_X * SIMPLE_CELL_SIDE_LENGTH, (2 * COMPLEX_CELLS_NUM_Y + 1) * SIMPLE_CELL_SIDE_LENGTH);
+    return QSize(topLayerXSeek() + (COMPLEX_CELLS_NUM_X + 1) * SIMPLE_CELL_SIDE_LENGTH,
+                 (2 * COMPLEX_CELLS_NUM_Y + 1) * SIMPLE_CELL_SIDE_LENGTH);
 }
 
 void RenderArea::mousePressEvent(QMouseEvent *event) {
-    int x = event->x() / SIMPLE_CELL_SIDE_LENGTH;
-    if (x >= COMPLEX_CELLS_NUM_X) return;
-    int inner_seek_x = event->x() % SIMPLE_CELL_SIDE_LENGTH;
+    ComplexCell::Part part;
+    int x, y;
+    int inner_seek_x, inner_seek_y;
+    if (event->x() < topLayerXSeek()) {
+        part = ComplexCell::DOWN;
 
-    int real_y = event->y();
-    if (x % 2 != 0) real_y -= SIMPLE_CELL_SIDE_LENGTH;
-    if (real_y < 0) return;
+        x = event->x() / SIMPLE_CELL_SIDE_LENGTH;
+        if (x >= COMPLEX_CELLS_NUM_X) return;
+        inner_seek_x = event->x() % SIMPLE_CELL_SIDE_LENGTH;
 
-    int y = real_y / (2 * SIMPLE_CELL_SIDE_LENGTH);
-    if (y >= COMPLEX_CELLS_NUM_Y) return;
-    int inner_seek_y = real_y % (2 * SIMPLE_CELL_SIDE_LENGTH);
+        int real_y = event->y();
+        if (x % 2 != 0) real_y -= SIMPLE_CELL_SIDE_LENGTH;
+        if (real_y < 0) return;
 
-    _cells[y][x].invertState(inner_seek_x, inner_seek_y);
+        y = real_y / (2 * SIMPLE_CELL_SIDE_LENGTH);
+        if (y >= COMPLEX_CELLS_NUM_Y) return;
+        inner_seek_y = real_y % (2 * SIMPLE_CELL_SIDE_LENGTH);
+    } else {
+        part = ComplexCell::UP;
+
+        int real_y = event->y() - topLayerYSeek();
+        y = real_y / SIMPLE_CELL_SIDE_LENGTH;
+        if (y >= COMPLEX_CELLS_NUM_Y * 2) return;
+        inner_seek_y = real_y % SIMPLE_CELL_SIDE_LENGTH;
+
+        int real_x = event->x() - topLayerXSeek();
+        if (y % 2 != 0) real_x -= SIMPLE_CELL_SIDE_LENGTH;
+        if (real_x < 0) return;
+
+        x = real_x / (2 * SIMPLE_CELL_SIDE_LENGTH);
+        if (x >= COMPLEX_CELLS_NUM_X * 0.5) return;
+        inner_seek_x = real_x % (2 * SIMPLE_CELL_SIDE_LENGTH);
+
+        y *= 0.5;
+        x *= 2;
+    }
+
+    _cells[y][x].invertState(part, inner_seek_x, inner_seek_y);
 
     update();
 }
@@ -81,16 +115,17 @@ void RenderArea::initNeighbours() {
             int neighbour_index = 0;
 
             for (int iy = -1; iy < 2; ++iy) {
-                for (int ix = -1; ix < 2; ++ix) {
+                for (int ix = -2; ix < 3; ++ix) {
                     if (iy == 0 && ix == 0) continue;
                     if (iy == 1 && ix != 0) continue;
+                    if (iy != 0 && (ix == -2 || ix == 2)) continue;
 
                     nx = x + ix;
-                    if (nx < 0) nx = COMPLEX_CELLS_NUM_X - 1;
-                    else if (nx >= COMPLEX_CELLS_NUM_X) nx = 0;
+                    if (nx < 0) nx += COMPLEX_CELLS_NUM_X;
+                    else if (nx >= COMPLEX_CELLS_NUM_X) nx -= COMPLEX_CELLS_NUM_X;
 
                     ny = y + iy;
-                    if (x % 2 != 0 && ix != 0) ++ny;
+                    if (x % 2 != 0 && (ix == -1 || ix == 1)) ++ny;
                     if (ny < 0) ny = COMPLEX_CELLS_NUM_Y - 1;
                     else if (ny >= COMPLEX_CELLS_NUM_Y) ny = 0;
 

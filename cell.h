@@ -13,14 +13,12 @@ public:
     }
 
 protected:
-//    Cell() {}
+    Cell() {}
 
     int neighbours_num() const { return NNeighbours; }
     CellClass* neighbour(int index) const { return _neighbours[index]; }
 
 private:
-//    Cell();
-
     CellClass* _neighbours[NNeighbours];
 };
 

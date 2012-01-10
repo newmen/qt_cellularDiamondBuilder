@@ -21,6 +21,9 @@ public:
     static const int COMPLEX_CELLS_NUM_Y;
 
     static const int SIMPLE_CELL_SIDE_LENGTH;
+
+    static int topLayerXSeek();
+    static int topLayerYSeek();
 signals:
 
 public slots:
