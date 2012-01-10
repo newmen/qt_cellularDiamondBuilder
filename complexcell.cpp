@@ -8,7 +8,7 @@ ComplexCell::ComplexCell() : _info(HIDE) {
     Qt::GlobalColor default_global_color = Qt::transparent;
     _pcolor_default = SingleColorTool<QColor>::instance(default_global_color);
     _pcolor_info = SingleColorTool<QColor>::instance(Qt::blue);
-    _pcolor_info->setAlphaF(0.35);
+    _pcolor_info->setAlphaF(0.65);
     _pcolor_neighbour_info = SingleColorTool<QColor>::instance(Qt::cyan);
     _pcolor_neighbour_info->setAlphaF(0.35);
 
