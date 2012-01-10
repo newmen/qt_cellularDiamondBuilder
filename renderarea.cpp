@@ -1,5 +1,6 @@
 #include "renderarea.h"
 #include "dimerrowsplanebuilder.h"
+//#include <iostream>
 
 const int RenderArea::COMPLEX_CELLS_NUM_X = 4;//16;
 const int RenderArea::COMPLEX_CELLS_NUM_Y = 4;//10;
@@ -56,6 +57,7 @@ void RenderArea::mousePressEvent(QMouseEvent *event) {
         part = ComplexCell::UP;
 
         int real_y = event->y() - topLayerYSeek();
+        if (real_y < 0) return;
         y = real_y / SIMPLE_CELL_SIDE_LENGTH;
         if (y >= COMPLEX_CELLS_NUM_Y * 2) return;
         inner_seek_y = real_y % SIMPLE_CELL_SIDE_LENGTH;
@@ -68,8 +70,9 @@ void RenderArea::mousePressEvent(QMouseEvent *event) {
         if (x >= COMPLEX_CELLS_NUM_X * 0.5) return;
         inner_seek_x = real_x % (2 * SIMPLE_CELL_SIDE_LENGTH);
 
-        y *= 0.5;
         x *= 2;
+        if (y % 2 != 0) x += 1;
+        y *= 0.5;
     }
 
     _cells[y][x].invertState(part, inner_seek_x, inner_seek_y);

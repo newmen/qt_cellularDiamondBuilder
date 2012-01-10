@@ -11,13 +11,13 @@ ComplexCell - кол-во клеток внутри
 ComplexCell - инициализация соседей внутри
 RenderArea - отдача смещения верхней части
 ComplexCell::draw - верхушку
-
 RenderArea - клик мышки по верхним
 ComplexCell:invertState
-SimpleCell::draw - если верхние, то димеры в другую сторону
+
 RowBuilder - отдача рядов
 RenderArea, RowBuilder - изменение димеров перенести
 RowBuilder - изменение направленности рядов
+SimpleCell::draw - если верхние, то димеры в другую сторону
 RenderArea - клик правой кнопкой
 
 Отдельный класс Cellular
