@@ -1,8 +1,8 @@
 #include "renderarea.h"
 #include "dimerrowsplanebuilder.h"
 
-const int RenderArea::COMPLEX_CELLS_NUM_X = 8;//16;
-const int RenderArea::COMPLEX_CELLS_NUM_Y = 8;//10;
+const int RenderArea::COMPLEX_CELLS_NUM_X = 16;
+const int RenderArea::COMPLEX_CELLS_NUM_Y = 10;
 const int RenderArea::SIMPLE_CELL_SIDE_LENGTH = 26;
 
 int RenderArea::topLayerXSeek() {
@@ -164,36 +164,42 @@ void RenderArea::buildDimers() {
         }
     }
 
-    DimerRows formed_rows;
+    DimerRowsPlaneBuilder dr_builder;
     SimpleCell *first, *second;
 
     for (int part = 0; part < 2; ++part) {
-        DimerRowsPlaneBuilder dr_builder(2 * COMPLEX_CELLS_NUM_Y - 1, COMPLEX_CELLS_NUM_X - 1);
+        if (part == 0) {
+            dr_builder.reset(2 * COMPLEX_CELLS_NUM_Y - 1, COMPLEX_CELLS_NUM_X - 1);
+        } else {
+            dr_builder.reset(COMPLEX_CELLS_NUM_X - 1, 2 * COMPLEX_CELLS_NUM_Y - 1);
+        }
 
         for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
             for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
                 for (int i = 0; i < 2; ++i) {
                     if (x % 2 == 0) {
-                        second = (i % 2 == 0) ? _cells[y][x].first((ComplexCell::Part)part) : _cells[y][x].last((ComplexCell::Part)part);
+                        second = (i == 0) ? _cells[y][x].first((ComplexCell::Part)part)
+                                          : _cells[y][x].last((ComplexCell::Part)part);
                     } else {
                         second = _cells[y][x].first((ComplexCell::Part)part);
-                        if (i % 2 == 0) second = second->top();
+                        if (i == 0) second = second->top();
                     }
                     first = second->top();
 
                     if (!first->canBeDimer() || !second->canBeDimer()) continue;
 
-                    if (part == 0) dr_builder.addDimer(2 * y + i, x, first, second);
-//                    else dr_builder.addDimer(, , first, second);
+                    if (part == 0) {
+                        dr_builder.addDimer(2 * y + i, x, first, second);
+                    } else {
+                        dr_builder.addDimer((int)(0.5 * x) * 2 + i, 2 * y + (x % 2), first, second);
+                    }
                 }
             }
         }
 
-        formed_rows.splice(formed_rows.end(), dr_builder.getFormedRows());
-    }
-
-    for (DimerRows::iterator dr = formed_rows.begin(); dr != formed_rows.end(); ++dr) {
-        (*dr)->apply();
+        for (DimerRows::iterator dr = dr_builder.formedRows()->begin(); dr != dr_builder.formedRows()->end(); ++dr) {
+            (*dr)->apply((ComplexCell::Part)part);
+        }
     }
 }
 

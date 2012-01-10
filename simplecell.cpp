@@ -1,13 +1,13 @@
 #include "simplecell.h"
 #include "renderarea.h"
 
-SimpleCell::SimpleCell() : _state(0), _next_state(0), _dimer(-1) {//_hc(0) {
+SimpleCell::SimpleCell() : _state(0), _next_state(0), _dimer(NONE) {//_hc(0) {
     _prect = SingleRect::instance(0, 0, RenderArea::SIMPLE_CELL_SIDE_LENGTH, RenderArea::SIMPLE_CELL_SIDE_LENGTH);
     _pbrush0 = SingleColorTool<QBrush>::instance(Qt::white);
     _pbrush1 = SingleColorTool<QBrush>::instance(Qt::darkGreen);
     _ppen = SingleColorTool<QPen>::instance(Qt::transparent);
     _pdimer_pen = SingleColorTool<QPen>::instance(Qt::darkRed);
-    _pdimer_pen->setWidth(4);
+    _pdimer_pen->setWidth(5);
 }
 
 //SimpleCell::~SimpleCell() {
@@ -45,13 +45,17 @@ void SimpleCell::draw(QPainter* ppainter, int x, int y) const {
     ppainter->drawRect(*_prect);
     ppainter->restore();
 
-    if (_dimer == -1) return;
+    if (_dimer == NONE) return;
 
     ppainter->setPen(*_pdimer_pen);
 
     ppainter->save();
     int half = RenderArea::SIMPLE_CELL_SIDE_LENGTH / 2;
     ppainter->translate(x + half, y + half);
-    ppainter->drawLine(0, 0, 0, ((_dimer == 0) ? half : -half));
+    if (_dimer == DOWN || _dimer == UP) {
+        ppainter->drawLine(0, 0, 0, ((_dimer == DOWN) ? half : -half));
+    } else {
+        ppainter->drawLine(0, 0, ((_dimer == RIGHT) ? half : -half), 0);
+    }
     ppainter->restore();
 }

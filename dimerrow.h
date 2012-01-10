@@ -4,6 +4,7 @@
 #include <list>
 #include <utility>
 #include "simplecell.h"
+#include "complexcell.h"
 
 typedef std::pair<SimpleCell*, SimpleCell*> Dimer;
 typedef std::list<Dimer> Dimers;
@@ -27,7 +28,7 @@ public:
     void expandTail(DimerRow *other);
     void truncate(const DimerRow *largest_row);
 
-    void apply();
+    void apply(ComplexCell::Part part);
 
 private:
     DimerRow();

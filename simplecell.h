@@ -12,6 +12,8 @@
 class SimpleCell : public Cell<SimpleCell, 8>, public Displayed
 {
 public:
+    enum DimerDirect { NONE, DOWN, UP, RIGHT, LEFT };
+
     SimpleCell();
 //    virtual ~SimpleCell();
 
@@ -26,8 +28,8 @@ public:
     SimpleCell* bottom() const { return neighbour(4); }
 
     bool canBeDimer() const { return _state == 1; }
-    void dimer(int value) { _dimer = value; }
-    void resetDimer() { _dimer = -1; }
+    void setDimerDirection(DimerDirect direct) { _dimer = direct; }
+    void resetDimer() { _dimer = NONE; }
 
 private:
     int _state, _next_state;
@@ -37,7 +39,7 @@ private:
     QBrush *_pbrush0, *_pbrush1;
     QPen *_ppen, *_pdimer_pen;
 
-    int _dimer;
+    DimerDirect _dimer;
 };
 
 #endif // SIMPLECELL_H

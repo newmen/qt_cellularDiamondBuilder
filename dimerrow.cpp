@@ -82,9 +82,9 @@ void DimerRow::truncate(const DimerRow *largest_row) {                          
     }
 }
 
-void DimerRow::apply() {
+void DimerRow::apply(ComplexCell::Part part) {
     for (Dimers::iterator p = _dimers.begin(); p != _dimers.end(); ++p) {
-        p->first->dimer(0);
-        p->second->dimer(1);
+        p->first->setDimerDirection((part == ComplexCell::DOWN) ? SimpleCell::DOWN : SimpleCell::RIGHT);
+        p->second->setDimerDirection((part == ComplexCell::DOWN) ? SimpleCell::UP : SimpleCell::LEFT);
     }
 }

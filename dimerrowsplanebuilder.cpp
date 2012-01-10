@@ -3,13 +3,22 @@
 #include <cstdlib>
 //#include <iostream>
 
-DimerRowsPlaneBuilder::DimerRowsPlaneBuilder(int max_vertical_index, int max_horizontal_index)
-    : _max_vertical_index(max_vertical_index), _max_horizontal_index(max_horizontal_index) { }
+//DimerRowsPlaneBuilder::DimerRowsPlaneBuilder(int max_vertical_index, int max_horizontal_index)
+//    : _max_vertical_index(max_vertical_index), _max_horizontal_index(max_horizontal_index) { }
 
 DimerRowsPlaneBuilder::~DimerRowsPlaneBuilder() {
-    for (DimerRows::iterator p = _real_rows.begin(); p != _real_rows.end(); ++p) {
-        delete *p;
-    }
+    deleteFormedRows();
+}
+
+void DimerRowsPlaneBuilder::reset(int max_vertical_index, int max_horizontal_index) {
+    deleteFormedRows();
+
+    _max_vertical_index = max_vertical_index;
+    _max_horizontal_index = max_horizontal_index;
+
+    _rows_plane.clear();
+    _all_rows.clear();
+    _formed_rows.clear();
 }
 
 void DimerRowsPlaneBuilder::addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
@@ -38,14 +47,20 @@ void DimerRowsPlaneBuilder::addDimer(int vertical_index, int horizontal_index, S
     }
 }
 
-DimerRows &DimerRowsPlaneBuilder::getFormedRows() {
+DimerRows *DimerRowsPlaneBuilder::formedRows() {
 //    std::cout << "------------------------" << std::endl;
 //    std::cout << "_all_rows.size() = " << _all_rows.size() << std::endl;
 
     shiftLargestRow();
 
 //    std::cout << "_real_rows.size() = " << _real_rows.size() << std::endl;
-    return _real_rows;
+    return &_formed_rows;
+}
+
+void DimerRowsPlaneBuilder::deleteFormedRows() {
+    for (DimerRows::iterator p = _formed_rows.begin(); p != _formed_rows.end(); ++p) {
+        delete *p;
+    }
 }
 
 void DimerRowsPlaneBuilder::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
@@ -77,7 +92,7 @@ void DimerRowsPlaneBuilder::shiftLargestRow() {
     DimerRows::iterator i_largest_row = _all_rows.begin();
     advance(i_largest_row, rand() % num_of_same_length);
 
-    _real_rows.push_back(*i_largest_row);
+    _formed_rows.push_back(*i_largest_row);
     _all_rows.erase(i_largest_row);
 
     int vertical_index = (*i_largest_row)->verticalIndex();
