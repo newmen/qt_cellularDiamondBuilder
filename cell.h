@@ -15,8 +15,9 @@ public:
 protected:
     Cell() {}
 
-    int neighbours_num() const { return NNeighbours; }
+    int neighboursNum() const { return NNeighbours; }
     CellClass* neighbour(int index) const { return _neighbours[index]; }
+    CellClass* changeableNeighbour(int index) { return _neighbours[index]; }
 
 private:
     CellClass* _neighbours[NNeighbours];

@@ -23,7 +23,7 @@ public:
     virtual ~DimerRowsPlaneBuilder();
 
     void addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);
-    void formRows();
+    DimerRows &getFormedRows();
 
 private:
     DimerRowsPlaneBuilder();

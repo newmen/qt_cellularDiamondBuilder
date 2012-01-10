@@ -15,6 +15,7 @@ public:
     QSize minimumSizeHint() const;
 
     void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
     void paintEvent(QPaintEvent*);
 
     static const int COMPLEX_CELLS_NUM_X;
@@ -36,6 +37,7 @@ private:
 
     ComplexCell **_cells;
 
+    int _curr_right_x_index, _curr_right_y_index;
 };
 
 #endif // RENDERAREA_H

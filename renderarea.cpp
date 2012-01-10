@@ -1,9 +1,8 @@
 #include "renderarea.h"
 #include "dimerrowsplanebuilder.h"
-//#include <iostream>
 
-const int RenderArea::COMPLEX_CELLS_NUM_X = 4;//16;
-const int RenderArea::COMPLEX_CELLS_NUM_Y = 4;//10;
+const int RenderArea::COMPLEX_CELLS_NUM_X = 8;//16;
+const int RenderArea::COMPLEX_CELLS_NUM_Y = 8;//10;
 const int RenderArea::SIMPLE_CELL_SIDE_LENGTH = 26;
 
 int RenderArea::topLayerXSeek() {
@@ -75,7 +74,20 @@ void RenderArea::mousePressEvent(QMouseEvent *event) {
         y *= 0.5;
     }
 
-    _cells[y][x].invertState(part, inner_seek_x, inner_seek_y);
+    if (event->button() != Qt::RightButton) {
+        _cells[y][x].invertState(part, inner_seek_x, inner_seek_y);
+    } else {
+        _cells[y][x].showInfo();
+        _curr_right_x_index = x;
+        _curr_right_y_index = y;
+    }
+
+    update();
+}
+
+void RenderArea::mouseReleaseEvent(QMouseEvent *event) {
+    if (event->button() != Qt::RightButton) return;
+    _cells[_curr_right_y_index][_curr_right_x_index].hideInfo();
 
     update();
 }
@@ -152,28 +164,37 @@ void RenderArea::buildDimers() {
         }
     }
 
-    DimerRowsPlaneBuilder dr_builder(2 * COMPLEX_CELLS_NUM_Y - 1, COMPLEX_CELLS_NUM_X - 1);
-
+    DimerRows formed_rows;
     SimpleCell *first, *second;
-    for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
-        for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
-            for (int i = 0; i < 2; ++i) {
-                if (x % 2 == 0) {
-                    second = (i % 2 == 0) ? _cells[y][x].first(ComplexCell::DOWN) : _cells[y][x].last(ComplexCell::DOWN);
-                } else {
-                    second = _cells[y][x].first(ComplexCell::DOWN);
-                    if (i % 2 == 0) second = second->top();
+
+    for (int part = 0; part < 2; ++part) {
+        DimerRowsPlaneBuilder dr_builder(2 * COMPLEX_CELLS_NUM_Y - 1, COMPLEX_CELLS_NUM_X - 1);
+
+        for (int y = 0; y < COMPLEX_CELLS_NUM_Y; ++y) {
+            for (int x = 0; x < COMPLEX_CELLS_NUM_X; ++x) {
+                for (int i = 0; i < 2; ++i) {
+                    if (x % 2 == 0) {
+                        second = (i % 2 == 0) ? _cells[y][x].first((ComplexCell::Part)part) : _cells[y][x].last((ComplexCell::Part)part);
+                    } else {
+                        second = _cells[y][x].first((ComplexCell::Part)part);
+                        if (i % 2 == 0) second = second->top();
+                    }
+                    first = second->top();
+
+                    if (!first->canBeDimer() || !second->canBeDimer()) continue;
+
+                    if (part == 0) dr_builder.addDimer(2 * y + i, x, first, second);
+//                    else dr_builder.addDimer(, , first, second);
                 }
-                first = second->top();
-
-                if (!first->canBeDimer() || !second->canBeDimer()) continue;
-
-                dr_builder.addDimer(2 * y + i, x, first, second);
             }
         }
+
+        formed_rows.splice(formed_rows.end(), dr_builder.getFormedRows());
     }
 
-    dr_builder.formRows();
+    for (DimerRows::iterator dr = formed_rows.begin(); dr != formed_rows.end(); ++dr) {
+        (*dr)->apply();
+    }
 }
 
 QPoint RenderArea::getCoordinate(int ix, int iy) const {

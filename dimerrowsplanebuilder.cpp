@@ -38,16 +38,14 @@ void DimerRowsPlaneBuilder::addDimer(int vertical_index, int horizontal_index, S
     }
 }
 
-void DimerRowsPlaneBuilder::formRows() {
+DimerRows &DimerRowsPlaneBuilder::getFormedRows() {
 //    std::cout << "------------------------" << std::endl;
 //    std::cout << "_all_rows.size() = " << _all_rows.size() << std::endl;
 
     shiftLargestRow();
 
 //    std::cout << "_real_rows.size() = " << _real_rows.size() << std::endl;
-    for (DimerRows::iterator dr = _real_rows.begin(); dr != _real_rows.end(); ++dr) {
-        (*dr)->apply();
-    }
+    return _real_rows;
 }
 
 void DimerRowsPlaneBuilder::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {

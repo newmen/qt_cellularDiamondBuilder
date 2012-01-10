@@ -21,7 +21,7 @@ void SimpleCell::invertState() {
 
 void SimpleCell::resolvNextState() {
     int sum = 0;
-    for (int i = 0; i < neighbours_num(); ++i) {
+    for (int i = 0; i < neighboursNum(); ++i) {
         if (neighbour(i)->_state == 1) ++sum;
     }
 

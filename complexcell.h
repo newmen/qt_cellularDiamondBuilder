@@ -13,6 +13,7 @@ class ComplexCell : public Cell<ComplexCell, 8>, public Displayed
 {
 public:
     enum Part { DOWN = 0, UP };
+    enum Info { HIDE, SHOW, NEIGHBOUR };
 
     ComplexCell();
 
@@ -30,12 +31,20 @@ public:
 
     void resetDimers();
 
+    void showInfo();
+    void hideInfo(bool with_neighbours = true);
+
 private:
+    void neighbourInfo() { _info = NEIGHBOUR; }
+
     SimpleCell _cells[NUMBER_OF_SIMPLE_CELLS];
 
     QRect *_prect_down, *_prect_up;
+    QColor *_pcolor_default, *_pcolor_info, *_pcolor_neighbour_info;
     QBrush *_pbrush;
     QPen *_ppen;
+
+    Info _info;
 };
 
 #endif // COMPLEXCELL_H

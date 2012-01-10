@@ -1,10 +1,18 @@
 #include "complexcell.h"
 #include "renderarea.h"
 
-ComplexCell::ComplexCell() {
+ComplexCell::ComplexCell() : _info(HIDE) {
     _prect_down = SingleRect::instance(0, 0, RenderArea::SIMPLE_CELL_SIDE_LENGTH, 2 * RenderArea::SIMPLE_CELL_SIDE_LENGTH);
     _prect_up = SingleRect::instance(0, 0, 2 * RenderArea::SIMPLE_CELL_SIDE_LENGTH, RenderArea::SIMPLE_CELL_SIDE_LENGTH);
-    _pbrush = SingleColorTool<QBrush>::instance(Qt::transparent);
+
+    Qt::GlobalColor default_global_color = Qt::transparent;
+    _pcolor_default = SingleColorTool<QColor>::instance(default_global_color);
+    _pcolor_info = SingleColorTool<QColor>::instance(Qt::blue);
+    _pcolor_info->setAlphaF(0.35);
+    _pcolor_neighbour_info = SingleColorTool<QColor>::instance(Qt::cyan);
+    _pcolor_neighbour_info->setAlphaF(0.35);
+
+    _pbrush = SingleColorTool<QBrush>::instance(default_global_color);
     _ppen = SingleColorTool<QPen>::instance(Qt::black);
 }
 
@@ -59,13 +67,27 @@ void ComplexCell::next() {
 }
 
 void ComplexCell::draw(QPainter* ppainter, int x, int y) const {
+    QColor *curr_color;
+    switch (_info) {
+    case HIDE:
+        curr_color = _pcolor_default;
+        break;
+    case SHOW:
+        curr_color = _pcolor_info;
+        break;
+    case NEIGHBOUR:
+        curr_color = _pcolor_neighbour_info;
+        break;
+    }
+    _pbrush->setColor(*curr_color);
+
     const int half = NUMBER_OF_SIMPLE_CELLS * 0.5;
     for (int i = 0; i < half; ++i) {
         _cells[i].draw(ppainter, x, y + i * RenderArea::SIMPLE_CELL_SIDE_LENGTH);
     }
 
     ppainter->setPen(*_ppen);
-    ppainter->setBrush(*_pbrush);
+    ppainter->setBrush(*curr_color);
 
     ppainter->save();
     ppainter->translate(x, y);
@@ -79,7 +101,7 @@ void ComplexCell::draw(QPainter* ppainter, int x, int y) const {
     }
 
     ppainter->setPen(*_ppen);
-    ppainter->setBrush(*_pbrush);
+    ppainter->setBrush(*curr_color);
 
     ppainter->save();
     ppainter->translate(x_seek, y_seek);
@@ -101,4 +123,15 @@ void ComplexCell::resetDimers() {
     for (int i = 0; i < NUMBER_OF_SIMPLE_CELLS; ++i) {
         _cells[i].resetDimer();
     }
+}
+
+void ComplexCell::showInfo() {
+    _info = SHOW;
+    for (int i = 0; i < neighboursNum(); ++i) changeableNeighbour(i)->neighbourInfo();
+}
+
+void ComplexCell::hideInfo(bool with_neighbours) {
+    _info = HIDE;
+    if (!with_neighbours) return;
+    for (int i = 0; i < neighboursNum(); ++i) changeableNeighbour(i)->hideInfo(false);
 }
