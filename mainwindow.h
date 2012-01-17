@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QWidget>
-#include "renderarea.h"
 #include "button.h"
+#include "renderarea.h"
+#include "cellulari.h"
 
 class MainWindow : public QWidget
 {
@@ -16,8 +17,9 @@ public:
 private:
     void moveWindowToCenter();
 
-    RenderArea* _renderArea;
-    Button* _nextButton;
+    CellularI *_cellular;
+    RenderArea *_renderArea;
+    Button *_nextButton;
 };
 
 #endif // MAINWINDOW_H

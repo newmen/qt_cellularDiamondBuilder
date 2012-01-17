@@ -3,41 +3,35 @@
 
 #include <QWidget>
 #include <QtGui>
-#include "complexcell.h"
+#include "cellulari.h"
 
 class RenderArea : public QWidget
 {
     Q_OBJECT
 public:
-    explicit RenderArea(QWidget *parent = 0);
-    ~RenderArea();
+    RenderArea(QWidget *parent, CellularI *cellular, int one_side_length);
+//    ~RenderArea();
 
     QSize minimumSizeHint() const;
+    void paintEvent(QPaintEvent *);
 
-    void mousePressEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
-    void paintEvent(QPaintEvent*);
+    int oneSideLength() const { return _one_side_length; }
+    int topLayerXSeek() const { return (int)((1.5 + _cellular->numX()) * _one_side_length); }
+    int topLayerYSeek() const { return (int)(0.5 * _one_side_length); }
 
-    static const int COMPLEX_CELLS_NUM_X;
-    static const int COMPLEX_CELLS_NUM_Y;
-
-    static const int SIMPLE_CELL_SIDE_LENGTH;
-
-    static int topLayerXSeek();
-    static int topLayerYSeek();
 signals:
 
 public slots:
     void next();
 
+protected:
+    CellularI *cellular() { return _cellular; }
+
+    template<class CellPainterType> void drawCellular();
+
 private:
-    void initNeighbours();
-    void buildDimers();
-    QPoint getCoordinate(int ix, int iy) const;
-
-    ComplexCell **_cells;
-
-    int _curr_right_x_index, _curr_right_y_index;
+    CellularI *_cellular;
+    const int _one_side_length;
 };
 
 #endif // RENDERAREA_H

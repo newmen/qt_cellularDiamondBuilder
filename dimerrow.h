@@ -3,18 +3,24 @@
 
 #include <list>
 #include <utility>
-#include "simplecell.h"
-#include "complexcell.h"
 
-typedef std::pair<SimpleCell*, SimpleCell*> Dimer;
-typedef std::list<Dimer> Dimers;
-
+template<class SimpleCellType>
 class DimerRow
 {
 public:
-    DimerRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);
+    typedef std::pair<SimpleCellType*, SimpleCellType*> Dimer;
+    typedef std::list<Dimer> Dimers;
 
-    void addDimer(SimpleCell *first_cell, SimpleCell *second_cell);
+    struct RowsSorter
+    {
+        bool operator() (const DimerRow<SimpleCellType> *dr1, const DimerRow<SimpleCellType> *dr2) const {
+            return dr1->length() > dr2->length();
+        }
+    };
+
+    DimerRow(int vertical_index, int horizontal_index, SimpleCellType *first_cell, SimpleCellType *second_cell);
+
+    void addDimer(SimpleCellType *first_cell, SimpleCellType *second_cell);
 
     int length() const { return _dimers.size(); }
 
@@ -22,13 +28,13 @@ public:
     int verticalIndex() const { return _vertial_index; }
 
     bool near(int horizontal_index) const;
-    bool cover(const DimerRow *other) const;
-    bool intercept(const DimerRow *other) const;
+    bool cover(const DimerRow<SimpleCellType> *other) const;
+    bool intercept(const DimerRow<SimpleCellType> *other) const;
 
-    void expandTail(DimerRow *other);
-    void truncate(const DimerRow *largest_row);
+    void expandTail(DimerRow<SimpleCellType> *other);
+    void truncate(const DimerRow<SimpleCellType> *largest_row);
 
-    void apply(ComplexCell::Part part);
+    void apply();
 
 private:
     DimerRow();

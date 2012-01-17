@@ -6,21 +6,14 @@
 #include "dimerrow.h"
 #include "simplecell.h"
 
-struct RowsSorter
-{
-    bool operator() (const DimerRow *dr1, const DimerRow *dr2) const {
-        return dr1->length() > dr2->length();
-    }
-};
-
-typedef std::list<DimerRow*> DimerRows;
-typedef std::map<int, DimerRows> RowsPlane;
-
-class DimerRowsPlaneBuilder
+template<class SimpleCellType>
+class DimersBuilder
 {
 public:
-//    DimerRowsPlaneBuilder(int max_vertical_index, int max_horizontal_index);
-    virtual ~DimerRowsPlaneBuilder();
+    typedef std::list<DimerRow<SimpleCellType>*> DimerRows;
+    typedef std::map<int, DimerRows> RowsPlane;
+
+    virtual ~DimersBuilder();
 
     void reset(int max_vertical_index, int max_horizontal_index);
 
@@ -28,13 +21,11 @@ public:
     DimerRows *formedRows();
 
 private:
-//    DimerRowsPlaneBuilder();
-
     void deleteFormedRows();
     void buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);
-    void destroyRow(DimerRow *row);
+    void destroyRow(DimerRow<SimpleCellType> *row);
     void shiftLargestRow();
-    void truncateRows(int vertical_index, const DimerRow *largest_row);
+    void truncateRows(int vertical_index, const DimerRow<SimpleCellType> *largest_row);
 
     int _max_vertical_index, _max_horizontal_index;
     RowsPlane _rows_plane;

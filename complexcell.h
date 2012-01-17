@@ -2,49 +2,37 @@
 #define COMPLEXCELL_H
 
 #include "cell.h"
-#include "displayed.h"
 #include "simplecell.h"
-#include "singlerect.h"
-#include "singlecolortool.h"
 
-#define NUMBER_OF_SIMPLE_CELLS 4
+typedef SimpleCell SimpleCellType; // TODO : ВРЕМЕННАЯ ШЛЯПА!!
 
-class ComplexCell : public Cell<ComplexCell, 8>, public Displayed
+//template<class SimpleCellType = SimpleCell>
+//class ComplexCell : virtual public Cell<ComplexCell<SimpleCellType>, 8>
+class ComplexCell : virtual public Cell<ComplexCell, 8>
 {
 public:
-    enum Part { DOWN = 0, UP };
-    enum Info { HIDE, SHOW, NEIGHBOUR };
+    typedef SimpleCellType InnerCellType;
 
-    ComplexCell();
-
-    void initNestedNeighbours();
+    ComplexCell(int x, int y);
+    virtual ~ComplexCell();
 
     void resolvNextState();
     void next();
-
-    void draw(QPainter *ppainter, int x, int y) const;
-
-    SimpleCell *first(Part part_index) { return &_cells[2 * part_index]; }
-    SimpleCell *last(Part part_index) { return &_cells[2 * part_index + 1]; }
-
-    void invertState(Part part, int x_seek, int y_seek);
+    void store(CellVisitor *visitor) { visitor->visitComplexCell(*this); }
 
     void resetDimers();
+    void initNestedNeighbours();
 
-    void showInfo();
-    void hideInfo(bool with_neighbours = true);
+    // для посетителей
+    int x() const { return _x; }
+    int y() const { return _y; }
+    SimpleCellType *cell(int x, int y) const { return _cells[y][x]; }
 
 private:
-    void neighbourInfo() { _info = NEIGHBOUR; }
+    SimpleCellType *cell(int x, int y) { return _cells[y][x]; }
 
-    SimpleCell _cells[NUMBER_OF_SIMPLE_CELLS];
-
-    QRect *_prect_down, *_prect_up;
-    QColor *_pcolor_default, *_pcolor_info, *_pcolor_neighbour_info;
-    QBrush *_pbrush;
-    QPen *_ppen;
-
-    Info _info;
+    int _x, _y;
+    SimpleCellType *_cells[2][2];
 };
 
 #endif // COMPLEXCELL_H

@@ -1,16 +1,15 @@
-#include "dimerrowsplanebuilder.h"
+#include "dimersbuilder.h"
 #include <algorithm>
 #include <cstdlib>
 //#include <iostream>
 
-//DimerRowsPlaneBuilder::DimerRowsPlaneBuilder(int max_vertical_index, int max_horizontal_index)
-//    : _max_vertical_index(max_vertical_index), _max_horizontal_index(max_horizontal_index) { }
-
-DimerRowsPlaneBuilder::~DimerRowsPlaneBuilder() {
+template<class SimpleCellType>
+DimersBuilder<SimpleCellType>::~DimersBuilder() {
     deleteFormedRows();
 }
 
-void DimerRowsPlaneBuilder::reset(int max_vertical_index, int max_horizontal_index) {
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::reset(int max_vertical_index, int max_horizontal_index) {
     deleteFormedRows();
 
     _max_vertical_index = max_vertical_index;
@@ -21,10 +20,11 @@ void DimerRowsPlaneBuilder::reset(int max_vertical_index, int max_horizontal_ind
     _formed_rows.clear();
 }
 
-void DimerRowsPlaneBuilder::addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
-    RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
+    typename RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
     if (find_result != _rows_plane.end()) {
-        DimerRow *back_row = find_result->second.back();
+        DimerRow<SimpleCellType> *back_row = find_result->second.back();
 
         if (back_row->near(horizontal_index)) {
             back_row->addDimer(first_cell, second_cell);
@@ -35,7 +35,7 @@ void DimerRowsPlaneBuilder::addDimer(int vertical_index, int horizontal_index, S
 
         // TODO в предыдущем else идёт лишнее выделение ресурсов, если затем димер оказывается частью начального
         if (horizontal_index == _max_horizontal_index) {
-            DimerRow *front_row = find_result->second.front();
+            DimerRow<SimpleCellType> *front_row = find_result->second.front();
             if (front_row->isBeginningRow() && front_row != back_row) {
                 back_row->expandTail(front_row);
                 find_result->second.pop_front();
@@ -47,7 +47,8 @@ void DimerRowsPlaneBuilder::addDimer(int vertical_index, int horizontal_index, S
     }
 }
 
-DimerRows *DimerRowsPlaneBuilder::formedRows() {
+template<class SimpleCellType>
+typename DimersBuilder<SimpleCellType>::DimerRows *DimersBuilder<SimpleCellType>::formedRows() {
 //    std::cout << "------------------------" << std::endl;
 //    std::cout << "_all_rows.size() = " << _all_rows.size() << std::endl;
 
@@ -57,31 +58,35 @@ DimerRows *DimerRowsPlaneBuilder::formedRows() {
     return &_formed_rows;
 }
 
-void DimerRowsPlaneBuilder::deleteFormedRows() {
-    for (DimerRows::iterator p = _formed_rows.begin(); p != _formed_rows.end(); ++p) {
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::deleteFormedRows() {
+    for (typename DimerRows::iterator p = _formed_rows.begin(); p != _formed_rows.end(); ++p) {
         delete *p;
     }
 }
 
-void DimerRowsPlaneBuilder::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
-    DimerRow *new_row = new DimerRow(vertical_index, horizontal_index, first_cell, second_cell);
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
+    DimerRow<SimpleCellType> *new_row = new DimerRow<SimpleCellType>(vertical_index, horizontal_index, first_cell, second_cell);
     _rows_plane[vertical_index].push_back(new_row);
     _all_rows.push_back(new_row);
 }
 
-void DimerRowsPlaneBuilder::destroyRow(DimerRow *row) {
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::destroyRow(DimerRow<SimpleCellType> *row) {
     _all_rows.erase(find(_all_rows.begin(), _all_rows.end(), row));
     delete row;
 }
 
-void DimerRowsPlaneBuilder::shiftLargestRow() {
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::shiftLargestRow() {
 //    std::cout << "shift [" << _all_rows.size() << "]" << std::endl;
     if (_all_rows.empty()) return;
-    _all_rows.sort(RowsSorter());
+    _all_rows.sort(DimerRow<SimpleCellType>::Sorter());
 
     int num_of_same_length = 1;
-    DimerRows::iterator prev_dr = _all_rows.begin();
-    DimerRows::iterator curr_dr = _all_rows.begin();
+    typename DimerRows::iterator prev_dr = _all_rows.begin();
+    typename DimerRows::iterator curr_dr = _all_rows.begin();
     advance(curr_dr, 1);
     for (; curr_dr != _all_rows.end(); ++prev_dr, ++curr_dr) {
         if ((*prev_dr)->length() != (*curr_dr)->length()) break;
@@ -89,7 +94,7 @@ void DimerRowsPlaneBuilder::shiftLargestRow() {
     }
 
 //    std::cout << "nums of same length = " << num_of_same_length << std::endl;
-    DimerRows::iterator i_largest_row = _all_rows.begin();
+    typename DimerRows::iterator i_largest_row = _all_rows.begin();
     advance(i_largest_row, rand() % num_of_same_length);
 
     _formed_rows.push_back(*i_largest_row);
@@ -102,16 +107,17 @@ void DimerRowsPlaneBuilder::shiftLargestRow() {
     shiftLargestRow();
 }
 
-void DimerRowsPlaneBuilder::truncateRows(int vertical_index, const DimerRow *largest_row) {
+template<class SimpleCellType>
+void DimersBuilder<SimpleCellType>::truncateRows(int vertical_index, const DimerRow<SimpleCellType> *largest_row) {
     if (vertical_index > _max_vertical_index) vertical_index = 0;
     else if (vertical_index < 0) vertical_index = _max_vertical_index;
 
-    RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
+    typename RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
     if (find_result == _rows_plane.end()) return;
 
-    DimerRows::iterator p_dimer_row = find_result->second.begin();
+    typename DimerRows::iterator p_dimer_row = find_result->second.begin();
     while (p_dimer_row != find_result->second.end()) {
-        DimerRow *curr_row = *p_dimer_row;
+        DimerRow<SimpleCellType> *curr_row = *p_dimer_row;
         if (largest_row->cover(curr_row)) {
             p_dimer_row = find_result->second.erase(p_dimer_row);
             destroyRow(curr_row);

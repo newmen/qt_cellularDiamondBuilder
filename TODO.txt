@@ -7,6 +7,9 @@
 
 
 
+MainWindow -=- RenderArea
+итераторы внутрь
+
 
 RenderArea - клик правой кнопкой
 RowBuilder - копирование и удаление сформированных рядов

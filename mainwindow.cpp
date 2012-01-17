@@ -1,8 +1,11 @@
 #include <QtGui>
 #include "mainwindow.h"
+#include "cellular.h"
+#include "complexcell.h"
 
 MainWindow::MainWindow() {
-    _renderArea = new RenderArea(this);
+    _cellular = new Cellular<ComplexCell>(16, 10);
+    _renderArea = new RenderArea(this, _cellular, 26);
     _nextButton = new Button(tr("Next"), this);
 
     connect(_nextButton, SIGNAL(clicked()), _renderArea, SLOT(next()));
@@ -15,8 +18,9 @@ MainWindow::MainWindow() {
 }
 
 MainWindow::~MainWindow() {
-    delete _renderArea;
     delete _nextButton;
+    delete _renderArea;
+    delete _cellular;
 }
 
 void MainWindow::moveWindowToCenter() {

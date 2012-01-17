@@ -2,44 +2,46 @@
 #define SIMPLECELL_H
 
 #include "cell.h"
-#include "displayed.h"
 
 //#include "hydrocarbon.h"
 
 #include "singlerect.h"
 #include "singlecolortool.h"
 
-class SimpleCell : public Cell<SimpleCell, 8>, public Displayed
+class SimpleCell : virtual public Cell<SimpleCell, 8>
 {
 public:
-    enum DimerDirect { NONE, DOWN, UP, RIGHT, LEFT };
+    enum DimerDirection { NONE, FRONT, BACK };
 
-    SimpleCell();
+    SimpleCell(int x, int y);
 //    virtual ~SimpleCell();
 
     void resolvNextState();
     void next();
+    void store(CellVisitor *visitor) { visitor->visitSimpleCell(*this); }
 
-    void draw(QPainter *ppainter, int x, int y) const;
-
-    void invertState();
-
-    SimpleCell* top() const { return neighbour(0); }
-    SimpleCell* bottom() const { return neighbour(4); }
+    SimpleCell* front() const { return neighbour(0); }
+//    SimpleCell* back() const { return neighbour(4); }
 
     bool canBeDimer() const { return _state == 1; }
-    void setDimerDirection(DimerDirect direct) { _dimer = direct; }
+    void setDimerDirection(DimerDirection direct) { _dimer = direct; }
     void resetDimer() { _dimer = NONE; }
 
+    // для посетителей
+    int x() const { return _x; }
+    int y() const { return _y; }
+    int state() const { return _state; }
+    DimerDirection dimer() const { return _dimer; }
+
+protected:
+    void setState(int state) { _state = state; }
+
 private:
+    int _x, _y;
     int _state, _next_state;
 //    HydroCarbon* _hc;
 
-    QRect *_prect;
-    QBrush *_pbrush0, *_pbrush1;
-    QPen *_ppen, *_pdimer_pen;
-
-    DimerDirect _dimer;
+    DimerDirection _dimer;
 };
 
 #endif // SIMPLECELL_H
