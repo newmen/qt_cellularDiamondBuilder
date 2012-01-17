@@ -5,9 +5,6 @@
 
 //#include "hydrocarbon.h"
 
-#include "singlerect.h"
-#include "singlecolortool.h"
-
 class SimpleCell : virtual public Cell<SimpleCell, 8>
 {
 public:

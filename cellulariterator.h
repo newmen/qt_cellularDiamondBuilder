@@ -1,7 +1,6 @@
 #ifndef CELLULARITERATOR_H
 #define CELLULARITERATOR_H
 
-#include "cellsiterator.h"
 #include "complexcell.h"
 
 class Cellular;

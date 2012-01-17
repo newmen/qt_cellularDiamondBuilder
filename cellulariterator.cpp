@@ -1,5 +1,6 @@
 #include "cellulariterator.h"
 #include "cellular.h"
+#include "iteratoroutofbounds.h"
 
 //CellularIterator::CellularIterator(Cellular *cellular) : _cellular(cellular), _x(0), _y(0) {}
 

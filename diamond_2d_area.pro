@@ -15,8 +15,6 @@ SOURCES += main.cpp\
     renderarea.cpp \
     simplecell.cpp \
     complexcell.cpp \
-    singlerect.cpp \
-    singlecolortool.cpp \
     cell.cpp \
     hydrocarbon.cpp \
     button.cpp \
@@ -29,21 +27,18 @@ SOURCES += main.cpp\
     complexcelliterator.cpp \
     clicablerenderarea.cpp \
     clicablecell.cpp \
-    cellulari.cpp \
     cellsfactory.cpp \
     typicalcellsfactory.cpp \
     clicablecellsfactory.cpp \
-    cellsiterator.cpp \
     cellspainter.cpp \
     cellsvisitor.cpp \
-    clicablecellspainter.cpp
+    clicablecellspainter.cpp \
+    iteratoroutofbounds.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
     simplecell.h \
     complexcell.h \
-    singlerect.h \
-    singlecolortool.h \
     cell.h \
     hydrocarbon.h \
     button.h \
@@ -56,14 +51,13 @@ HEADERS  += mainwindow.h \
     complexcelliterator.h \
     clicablerenderarea.h \
     clicablecell.h \
-    cellulari.h \
     cellsfactory.h \
     typicalcellsfactory.h \
     clicablecellsfactory.h \
-    cellsiterator.h \
     cellspainter.h \
     cellsvisitor.h \
-    clicablecellspainter.h
+    clicablecellspainter.h \
+    iteratoroutofbounds.h
 
 OTHER_FILES += \
     TODO.txt

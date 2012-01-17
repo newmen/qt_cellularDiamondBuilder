@@ -1,7 +1,6 @@
 #ifndef COMPLEXCELLITERATOR_H
 #define COMPLEXCELLITERATOR_H
 
-#include "cellsiterator.h"
 #include "complexcell.h"
 #include "simplecell.h"
 

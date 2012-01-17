@@ -1,4 +1,5 @@
 #include "complexcelliterator.h"
+#include "iteratoroutofbounds.h"
 
 void ComplexCellIterator::next() {
     if (++_x < 2) return;
