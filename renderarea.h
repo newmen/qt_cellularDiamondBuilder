@@ -3,13 +3,14 @@
 
 #include <QWidget>
 #include <QtGui>
-#include "cellulari.h"
+#include "cellular.h"
+#include "cellspainter.h"
 
 class RenderArea : public QWidget
 {
     Q_OBJECT
 public:
-    RenderArea(QWidget *parent, CellularI *cellular, int one_side_length);
+    RenderArea(QWidget *parent, Cellular *cellular, int one_side_length);
 //    ~RenderArea();
 
     QSize minimumSizeHint() const;
@@ -25,12 +26,11 @@ public slots:
     void next();
 
 protected:
-    CellularI *cellular() { return _cellular; }
+    void drawCellular(QPainter *qpainter, CellsPainter *cells_painter);
 
-    template<class CellPainterType> void drawCellular();
+    Cellular *_cellular;
 
 private:
-    CellularI *_cellular;
     const int _one_side_length;
 };
 

@@ -3,13 +3,11 @@
 #include <cstdlib>
 //#include <iostream>
 
-template<class SimpleCellType>
-DimersBuilder<SimpleCellType>::~DimersBuilder() {
+DimersBuilder::~DimersBuilder() {
     deleteFormedRows();
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::reset(int max_vertical_index, int max_horizontal_index) {
+void DimersBuilder::reset(int max_vertical_index, int max_horizontal_index) {
     deleteFormedRows();
 
     _max_vertical_index = max_vertical_index;
@@ -20,11 +18,10 @@ void DimersBuilder<SimpleCellType>::reset(int max_vertical_index, int max_horizo
     _formed_rows.clear();
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
+void DimersBuilder::addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
     typename RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
     if (find_result != _rows_plane.end()) {
-        DimerRow<SimpleCellType> *back_row = find_result->second.back();
+        DimerRow *back_row = find_result->second.back();
 
         if (back_row->near(horizontal_index)) {
             back_row->addDimer(first_cell, second_cell);
@@ -35,7 +32,7 @@ void DimersBuilder<SimpleCellType>::addDimer(int vertical_index, int horizontal_
 
         // TODO в предыдущем else идёт лишнее выделение ресурсов, если затем димер оказывается частью начального
         if (horizontal_index == _max_horizontal_index) {
-            DimerRow<SimpleCellType> *front_row = find_result->second.front();
+            DimerRow *front_row = find_result->second.front();
             if (front_row->isBeginningRow() && front_row != back_row) {
                 back_row->expandTail(front_row);
                 find_result->second.pop_front();
@@ -47,8 +44,7 @@ void DimersBuilder<SimpleCellType>::addDimer(int vertical_index, int horizontal_
     }
 }
 
-template<class SimpleCellType>
-typename DimersBuilder<SimpleCellType>::DimerRows *DimersBuilder<SimpleCellType>::formedRows() {
+typename DimersBuilder::DimerRows *DimersBuilder::formedRows() {
 //    std::cout << "------------------------" << std::endl;
 //    std::cout << "_all_rows.size() = " << _all_rows.size() << std::endl;
 
@@ -58,31 +54,28 @@ typename DimersBuilder<SimpleCellType>::DimerRows *DimersBuilder<SimpleCellType>
     return &_formed_rows;
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::deleteFormedRows() {
+void DimersBuilder::deleteFormedRows() {
     for (typename DimerRows::iterator p = _formed_rows.begin(); p != _formed_rows.end(); ++p) {
         delete *p;
     }
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
-    DimerRow<SimpleCellType> *new_row = new DimerRow<SimpleCellType>(vertical_index, horizontal_index, first_cell, second_cell);
+void DimersBuilder::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
+    DimerRow *new_row = new DimerRow(vertical_index, horizontal_index, first_cell, second_cell);
     _rows_plane[vertical_index].push_back(new_row);
     _all_rows.push_back(new_row);
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::destroyRow(DimerRow<SimpleCellType> *row) {
+void DimersBuilder::destroyRow(DimerRow *row) {
     _all_rows.erase(find(_all_rows.begin(), _all_rows.end(), row));
     delete row;
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::shiftLargestRow() {
+void DimersBuilder::shiftLargestRow() {
 //    std::cout << "shift [" << _all_rows.size() << "]" << std::endl;
     if (_all_rows.empty()) return;
-    _all_rows.sort(DimerRow<SimpleCellType>::Sorter());
+    typename DimerRow::Sorter sorter;
+    _all_rows.sort(sorter);
 
     int num_of_same_length = 1;
     typename DimerRows::iterator prev_dr = _all_rows.begin();
@@ -107,8 +100,7 @@ void DimersBuilder<SimpleCellType>::shiftLargestRow() {
     shiftLargestRow();
 }
 
-template<class SimpleCellType>
-void DimersBuilder<SimpleCellType>::truncateRows(int vertical_index, const DimerRow<SimpleCellType> *largest_row) {
+void DimersBuilder::truncateRows(int vertical_index, const DimerRow *largest_row) {
     if (vertical_index > _max_vertical_index) vertical_index = 0;
     else if (vertical_index < 0) vertical_index = _max_vertical_index;
 
@@ -117,7 +109,7 @@ void DimersBuilder<SimpleCellType>::truncateRows(int vertical_index, const Dimer
 
     typename DimerRows::iterator p_dimer_row = find_result->second.begin();
     while (p_dimer_row != find_result->second.end()) {
-        DimerRow<SimpleCellType> *curr_row = *p_dimer_row;
+        DimerRow *curr_row = *p_dimer_row;
         if (largest_row->cover(curr_row)) {
             p_dimer_row = find_result->second.erase(p_dimer_row);
             destroyRow(curr_row);

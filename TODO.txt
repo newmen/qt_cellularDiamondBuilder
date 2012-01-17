@@ -7,9 +7,9 @@
 
 
 
-MainWindow -=- RenderArea
 итераторы внутрь
+базовый итератор
 
 
-RenderArea - клик правой кнопкой
+Создание Cellular внутри RenderArea - высеч!
 RowBuilder - копирование и удаление сформированных рядов

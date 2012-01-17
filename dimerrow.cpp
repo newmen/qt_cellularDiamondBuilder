@@ -1,24 +1,20 @@
 #include "dimerrow.h"
 
-template<class SimpleCellType>
-DimerRow<SimpleCellType>::DimerRow(int vertical_index, int horizontal_index, SimpleCellType *first_cell, SimpleCellType *second_cell)
+DimerRow::DimerRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell)
     : _vertial_index(vertical_index), _horizontal_index(horizontal_index), _tail_length(0)
 {
     addDimer(first_cell, second_cell);
 }
 
-template<class SimpleCellType>
-void DimerRow<SimpleCellType>::addDimer(SimpleCellType *first_cell, SimpleCellType *second_cell) {
+void DimerRow::addDimer(SimpleCell *first_cell, SimpleCell *second_cell) {
     _dimers.push_back(Dimer(first_cell, second_cell));
 }
 
-template<class SimpleCellType>
-bool DimerRow<SimpleCellType>::near(int horizontal_index) const {
+bool DimerRow::near(int horizontal_index) const {
     return leftLimitIndex() == horizontal_index;
 }
 
-template<class SimpleCellType>
-bool DimerRow<SimpleCellType>::cover(const DimerRow<SimpleCellType> *other) const {
+bool DimerRow::cover(const DimerRow *other) const {
     if (_horizontal_index <= other->_horizontal_index) {
         return other->leftLimitIndex() <= leftLimitIndex();
     }
@@ -28,8 +24,7 @@ bool DimerRow<SimpleCellType>::cover(const DimerRow<SimpleCellType> *other) cons
     return false;
 }
 
-template<class SimpleCellType>
-bool DimerRow<SimpleCellType>::intercept(const DimerRow<SimpleCellType> *other) const {
+bool DimerRow::intercept(const DimerRow *other) const {
     if (other->_horizontal_index > _horizontal_index) {                                         // магические числа (см. бумажку)
         return other->_horizontal_index < leftLimitIndex() ||                                   // 2, 3, 10, 11
                 (other->_tail_length > 0 && _horizontal_index < other->_tail_length);           // 9, 10, 11
@@ -40,14 +35,12 @@ bool DimerRow<SimpleCellType>::intercept(const DimerRow<SimpleCellType> *other) 
     return false;
 }
 
-template<class SimpleCellType>
-void DimerRow<SimpleCellType>::expandTail(DimerRow<SimpleCellType> *other) {
+void DimerRow::expandTail(DimerRow *other) {
     _tail_length = other->length();
     _dimers.splice(_dimers.end(), other->_dimers);
 }
 
-template<class SimpleCellType>
-void DimerRow<SimpleCellType>::truncate(const DimerRow<SimpleCellType> *largest_row) {          // магия чисел соответствует,
+void DimerRow::truncate(const DimerRow *largest_row) {                                          // магия чисел соответствует,
     if (_horizontal_index > largest_row->_horizontal_index) {                                   // только тут вызов наоборот!
         if (_horizontal_index < largest_row->leftLimitIndex()) {                                // 2, 3, 10, 11
             typename Dimers::iterator cut_end = _dimers.begin();
@@ -89,10 +82,9 @@ void DimerRow<SimpleCellType>::truncate(const DimerRow<SimpleCellType> *largest_
     }
 }
 
-template<class SimpleCellType>
-void DimerRow<SimpleCellType>::apply() {
+void DimerRow::apply() {
     for (typename Dimers::iterator p = _dimers.begin(); p != _dimers.end(); ++p) {
-        p->first->setDimerDirection(SimpleCellType::BACK);
-        p->second->setDimerDirection(SimpleCellType::FIRST);
+        p->first->setDimerDirection(SimpleCell::BACK);
+        p->second->setDimerDirection(SimpleCell::FRONT);
     }
 }

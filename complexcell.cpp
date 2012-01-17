@@ -1,18 +1,14 @@
 #include "complexcell.h"
 #include "complexcelliterator.h"
 
-//template<class SimpleCellType>
-//ComplexCell<SimpleCellType>::ComplexCell(int x, int y) : _x(x), _y(y) {
-ComplexCell::ComplexCell(int x, int y) : _x(x), _y(y) {
+ComplexCell::ComplexCell(const CellsFactory *cells_factory, int x, int y) : _x(x), _y(y) {
     for (int y = 0; y < 2; ++y) {
         for (int x = 0; x < 2; ++x) {
-            _cells[y][x] = new SimpleCellType(x, y);
+            _cells[y][x] = cells_factory->createSimpleCell(x, y);
         }
     }
 }
 
-//template<class SimpleCellType>
-//ComplexCell<SimpleCellType>::~ComplexCell() {
 ComplexCell::~ComplexCell() {
     for (int y = 0; y < 2; ++y) {
         for (int x = 0; x < 2; ++x) {
@@ -21,26 +17,18 @@ ComplexCell::~ComplexCell() {
     }
 }
 
-//template<class SimpleCellType>
-//void ComplexCell<SimpleCellType>::resolvNextState() {
 void ComplexCell::resolvNextState() {
-    for (ComplexCellIterator<SimpleCellType> p(this); !p.isDone(); p.next()) p.current()->resolvNextState();
+    for (ComplexCellIterator p(this); !p.isDone(); p.next()) p.current()->resolvNextState();
 }
 
-//template<class SimpleCellType>
-//void ComplexCell<SimpleCellType>::next() {
 void ComplexCell::next() {
-    for (ComplexCellIterator<SimpleCellType>p(this); !p.isDone(); p.next()) p.current()->next();
+    for (ComplexCellIterator p(this); !p.isDone(); p.next()) p.current()->next();
 }
 
-//template<class SimpleCellType>
-//void ComplexCell<SimpleCellType>::resetDimers() {
 void ComplexCell::resetDimers() {
-    for (ComplexCellIterator<SimpleCellType>p(this); !p.isDone(); p.next()) p.current()->resetDimer();
+    for (ComplexCellIterator p(this); !p.isDone(); p.next()) p.current()->resetDimer();
 }
 
-//template<class SimpleCellType>
-//void ComplexCell<SimpleCellType>::initNestedNeighbours() {
 void ComplexCell::initNestedNeighbours() {
     cell(0, 0)->setNeighbour(0, neighbour(1)->cell(0, 1));
     cell(0, 0)->setNeighbour(1, neighbour(2)->cell(0, 0));

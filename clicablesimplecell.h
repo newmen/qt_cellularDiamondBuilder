@@ -7,6 +7,7 @@
 class ClicableSimpleCell : public ClicableCell<SimpleCell, 8>, public SimpleCell
 {
 public:
+    ClicableSimpleCell(int x, int y) : SimpleCell(x, y) {}
     void invertState() { setState(1 - state()); }
 };
 

@@ -1,10 +1,10 @@
-#ifndef CELLITERATOR_H
-#define CELLITERATOR_H
+#ifndef CELLSITERATOR_H
+#define CELLSITERATOR_H
 
 class IteratorOutOfBounds {};
 
 template<class CellType>
-class CellIterator
+class CellsIterator
 {
 public:
     virtual void next();
@@ -12,7 +12,7 @@ public:
     virtual CellType *current() const;
 
 protected:
-    CellIterator() {}
+    CellsIterator() {}
 };
 
-#endif // CELLITERATOR_H
+#endif // CELLSITERATOR_H

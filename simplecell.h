@@ -18,7 +18,7 @@ public:
 
     void resolvNextState();
     void next();
-    void store(CellVisitor *visitor) { visitor->visitSimpleCell(*this); }
+    void store(CellsVisitor *visitor) { visitor->visitSimpleCell(*this); }
 
     SimpleCell* front() const { return neighbour(0); }
 //    SimpleCell* back() const { return neighbour(4); }

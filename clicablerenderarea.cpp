@@ -1,8 +1,7 @@
 #include "clicablerenderarea.h"
-#include "clicablecellpainter.h"
-#include "cellular.h"
+#include "clicablecellspainter.h"
 
-ClicableRenderArea::ClicableRenderArea(QWidget *parent, CellularI *cellular, int one_side_length)
+ClicableRenderArea::ClicableRenderArea(QWidget *parent, Cellular *cellular, int one_side_length)
     : RenderArea(parent, cellular, one_side_length) {}
 
 void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
@@ -12,7 +11,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         inner_y = 0;
 
         x = event->x() / oneSideLength();
-        if (x >= cellular()->numX()) return;
+        if (x >= _cellular->numX()) return;
 //        inner_seek_x = event->x() % oneSideLength();
         inner_x = (event->x() % oneSideLength()) / oneSideLength();
 
@@ -21,7 +20,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         if (real_y < 0) return;
 
         y = real_y / (2 * oneSideLength());
-        if (y >= cellular()->numY()) return;
+        if (y >= _cellular->numY()) return;
 //        inner_seek_y = real_y % (2 * oneSideLength());
     } else {
         inner_y = 1;
@@ -29,7 +28,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         int real_y = event->y() - topLayerYSeek();
         if (real_y < 0) return;
         y = real_y / oneSideLength();
-        if (y >= cellular()->numY() * 2) return;
+        if (y >= _cellular->numY() * 2) return;
 //        inner_seek_y = real_y % oneSideLength();
 
         int real_x = event->x() - topLayerXSeek();
@@ -37,7 +36,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         if (real_x < 0) return;
 
         x = real_x / (2 * oneSideLength());
-        if (x >= cellular()->numX() * 0.5) return;
+        if (x >= _cellular->numX() * 0.5) return;
 //        inner_seek_x = real_x % (2 * oneSideLength());
         inner_x = (real_x % (2 * oneSideLength())) / oneSideLength();
 
@@ -46,20 +45,17 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         y *= 0.5;
     }
 
-    Cellular<ClicableComplexCell> *pcellular = dynamic_cast<Cellular<ClicableComplexCell> *>(cellular());
-    if (!pcellular) return;
-
-    ClicableComplexCell *complex_cell = pcellular->cell(x, y);
-//    ClicableSimpleCell *simple_cell = complex_cell->cell(inner_x, inner_y);
+    ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(_cellular->cell(x, y));
+    ClicableSimpleCell *simple_cell = static_cast<ClicableSimpleCell *>(complex_cell->cell(inner_x, inner_y));
 
     if (event->button() != Qt::RightButton) {
-//        simple_cell->invertState();
+        simple_cell->invertState();
     } else {
         complex_cell->showInfo();
         _curr_complex_cell = complex_cell;
 
-//        simple_cell->showInfo();
-//        _curr_simple_cell = simple_cell;
+        simple_cell->showInfo();
+        _curr_simple_cell = simple_cell;
     }
 
     update();
@@ -68,11 +64,13 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
 void ClicableRenderArea::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() != Qt::RightButton) return;
     _curr_complex_cell->hideInfo();
-//    _curr_simple_cell->hideInfo();
+    _curr_simple_cell->hideInfo();
 
     update();
 }
 
 void ClicableRenderArea::paintEvent(QPaintEvent *) {
-    drawCellular<ClicableCellPainter>();
+    QPainter qpainter(this);
+    ClicableCellsPainter cells_painter(this, &qpainter);
+    drawCellular(&qpainter, &cells_painter);
 }

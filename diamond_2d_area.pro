@@ -22,18 +22,21 @@ SOURCES += main.cpp\
     button.cpp \
     dimerrow.cpp \
     cellular.cpp \
-    cellvisitor.cpp \
-    cellpainter.cpp \
     cellulariterator.cpp \
     clicablesimplecell.cpp \
     clicablecomplexcell.cpp \
     dimersbuilder.cpp \
-    celliterator.cpp \
     complexcelliterator.cpp \
-    clicablecellpainter.cpp \
     clicablerenderarea.cpp \
     clicablecell.cpp \
-    cellulari.cpp
+    cellulari.cpp \
+    cellsfactory.cpp \
+    typicalcellsfactory.cpp \
+    clicablecellsfactory.cpp \
+    cellsiterator.cpp \
+    cellspainter.cpp \
+    cellsvisitor.cpp \
+    clicablecellspainter.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -46,18 +49,21 @@ HEADERS  += mainwindow.h \
     button.h \
     dimerrow.h \
     cellular.h \
-    cellvisitor.h \
-    cellpainter.h \
     cellulariterator.h \
     clicablesimplecell.h \
     clicablecomplexcell.h \
     dimersbuilder.h \
-    celliterator.h \
     complexcelliterator.h \
-    clicablecellpainter.h \
     clicablerenderarea.h \
     clicablecell.h \
-    cellulari.h
+    cellulari.h \
+    cellsfactory.h \
+    typicalcellsfactory.h \
+    clicablecellsfactory.h \
+    cellsiterator.h \
+    cellspainter.h \
+    cellsvisitor.h \
+    clicablecellspainter.h
 
 OTHER_FILES += \
     TODO.txt

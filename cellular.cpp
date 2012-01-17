@@ -2,21 +2,19 @@
 #include "cellulariterator.h"
 #include "dimersbuilder.h"
 
-template<class ComplexCellType>
-Cellular<ComplexCellType>::Cellular(int num_x, int num_y) : _num_x(num_x), _num_y(num_y) {
-    _cells = new ComplexCellType**[_num_y];
+Cellular::Cellular(const CellsFactory *cells_factory, int num_x, int num_y) : _num_x(num_x), _num_y(num_y) {
+    _cells = new ComplexCell**[_num_y];
     for (int y = 0; y < _num_y; ++y) {
-        _cells[y] = new ComplexCellType*[_num_x];
+        _cells[y] = new ComplexCell*[_num_x];
         for (int x = 0; x < _num_x; ++x) {
-            _cells[y][x] = new ComplexCellType(x, y);
+            _cells[y][x] = cells_factory->createComplexCell(x, y);
         }
     }
 
     initNeighbours();
 }
 
-template<class ComplexCellType>
-Cellular<ComplexCellType>::~Cellular() {
+Cellular::~Cellular() {
     for (int y = 0; y < _num_y; ++y) {
         for (int x = 0; x < _num_x; ++x) {
             delete [] _cells[y][x];
@@ -26,30 +24,27 @@ Cellular<ComplexCellType>::~Cellular() {
     delete [] _cells;
 }
 
-template<class ComplexCellType>
-void Cellular<ComplexCellType>::next() {
-//    for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+void Cellular::next() {
+//    for (CellularIterator p(this); !p.isDone(); p.next()) {
 //        p.current()->resolvNextState();
 //    }
 
-//    for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+//    for (CellularIterator p(this); !p.isDone(); p.next()) {
 //        p.current()->next();
 //    }
 
     buildDimers();
 }
 
-template<class ComplexCellType>
-void Cellular<ComplexCellType>::store(CellVisitor *visitor) {
-    for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+void Cellular::store(CellsVisitor *visitor) {
+    for (CellularIterator p(this); !p.isDone(); p.next()) {
         p.current()->store(visitor);
     }
 }
 
-template<class ComplexCellType>
-void Cellular<ComplexCellType>::initNeighbours() {
+void Cellular::initNeighbours() {
     int nx, ny;
-    for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+    for (CellularIterator p(this); !p.isDone(); p.next()) {
         int neighbour_index = 0;
 
         for (int iy = -1; iy < 2; ++iy) {
@@ -67,24 +62,23 @@ void Cellular<ComplexCellType>::initNeighbours() {
                 if (ny < 0) ny = _num_y - 1;
                 else if (ny >= _num_y) ny = 0;
 
-                p.current()->setNeighbour(neighbour_index++, &_cells[ny][nx]);
+                p.current()->setNeighbour(neighbour_index++, _cells[ny][nx]);
             }
         }
     }
 
-    for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+    for (CellularIterator p(this); !p.isDone(); p.next()) {
         p.current()->initNestedNeighbours();
     }
 }
 
-template<class ComplexCellType>
-void Cellular<ComplexCellType>::buildDimers() {
-    for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+void Cellular::buildDimers() {
+    for (CellularIterator p(this); !p.isDone(); p.next()) {
         p.current()->resetDimers();
     }
 
-    DimersBuilder<typename ComplexCellType::InnerCellType> dr_builder;
-    typename ComplexCellType::InnerCellType *first, *second;
+    DimersBuilder dr_builder;
+    SimpleCell *first, *second;
 
     for (int part = 0; part < 2; ++part) {
         if (part == 0) {
@@ -93,7 +87,7 @@ void Cellular<ComplexCellType>::buildDimers() {
             dr_builder.reset(_num_x - 1, 2 * _num_y - 1);
         }
 
-        for (CellularIterator<ComplexCellType> p(this); !p.isDone(); p.next()) {
+        for (CellularIterator p(this); !p.isDone(); p.next()) {
             for (int i = 0; i < 2; ++i) {
                 if (p.x() % 2 == 0) {
                     second = (i == 0) ? p.current()->cell(0, part)
@@ -114,7 +108,7 @@ void Cellular<ComplexCellType>::buildDimers() {
             }
         }
 
-        for (typename DimersBuilder<typename ComplexCellType::InnerCellType>::DimerRows::iterator dr = dr_builder.formedRows()->begin();
+        for (typename DimersBuilder::DimerRows::iterator dr = dr_builder.formedRows()->begin();
              dr != dr_builder.formedRows()->end(); ++dr)
         {
             (*dr)->apply();

@@ -22,4 +22,25 @@ private:
     Info _info;
 };
 
+template<class CellType, int NNeighbours>
+void ClicableCell<CellType, NNeighbours>::showInfo() {
+    _info = SHOW;
+    ClicableCell<CellType, NNeighbours> *neighbour;
+    for (int i = 0; i < this->neighboursNum(); ++i) {
+        neighbour = dynamic_cast<ClicableCell<CellType, NNeighbours> *>(this->changeableNeighbour(i));
+        neighbour->neighbourInfo();
+    }
+}
+
+template<class CellType, int NNeighbours>
+void ClicableCell<CellType, NNeighbours>::hideInfo(bool with_neighbours) {
+    _info = HIDE;
+    if (!with_neighbours) return;
+    ClicableCell<CellType, NNeighbours> *neighbour;
+    for (int i = 0; i < this->neighboursNum(); ++i) {
+        neighbour = dynamic_cast<ClicableCell<CellType, NNeighbours> *>(this->changeableNeighbour(i));
+        neighbour->neighbourInfo();
+    }
+}
+
 #endif // CLICABLECELL_H

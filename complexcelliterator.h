@@ -1,22 +1,20 @@
 #ifndef COMPLEXCELLITERATOR_H
 #define COMPLEXCELLITERATOR_H
 
-#include "celliterator.h"
+#include "cellsiterator.h"
 #include "complexcell.h"
+#include "simplecell.h"
 
-template<class SimpleCellType>
-class ComplexCellIterator : public CellIterator<SimpleCellType>
+class ComplexCellIterator
 {
 public:
-//    explicit ComplexCellIterator(ComplexCell<SimpleCellType> *complex_cell) : _complex_cell(complex_cell), _x(0), _y(0) {}
     explicit ComplexCellIterator(ComplexCell *complex_cell) : _complex_cell(complex_cell), _x(0), _y(0) {}
 
     void next();
     bool isDone() const;
-    SimpleCellType *current() const;
+    SimpleCell *current() const;
 
 private:
-//    ComplexCell<SimpleCellType> *_complex_cell;
     ComplexCell *_complex_cell;
     int _x, _y;
 };

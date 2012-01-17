@@ -1,8 +1,9 @@
-#include "cellpainter.h"
+#include "cellspainter.h"
+#include "renderarea.h"
 #include "complexcell.h"
 #include "simplecell.h"
 
-CellPainter::CellPainter(RenderArea *render_area, QPainter *qpainter) :
+CellsPainter::CellsPainter(RenderArea *render_area, QPainter *qpainter) :
     _render_area(render_area), _painter(qpainter)
 {
     _complex_cell_rect_top = QRect(0, 0, 2 * _render_area->oneSideLength(), _render_area->oneSideLength());
@@ -18,16 +19,16 @@ CellPainter::CellPainter(RenderArea *render_area, QPainter *qpainter) :
     _simple_cell_dimer_pen.setWidth(5);
 }
 
-void CellPainter::visitComplexCell(const ComplexCell &cell) {
+void CellsPainter::visitComplexCell(ComplexCell &cell) {
     drawComplexCell(cell, _complex_cell_color);
 }
 
-void CellPainter::visitSimpleCell(const SimpleCell &cell) {
+void CellsPainter::visitSimpleCell(SimpleCell &cell) {
     QColor &color = (cell.state() == 0) ? _simple_cell_color0 : _simple_cell_color1;
     drawSimpleCell(cell, color);
 }
 
-void CellPainter::drawComplexCell(const ComplexCell &cell, const QColor &color) {
+void CellsPainter::drawComplexCell(ComplexCell &cell, const QColor &color) {
     for (int inner_y = 0; inner_y < 2; ++inner_y) {
         QRect *prect;
         int real_x = 0, real_y = 0;
@@ -59,7 +60,7 @@ void CellPainter::drawComplexCell(const ComplexCell &cell, const QColor &color) 
     }
 }
 
-void CellPainter::drawSimpleCell(const SimpleCell &cell, const QColor &color) {
+void CellsPainter::drawSimpleCell(SimpleCell &cell, const QColor &color) {
     int seek = cell.x() * _render_area->oneSideLength();
     int real_x = 0, real_y = 0;
     if (cell.y() == 0) real_y += seek;
