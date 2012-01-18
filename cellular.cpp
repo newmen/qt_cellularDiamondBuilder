@@ -17,7 +17,7 @@ Cellular::Cellular(const CellsFactory *cells_factory, int num_x, int num_y) : _n
 Cellular::~Cellular() {
     for (int y = 0; y < _num_y; ++y) {
         for (int x = 0; x < _num_x; ++x) {
-            delete [] _cells[y][x];
+            delete _cells[y][x];
         }
         delete [] _cells[y];
     }

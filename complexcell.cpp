@@ -30,39 +30,39 @@ void ComplexCell::resetDimers() {
 }
 
 void ComplexCell::initNestedNeighbours() {
-    cell(0, 0)->setNeighbour(0, neighbour(1)->cell(0, 1));
-    cell(0, 0)->setNeighbour(1, neighbour(2)->cell(0, 0));
-    cell(0, 0)->setNeighbour(2, neighbour(2)->cell(0, 1));
-    cell(0, 0)->setNeighbour(3, neighbour(5)->cell(0, 0));
-    cell(0, 0)->setNeighbour(4, cell(0, 1));
-    cell(0, 0)->setNeighbour(5, neighbour(4)->cell(0, 0));
-    cell(0, 0)->setNeighbour(6, neighbour(0)->cell(0, 1));
-    cell(0, 0)->setNeighbour(7, neighbour(0)->cell(0, 0));
+    bottomFirstCell()->setNeighbour(0, typedNeighbour(1)->bottomSecondCell());
+    bottomFirstCell()->setNeighbour(1, typedNeighbour(2)->bottomFirstCell());
+    bottomFirstCell()->setNeighbour(2, typedNeighbour(2)->bottomSecondCell());
+    bottomFirstCell()->setNeighbour(3, typedNeighbour(5)->bottomFirstCell());
+    bottomFirstCell()->setNeighbour(4, bottomSecondCell());
+    bottomFirstCell()->setNeighbour(5, typedNeighbour(4)->bottomFirstCell());
+    bottomFirstCell()->setNeighbour(6, typedNeighbour(0)->bottomSecondCell());
+    bottomFirstCell()->setNeighbour(7, typedNeighbour(0)->bottomFirstCell());
 
-    cell(0, 1)->setNeighbour(0, cell(0, 0));
-    cell(0, 1)->setNeighbour(1, neighbour(2)->cell(0, 1));
-    cell(0, 1)->setNeighbour(2, neighbour(5)->cell(0, 0));
-    cell(0, 1)->setNeighbour(3, neighbour(5)->cell(0, 1));
-    cell(0, 1)->setNeighbour(4, neighbour(7)->cell(0, 0));
-    cell(0, 1)->setNeighbour(5, neighbour(4)->cell(0, 1));
-    cell(0, 1)->setNeighbour(6, neighbour(4)->cell(0, 0));
-    cell(0, 1)->setNeighbour(7, neighbour(0)->cell(0, 1));
+    bottomSecondCell()->setNeighbour(0, bottomFirstCell());
+    bottomSecondCell()->setNeighbour(1, typedNeighbour(2)->bottomSecondCell());
+    bottomSecondCell()->setNeighbour(2, typedNeighbour(5)->bottomFirstCell());
+    bottomSecondCell()->setNeighbour(3, typedNeighbour(5)->bottomSecondCell());
+    bottomSecondCell()->setNeighbour(4, typedNeighbour(7)->bottomFirstCell());
+    bottomSecondCell()->setNeighbour(5, typedNeighbour(4)->bottomSecondCell());
+    bottomSecondCell()->setNeighbour(6, typedNeighbour(4)->bottomFirstCell());
+    bottomSecondCell()->setNeighbour(7, typedNeighbour(0)->bottomSecondCell());
 
-    cell(1, 0)->setNeighbour(0, neighbour(3)->cell(1, 1));
-    cell(1, 0)->setNeighbour(1, neighbour(0)->cell(1, 0));
-    cell(1, 0)->setNeighbour(2, neighbour(0)->cell(1, 1));
-    cell(1, 0)->setNeighbour(3, neighbour(2)->cell(1, 0));
-    cell(1, 0)->setNeighbour(4, cell(1, 1));
-    cell(1, 0)->setNeighbour(5, neighbour(5)->cell(1, 0));
-    cell(1, 0)->setNeighbour(6, neighbour(4)->cell(1, 1));
-    cell(1, 0)->setNeighbour(7, neighbour(4)->cell(1, 0));
+    topFirstCell()->setNeighbour(0, typedNeighbour(3)->topSecondCell());
+    topFirstCell()->setNeighbour(1, typedNeighbour(0)->topFirstCell());
+    topFirstCell()->setNeighbour(2, typedNeighbour(0)->topSecondCell());
+    topFirstCell()->setNeighbour(3, typedNeighbour(2)->topFirstCell());
+    topFirstCell()->setNeighbour(4, topSecondCell());
+    topFirstCell()->setNeighbour(5, typedNeighbour(5)->topFirstCell());
+    topFirstCell()->setNeighbour(6, typedNeighbour(4)->topSecondCell());
+    topFirstCell()->setNeighbour(7, typedNeighbour(4)->topFirstCell());
 
-    cell(1, 1)->setNeighbour(0, cell(1, 0));
-    cell(1, 1)->setNeighbour(1, neighbour(0)->cell(1, 1));
-    cell(1, 1)->setNeighbour(2, neighbour(2)->cell(1, 0));
-    cell(1, 1)->setNeighbour(3, neighbour(2)->cell(1, 1));
-    cell(1, 1)->setNeighbour(4, neighbour(6)->cell(1, 0));
-    cell(1, 1)->setNeighbour(5, neighbour(5)->cell(1, 1));
-    cell(1, 1)->setNeighbour(6, neighbour(5)->cell(1, 0));
-    cell(1, 1)->setNeighbour(7, neighbour(4)->cell(1, 1));
+    topSecondCell()->setNeighbour(0, topFirstCell());
+    topSecondCell()->setNeighbour(1, typedNeighbour(0)->topSecondCell());
+    topSecondCell()->setNeighbour(2, typedNeighbour(2)->topFirstCell());
+    topSecondCell()->setNeighbour(3, typedNeighbour(2)->topSecondCell());
+    topSecondCell()->setNeighbour(4, typedNeighbour(6)->topFirstCell());
+    topSecondCell()->setNeighbour(5, typedNeighbour(5)->topSecondCell());
+    topSecondCell()->setNeighbour(6, typedNeighbour(5)->topFirstCell());
+    topSecondCell()->setNeighbour(7, typedNeighbour(4)->topSecondCell());
 }

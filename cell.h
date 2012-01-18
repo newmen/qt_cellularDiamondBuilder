@@ -1,29 +1,31 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "cellsvisitor.h"
+#include "celli.h"
 
 template<class CellType, int NNeighbours>
-class Cell
+class Cell : public virtual CellI
 {
 public:
-    virtual void resolvNextState() = 0;
-    virtual void next() = 0;
-    virtual void store(CellsVisitor *visitor) = 0;
-
-    void setNeighbour(int index, CellType* pcell) {
-        _neighbours[index] = pcell;
-    }
+//    void setNeighbour(int index, CellI *pcell) { _neighbours[index] = pcell; }
+    void setNeighbour(int index, CellType *pcell) { _neighbours[index] = pcell; }
 
 protected:
     Cell() {}
 
     int neighboursNum() const { return NNeighbours; }
-    CellType* neighbour(int index) const { return _neighbours[index]; }
-    CellType* changeableNeighbour(int index) { return _neighbours[index]; }
+    CellI *neighbour(int index) const { return _neighbours[index]; }
+    CellI *changeableNeighbour(int index) { return _neighbours[index]; }
+//    CellType *neighbour(int index) const { return dynamic_cast<CellType *>(_neighbours[index]); }
+//    CellType *changeableNeighbour(int index) { return dynamic_cast<CellType *>(_neighbours[index]); }
+//    CellType *neighbour(int index) const { return _neighbours[index]; }
+//    CellType *changeableNeighbour(int index) { return _neighbours[index]; }
+
+    CellType *typedNeighbour(int index) const { return _neighbours[index]; }
 
 private:
-    CellType* _neighbours[NNeighbours];
+//    CellI *_neighbours[NNeighbours];
+    CellType *_neighbours[NNeighbours];
 };
 
 #endif // CELL_H

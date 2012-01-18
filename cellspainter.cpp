@@ -24,37 +24,37 @@ void CellsPainter::visitComplexCell(ComplexCell &cell) {
 }
 
 void CellsPainter::visitSimpleCell(SimpleCell &cell) {
-    QColor &color = (cell.state() == 0) ? _simple_cell_color0 : _simple_cell_color1;
-    drawSimpleCell(cell, color);
+    QColor *pcolor = (cell.state() == 0) ? &_simple_cell_color0 : &_simple_cell_color1;
+    drawSimpleCell(cell, *pcolor);
 }
 
 void CellsPainter::drawComplexCell(ComplexCell &cell, const QColor &color) {
     for (int inner_y = 0; inner_y < 2; ++inner_y) {
-        QRect *prect;
-        int real_x = 0, real_y = 0;
+        int real_x = cell.x() * _render_area->oneSideLength();
+        int real_y = cell.y() * _render_area->oneSideLength() * 2;
+        if (cell.x() % 2 != 0) real_y += _render_area->oneSideLength();
 
+        QRect *prect;
         if (inner_y == 0) {
             prect = &_complex_cell_rect_bottom;
-            real_x += cell.x() * _render_area->oneSideLength();
-            real_y += cell.y() * _render_area->oneSideLength() * 2;
-            if (cell.x() % 2 != 0) real_y += _render_area->oneSideLength();
         } else {
             prect = &_complex_cell_rect_top;
-            real_x += _render_area->topLayerXSeek() + cell.x() * _render_area->oneSideLength() * 2;
-            real_y += _render_area->topLayerYSeek() + cell.y() * _render_area->oneSideLength();
-            if (cell.y() % 2 != 0) real_x += _render_area->oneSideLength();
+            real_x += _render_area->topLayerXSeek();
+            real_y += _render_area->topLayerYSeek();
         }
+
+        _painter->save();
+        _painter->translate(real_x, real_y);
+        for (int inner_x = 0; inner_x < 2; ++inner_x) {
+            cell.cell(inner_x, inner_y)->store(this);
+        }
+        _painter->restore();
 
         _painter->setBrush(color);
         _painter->setPen(_complex_cell_border_pen);
 
         _painter->save();
         _painter->translate(real_x, real_y);
-
-        for (int inner_x = 0; inner_x < 2; ++inner_x) {
-            cell.cell(inner_x, inner_y)->store(this);
-        }
-
         _painter->drawRect(*prect);
         _painter->restore();
     }

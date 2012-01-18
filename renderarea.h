@@ -27,10 +27,10 @@ public slots:
 
 protected:
     void drawCellular(QPainter *qpainter, CellsPainter *cells_painter);
-
-    Cellular *_cellular;
+    Cellular *cellular() { return _cellular; }
 
 private:
+    Cellular *_cellular;
     const int _one_side_length;
 };
 

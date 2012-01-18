@@ -11,24 +11,24 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         inner_y = 0;
 
         x = event->x() / oneSideLength();
-        if (x >= _cellular->numX()) return;
+        if (x >= cellular()->numX()) return;
 //        inner_seek_x = event->x() % oneSideLength();
-        inner_x = (event->x() % oneSideLength()) / oneSideLength();
 
         int real_y = event->y();
         if (x % 2 != 0) real_y -= oneSideLength();
         if (real_y < 0) return;
 
         y = real_y / (2 * oneSideLength());
-        if (y >= _cellular->numY()) return;
+        if (y >= cellular()->numY()) return;
 //        inner_seek_y = real_y % (2 * oneSideLength());
+        inner_x = (real_y % (2 * oneSideLength())) / oneSideLength();
     } else {
         inner_y = 1;
 
         int real_y = event->y() - topLayerYSeek();
         if (real_y < 0) return;
         y = real_y / oneSideLength();
-        if (y >= _cellular->numY() * 2) return;
+        if (y >= cellular()->numY() * 2) return;
 //        inner_seek_y = real_y % oneSideLength();
 
         int real_x = event->x() - topLayerXSeek();
@@ -36,7 +36,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         if (real_x < 0) return;
 
         x = real_x / (2 * oneSideLength());
-        if (x >= _cellular->numX() * 0.5) return;
+        if (x >= cellular()->numX() * 0.5) return;
 //        inner_seek_x = real_x % (2 * oneSideLength());
         inner_x = (real_x % (2 * oneSideLength())) / oneSideLength();
 
@@ -45,7 +45,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         y *= 0.5;
     }
 
-    ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(_cellular->cell(x, y));
+    ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(cellular()->cell(x, y));
     ClicableSimpleCell *simple_cell = static_cast<ClicableSimpleCell *>(complex_cell->cell(inner_x, inner_y));
 
     if (event->button() != Qt::RightButton) {

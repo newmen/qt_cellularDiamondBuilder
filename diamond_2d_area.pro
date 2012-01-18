@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     cellspainter.cpp \
     cellsvisitor.cpp \
     clicablecellspainter.cpp \
-    iteratoroutofbounds.cpp
+    iteratoroutofbounds.cpp \
+    celli.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     cellspainter.h \
     cellsvisitor.h \
     clicablecellspainter.h \
-    iteratoroutofbounds.h
+    iteratoroutofbounds.h \
+    celli.h
 
 OTHER_FILES += \
     TODO.txt

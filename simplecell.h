@@ -5,7 +5,7 @@
 
 //#include "hydrocarbon.h"
 
-class SimpleCell : virtual public Cell<SimpleCell, 8>
+class SimpleCell : public Cell<SimpleCell, 8>
 {
 public:
     enum DimerDirection { NONE, FRONT, BACK };
@@ -17,8 +17,9 @@ public:
     void next();
     void store(CellsVisitor *visitor) { visitor->visitSimpleCell(*this); }
 
-    SimpleCell* front() const { return neighbour(0); }
-//    SimpleCell* back() const { return neighbour(4); }
+//    SimpleCell *front() const { return neighbour(0); }
+    SimpleCell *front() const { return typedNeighbour(0); }
+//    SimpleCell *back() const { return simpleNeighbour(4); }
 
     bool canBeDimer() const { return _state == 1; }
     void setDimerDirection(DimerDirection direct) { _dimer = direct; }
@@ -34,6 +35,8 @@ protected:
     void setState(int state) { _state = state; }
 
 private:
+//    SimpleCell *simpleNeighbour(int index) const { return dynamic_cast<SimpleCell *>(neighbour(index)); }
+
     int _x, _y;
     int _state, _next_state;
 //    HydroCarbon* _hc;

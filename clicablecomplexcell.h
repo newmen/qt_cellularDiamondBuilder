@@ -5,7 +5,7 @@
 #include "complexcell.h"
 #include "cellsfactory.h"
 
-class ClicableComplexCell : public ClicableCell<ComplexCell, 8>, public ComplexCell
+class ClicableComplexCell : public ClicableCell, public ComplexCell
 {
 public:
     ClicableComplexCell(const CellsFactory *cells_factory, int x, int y) : ComplexCell(cells_factory, x, y) {}

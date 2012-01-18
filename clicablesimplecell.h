@@ -4,7 +4,7 @@
 #include "clicablecell.h"
 #include "simplecell.h"
 
-class ClicableSimpleCell : public ClicableCell<SimpleCell, 8>, public SimpleCell
+class ClicableSimpleCell : public ClicableCell, public SimpleCell
 {
 public:
     ClicableSimpleCell(int x, int y) : SimpleCell(x, y) {}

@@ -5,11 +5,11 @@
 #include "simplecell.h"
 #include "cellsfactory.h"
 
-class ComplexCell : virtual public Cell<ComplexCell, 8>
+class ComplexCell : public Cell<ComplexCell, 8>
 {
 public:
     ComplexCell(const CellsFactory *cells_factory, int x, int y);
-    virtual ~ComplexCell();
+    ~ComplexCell();
 
     void resolvNextState();
     void next();
@@ -24,6 +24,11 @@ public:
     SimpleCell *cell(int x, int y) { return _cells[y][x]; }
 
 private:
+    SimpleCell *bottomFirstCell() { return _cells[0][0]; }
+    SimpleCell *bottomSecondCell() { return _cells[0][1]; }
+    SimpleCell *topFirstCell() { return _cells[1][0]; }
+    SimpleCell *topSecondCell() { return _cells[1][1]; }
+
     int _x, _y;
     SimpleCell *_cells[2][2];
 };
