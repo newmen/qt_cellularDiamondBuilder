@@ -108,10 +108,8 @@ void Cellular::buildDimers() {
             }
         }
 
-        for (typename DimersBuilder::DimerRows::iterator dr = dr_builder.formedRows()->begin();
-             dr != dr_builder.formedRows()->end(); ++dr)
-        {
-            (*dr)->apply();
-        }
+        dr_builder.buildRows();
     }
+
+    dr_builder.apply();
 }

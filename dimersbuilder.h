@@ -8,16 +8,17 @@
 
 class DimersBuilder
 {
-public:
     typedef std::list<DimerRow *> DimerRows;
     typedef std::map<int, DimerRows> RowsPlane;
 
+public:
     virtual ~DimersBuilder();
 
     void reset(int max_vertical_index, int max_horizontal_index);
 
     void addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);
-    DimerRows *formedRows();
+    void buildRows();
+    void apply() const;
 
 private:
     void deleteFormedRows();

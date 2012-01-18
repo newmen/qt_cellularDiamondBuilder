@@ -7,10 +7,10 @@
 
 class DimerRow
 {
-public:
     typedef std::pair<SimpleCell*, SimpleCell*> Dimer;
     typedef std::list<Dimer> Dimers;
 
+public:
     struct Sorter
     {
         bool operator() (const DimerRow *dr1, const DimerRow *dr2) const {
