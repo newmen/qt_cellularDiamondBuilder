@@ -16,7 +16,7 @@ CellsPainter::CellsPainter(RenderArea *render_area, QPainter *qpainter) :
     _simple_cell_color1 = QColor(Qt::darkGreen);
     _simple_cell_border_pen = QPen(Qt::transparent);
     _simple_cell_dimer_pen = QPen(Qt::darkRed);
-    _simple_cell_dimer_pen.setWidth(5);
+    _simple_cell_dimer_pen.setWidth(_render_area->oneSideLength() / 4.f);
 }
 
 void CellsPainter::visitComplexCell(ComplexCell &cell) {
