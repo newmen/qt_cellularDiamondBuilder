@@ -79,10 +79,13 @@ void CellsPainter::drawSimpleCell(SimpleCell &cell, const QColor &color) {
     _painter->setPen(_simple_cell_dimer_pen);
 
     _painter->save();
+
     int half = _render_area->oneSideLength() / 2;
     int half_seek = (cell.dimer() == SimpleCell::FRONT) ? -half : half;
     _painter->translate(real_x + half, real_y + half);
+
     if (cell.y() == 0) _painter->drawLine(0, 0, 0, half_seek);
     else _painter->drawLine(0, 0, half_seek, 0);
+
     _painter->restore();
 }

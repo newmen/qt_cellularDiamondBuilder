@@ -7,14 +7,14 @@ ClicableCellsPainter::ClicableCellsPainter(ClicableRenderArea *render_area, QPai
     : CellsPainter(render_area, qpainter)
 {
     _complex_cell_color_info = QColor(Qt::blue);
-    _complex_cell_color_info.setAlphaF(0.6);
+    _complex_cell_color_info.setAlphaF(0.5);
     _complex_cell_color_neighbour_info = QColor(Qt::cyan);
-    _complex_cell_color_neighbour_info.setAlphaF(0.35);
+    _complex_cell_color_neighbour_info.setAlphaF(0.33);
 
     _simple_cell_color_info = QColor(Qt::darkRed);
-    _simple_cell_color_info.setAlphaF(0.5);
+    _simple_cell_color_info.setAlphaF(0.33);
     _simple_cell_color_neighbour_info = QColor(Qt::red);
-    _simple_cell_color_neighbour_info.setAlphaF(0.45);
+    _simple_cell_color_neighbour_info.setAlphaF(0.5);
 }
 
 void ClicableCellsPainter::visitComplexCell(ComplexCell &cell) {
@@ -24,9 +24,10 @@ void ClicableCellsPainter::visitComplexCell(ComplexCell &cell) {
 }
 
 void ClicableCellsPainter::visitSimpleCell(SimpleCell &cell) {
+    CellsPainter::visitSimpleCell(cell);
     if (const QColor *pcolor = getColor(cell, _simple_cell_color_info, _simple_cell_color_neighbour_info)) {
         drawSimpleCell(cell, *pcolor);
-    } else CellsPainter::visitSimpleCell(cell);
+    }
 }
 
 const QColor *ClicableCellsPainter::getColor(const CellI &cell, const QColor &color_info, const QColor &color_neighbour) const {

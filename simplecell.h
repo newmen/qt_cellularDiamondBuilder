@@ -35,8 +35,6 @@ protected:
     void setState(int state) { _state = state; }
 
 private:
-//    SimpleCell *simpleNeighbour(int index) const { return dynamic_cast<SimpleCell *>(neighbour(index)); }
-
     int _x, _y;
     int _state, _next_state;
 //    HydroCarbon* _hc;
