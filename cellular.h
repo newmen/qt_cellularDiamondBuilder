@@ -2,6 +2,7 @@
 #define CELLULAR_H
 
 #include "complexcell.h"
+#include "cellsfactory.h"
 
 class Cellular
 {

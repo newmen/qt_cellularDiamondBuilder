@@ -4,7 +4,7 @@
 ComplexCell::ComplexCell(const CellsFactory *cells_factory, int x, int y) : _x(x), _y(y) {
     for (int y = 0; y < 2; ++y) {
         for (int x = 0; x < 2; ++x) {
-            _cells[y][x] = cells_factory->createSimpleCell(x, y);
+            _cells[y][x] = cells_factory->makeSimpleCell(x, y);
         }
     }
 }

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "button.h"
 #include "renderarea.h"
-#include "cellular.h"
+#include "renderfactory.h"
 
 class MainWindow : public QWidget
 {
@@ -17,7 +17,7 @@ public:
 private:
     void moveWindowToCenter();
 
-    Cellular *_cellular;
+    RenderFactory *_factory;
     RenderArea *_renderArea;
     Button *_nextButton;
 };

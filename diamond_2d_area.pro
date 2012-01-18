@@ -34,7 +34,10 @@ SOURCES += main.cpp\
     cellsvisitor.cpp \
     clicablecellspainter.cpp \
     iteratoroutofbounds.cpp \
-    celli.cpp
+    celli.cpp \
+    renderfactory.cpp \
+    typicalrenderfactory.cpp \
+    clicablerenderfactory.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -59,7 +62,10 @@ HEADERS  += mainwindow.h \
     cellsvisitor.h \
     clicablecellspainter.h \
     iteratoroutofbounds.h \
-    celli.h
+    celli.h \
+    renderfactory.h \
+    typicalrenderfactory.h \
+    clicablerenderfactory.h
 
 OTHER_FILES += \
     TODO.txt

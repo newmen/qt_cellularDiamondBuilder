@@ -7,7 +7,7 @@ Cellular::Cellular(const CellsFactory *cells_factory, int num_x, int num_y) : _n
     for (int y = 0; y < _num_y; ++y) {
         _cells[y] = new ComplexCell*[_num_x];
         for (int x = 0; x < _num_x; ++x) {
-            _cells[y][x] = cells_factory->createComplexCell(x, y);
+            _cells[y][x] = cells_factory->makeComplexCell(x, y);
         }
     }
 

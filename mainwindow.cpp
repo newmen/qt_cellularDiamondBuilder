@@ -1,13 +1,12 @@
 #include <QtGui>
 #include "mainwindow.h"
-#include "clicablecellsfactory.h"
-#include "clicablerenderarea.h"
+#include "clicablerenderfactory.h"
+//#include "typicalrenderfactory.h"
 
 MainWindow::MainWindow() {
-    ClicableCellsFactory factory;
-
-    _cellular = new Cellular(&factory, 16, 10);
-    _renderArea = new ClicableRenderArea(this, _cellular, 26);
+    _factory = new ClicableRenderFactory(16, 10);
+//    _factory = new TypicalRenderFactory(16, 10);
+    _renderArea = _factory->makeRenderArea(this, 26);
     _nextButton = new Button(tr("Next"), this);
 
     connect(_nextButton, SIGNAL(clicked()), _renderArea, SLOT(next()));
@@ -22,7 +21,7 @@ MainWindow::MainWindow() {
 MainWindow::~MainWindow() {
     delete _nextButton;
     delete _renderArea;
-    delete _cellular;
+    delete _factory;
 }
 
 void MainWindow::moveWindowToCenter() {
