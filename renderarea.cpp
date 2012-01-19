@@ -1,7 +1,7 @@
 #include "renderarea.h"
 
-RenderArea::RenderArea(QWidget *parent, Cellular *cellular, int one_side_length)
-    : QWidget(parent), _cellular(cellular), _one_side_length(one_side_length) {}
+RenderArea::RenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length)
+    : QWidget(parent), _cellular(cellular), _curr_z(z), _one_side_length(one_side_length) {}
 
 //RenderArea::~RenderArea() {}
 
@@ -16,13 +16,13 @@ void RenderArea::paintEvent(QPaintEvent *) {
     drawCellular(&qpainter, &cells_painter);
 }
 
-void RenderArea::next() {
-    _cellular->next();
-    update();
+void RenderArea::moveZ(int z) {
+     _curr_z = z;
+     update();
 }
 
 void RenderArea::drawCellular(QPainter *qpainter, CellsPainter *cells_painter) {
     qpainter->setRenderHint(QPainter::Antialiasing, true);
-    _cellular->store(cells_painter);
+    _cellular->storeSlice(currZ(), cells_painter);
     qpainter->setRenderHint(QPainter::Antialiasing, false);
 }

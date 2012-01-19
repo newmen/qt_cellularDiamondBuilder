@@ -1,30 +1,33 @@
 #ifndef CELLULAR_H
 #define CELLULAR_H
 
+#include "common.h"
 #include "complexcell.h"
 #include "cellsfactory.h"
 
 class Cellular
 {
 public:
-    Cellular(const CellsFactory *cells_factory, int num_x, int num_y);
+    Cellular(const CellsFactory *cells_factory, int nums_x, int nums_y, int nums_z);
     ~Cellular();
 
     void next();
     void store(CellsVisitor *visitor);
+    void storeSlice(int z, CellsVisitor *visitor);
 
-    int numX() const { return _num_x; }
-    int numY() const { return _num_y; }
+    int numX() const { return _dims.x; }
+    int numY() const { return _dims.y; }
+    int numZ() const { return _dims.z; }
 
     // для итератора
-    ComplexCell *cell(int x, int y) { return _cells[y][x]; }
+    ComplexCell *cell(int x, int y, int z) { return _cells[z][y][x]; }
 
 private:
     void initNeighbours();
     void buildDimers();
 
-    const int _num_x, _num_y;
-    ComplexCell ***_cells;
+    const dim3 _dims;
+    ComplexCell ****_cells;
 };
 
 #endif // CELLULAR_H

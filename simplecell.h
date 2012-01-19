@@ -10,7 +10,7 @@ class SimpleCell : public Cell<SimpleCell, 8>
 public:
     enum DimerDirection { NONE, FRONT, BACK };
 
-    SimpleCell(int x, int y);
+    SimpleCell(int state, int x, int y);
 //    virtual ~SimpleCell();
 
     void resolvNextState();

@@ -9,17 +9,22 @@
 class MainWindow : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit MainWindow();
     ~MainWindow();
 
+private slots:
+    void next();
+
 private:
     void moveWindowToCenter();
 
+    QGroupBox *_render_group;
+
     RenderFactory *_factory;
-    RenderArea *_renderArea;
-    Button *_nextButton;
+    RenderArea *_render_area;
+    QSlider *_slider;
+    Button *_next_button;
 };
 
 #endif // MAINWINDOW_H

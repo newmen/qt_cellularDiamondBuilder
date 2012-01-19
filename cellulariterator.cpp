@@ -2,19 +2,19 @@
 #include "cellular.h"
 #include "iteratoroutofbounds.h"
 
-//CellularIterator::CellularIterator(Cellular *cellular) : _cellular(cellular), _x(0), _y(0) {}
-
 void CellularIterator::next() {
-    if (++_x < _cellular->numX()) return;
-    _x = 0;
-    ++_y;
+    if (++_pos.x < _cellular->numX()) return;
+    _pos.x = 0;
+    if (++_pos.y < _cellular->numY()) return;
+    _pos.y = 0;
+    ++_pos.z;
 }
 
 bool CellularIterator::isDone() const {
-    return _y >= _cellular->numY();
+    return _pos.z >= _cellular->numZ();
 }
 
 ComplexCell *CellularIterator::current() const {
     if (isDone()) throw IteratorOutOfBounds();
-    return _cellular->cell(_x, _y);
+    return _cellular->cell(_pos.x, _pos.y, _pos.z);
 }

@@ -1,8 +1,8 @@
 #include "clicablerenderarea.h"
 #include "clicablecellspainter.h"
 
-ClicableRenderArea::ClicableRenderArea(QWidget *parent, Cellular *cellular, int one_side_length)
-    : RenderArea(parent, cellular, one_side_length) {}
+ClicableRenderArea::ClicableRenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length)
+    : RenderArea(parent, cellular, z, one_side_length), _curr_complex_cell(0), _curr_simple_cell(0) {}
 
 void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
     int x, y;
@@ -45,7 +45,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
         y *= 0.5;
     }
 
-    ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(cellular()->cell(x, y));
+    ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(cellular()->cell(x, y, currZ()));
     ClicableSimpleCell *simple_cell = static_cast<ClicableSimpleCell *>(complex_cell->cell(inner_x, inner_y));
 
     if (event->button() != Qt::RightButton) {

@@ -4,39 +4,37 @@
 //#include <iostream>
 
 DimersBuilder::~DimersBuilder() {
-    deleteFormedRows();
+    for (DimerRows::iterator p = _formed_rows.begin(); p != _formed_rows.end(); ++p) {
+        delete *p;
+    }
 }
 
 void DimersBuilder::reset(int max_vertical_index, int max_horizontal_index) {
-//    deleteFormedRows();
-
     _max_vertical_index = max_vertical_index;
     _max_horizontal_index = max_horizontal_index;
 
     _rows_plane.clear();
     _all_rows.clear();
-//    _formed_rows.clear();
 }
 
 void DimersBuilder::addDimer(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
     RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
     if (find_result != _rows_plane.end()) {
-        DimerRow *back_row = find_result->second.back();
+        DimerRow *last_row = find_result->second.back();
 
-        if (back_row->near(horizontal_index)) {
-            back_row->addDimer(first_cell, second_cell);
+        if (last_row->near(horizontal_index)) {
+            last_row->addDimer(first_cell, second_cell);
         } else {
-            buildRow(vertical_index, horizontal_index, first_cell, second_cell);
-            back_row = find_result->second.back();
+            last_row = buildRow(vertical_index, horizontal_index, first_cell, second_cell);
         }
 
         // TODO в предыдущем else идёт лишнее выделение ресурсов, если затем димер оказывается частью начального
         if (horizontal_index == _max_horizontal_index) {
-            DimerRow *front_row = find_result->second.front();
-            if (front_row->isBeginningRow() && front_row != back_row) {
-                back_row->expandTail(front_row);
+            DimerRow *first_row = find_result->second.front();
+            if (first_row->isBeginningRow() && first_row != last_row) {
+                last_row->expandTail(first_row);
                 find_result->second.pop_front();
-                destroyRow(front_row);
+                destroyRow(first_row);
             }
         }
     } else {
@@ -47,7 +45,6 @@ void DimersBuilder::addDimer(int vertical_index, int horizontal_index, SimpleCel
 void DimersBuilder::buildRows() {
 //    std::cout << "------------------------" << std::endl;
 //    std::cout << "_all_rows.size() = " << _all_rows.size() << std::endl;
-
     shiftLargestRow();
 }
 
@@ -57,21 +54,37 @@ void DimersBuilder::apply() const {
     }
 }
 
-void DimersBuilder::deleteFormedRows() {
-    for (DimerRows::iterator p = _formed_rows.begin(); p != _formed_rows.end(); ++p) {
-        delete *p;
-    }
+DimersBuilder::RowsPlane::iterator DimersBuilder::findRowsInPlane(int vertical_index) {
+    if (vertical_index > _max_vertical_index) vertical_index = 0;
+    else if (vertical_index < 0) vertical_index = _max_vertical_index;
+
+    return _rows_plane.find(vertical_index);
 }
 
-void DimersBuilder::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
+DimerRow *DimersBuilder::buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell) {
     DimerRow *new_row = new DimerRow(vertical_index, horizontal_index, first_cell, second_cell);
     _rows_plane[vertical_index].push_back(new_row);
     _all_rows.push_back(new_row);
+    return new_row;
 }
 
 void DimersBuilder::destroyRow(DimerRow *row) {
     _all_rows.erase(find(_all_rows.begin(), _all_rows.end(), row));
     delete row;
+}
+
+// TODO требуется оптимизация, поскольку операция поиска по списку производится в цикле!
+// возможно необходимо изменить порядок добавления рядов в контейнеры
+// следует учесть тот факт, что каждый раз производится сортировка _all_rows
+void DimersBuilder::destroyRows(int vertical_index) {
+    RowsPlane::iterator find_result = findRowsInPlane(vertical_index);
+    if (find_result == _rows_plane.end()) return;
+
+    for (DimerRows::iterator dr = find_result->second.begin(); dr != find_result->second.end(); ++dr) {
+        destroyRow(*dr);
+    }
+
+    _rows_plane.erase(find_result);
 }
 
 void DimersBuilder::shiftLargestRow() {
@@ -97,17 +110,20 @@ void DimersBuilder::shiftLargestRow() {
     _all_rows.erase(i_largest_row);
 
     int vertical_index = (*i_largest_row)->verticalIndex();
-    truncateRows(vertical_index - 1, *i_largest_row);
-    truncateRows(vertical_index + 1, *i_largest_row);
+
+    if (isCircledRow(*i_largest_row)) {
+        destroyRows(vertical_index - 1);
+        destroyRows(vertical_index + 1);
+    } else {
+        truncateRows(vertical_index - 1, *i_largest_row);
+        truncateRows(vertical_index + 1, *i_largest_row);
+    }
 
     shiftLargestRow();
 }
 
 void DimersBuilder::truncateRows(int vertical_index, const DimerRow *largest_row) {
-    if (vertical_index > _max_vertical_index) vertical_index = 0;
-    else if (vertical_index < 0) vertical_index = _max_vertical_index;
-
-    RowsPlane::iterator find_result = _rows_plane.find(vertical_index);
+    RowsPlane::iterator find_result = findRowsInPlane(vertical_index);
     if (find_result == _rows_plane.end()) return;
 
     DimerRows::iterator p_dimer_row = find_result->second.begin();
@@ -123,4 +139,8 @@ void DimersBuilder::truncateRows(int vertical_index, const DimerRow *largest_row
             ++p_dimer_row;
         }
     }
+}
+
+bool DimersBuilder::isCircledRow(DimerRow *row) const {
+    return row->isBeginningRow() && row->length() == _max_horizontal_index + 1;
 }

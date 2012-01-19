@@ -65,7 +65,8 @@ HEADERS  += mainwindow.h \
     celli.h \
     renderfactory.h \
     typicalrenderfactory.h \
-    clicablerenderfactory.h
+    clicablerenderfactory.h \
+    common.h
 
 OTHER_FILES += \
     TODO.txt

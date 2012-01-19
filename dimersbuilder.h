@@ -21,11 +21,15 @@ public:
     void apply() const;
 
 private:
-    void deleteFormedRows();
-    void buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);
+    RowsPlane::iterator findRowsInPlane(int vertical_index);
+
+    DimerRow *buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);
     void destroyRow(DimerRow *row);
+    void destroyRows(int vertical_index);
+
     void shiftLargestRow();
     void truncateRows(int vertical_index, const DimerRow *largest_row);
+    bool isCircledRow(DimerRow *row) const;
 
     int _max_vertical_index, _max_horizontal_index;
     RowsPlane _rows_plane;

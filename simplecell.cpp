@@ -1,6 +1,6 @@
 #include "simplecell.h"
 
-SimpleCell::SimpleCell(int x, int y) : _x(x), _y(y), _state(0), _next_state(0), _dimer(NONE) {//_hc(0) {
+SimpleCell::SimpleCell(int state, int x, int y) : _x(x), _y(y), _state(state), _next_state(0), _dimer(NONE) {//_hc(0) {
 }
 
 //SimpleCell::~SimpleCell() {

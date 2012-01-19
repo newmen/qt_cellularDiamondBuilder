@@ -8,7 +8,8 @@
 class ClicableComplexCell : public ClicableCell, public ComplexCell
 {
 public:
-    ClicableComplexCell(const CellsFactory *cells_factory, int x, int y) : ComplexCell(cells_factory, x, y) {}
+    ClicableComplexCell(const CellsFactory *cells_factory, int state, int x, int y, int z)
+        : ComplexCell(cells_factory, state, x, y, z) {}
 };
 
 #endif // CLICABLECOMPLEXCELL_H

@@ -8,10 +8,11 @@
 class ClicableRenderFactory : public ClicableCellsFactory, public RenderFactory
 {
 public:
-    ClicableRenderFactory(int cellular_num_x, int cellular_num_y) : ClicableCellsFactory(cellular_num_x, cellular_num_y) {}
+    ClicableRenderFactory(int cellular_num_x, int cellular_num_y, int cellular_num_z)
+        : ClicableCellsFactory(cellular_num_x, cellular_num_y, cellular_num_z) {}
 
-    RenderArea *makeRenderArea(QWidget *parent, int one_side_length) {
-        return new ClicableRenderArea(parent, makeCellular(), one_side_length);
+    RenderArea *makeRenderArea(QWidget *parent, int z, int one_side_length) {
+        return new ClicableRenderArea(parent, makeCellular(), z, one_side_length);
     }
 };
 

@@ -1,10 +1,10 @@
 #include "complexcell.h"
 #include "complexcelliterator.h"
 
-ComplexCell::ComplexCell(const CellsFactory *cells_factory, int x, int y) : _x(x), _y(y) {
+ComplexCell::ComplexCell(const CellsFactory *cells_factory, int state, int x, int y, int z) : _pos(x, y, z) {
     for (int y = 0; y < 2; ++y) {
         for (int x = 0; x < 2; ++x) {
-            _cells[y][x] = cells_factory->makeSimpleCell(x, y);
+            _cells[y][x] = cells_factory->makeSimpleCell(state, x, y);
         }
     }
 }

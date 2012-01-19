@@ -7,7 +7,7 @@ CellsFactory::~CellsFactory()  {
 
 Cellular *CellsFactory::makeCellular() {
    if (!_single_cellular) {
-       _single_cellular = new Cellular(this, _cellular_num_x, _cellular_num_y);
+       _single_cellular = new Cellular(this, _cellular_dims.x, _cellular_dims.y, _cellular_dims.z);
    }
    return _single_cellular;
 }

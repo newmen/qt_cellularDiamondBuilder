@@ -9,14 +9,15 @@
 class TypicalCellsFactory : public CellsFactory
 {
 public:
-    TypicalCellsFactory(int cellular_num_x, int cellular_num_y) : CellsFactory(cellular_num_x, cellular_num_y) {}
+    TypicalCellsFactory(int cellular_num_x, int cellular_num_y, int cellular_num_z)
+        : CellsFactory(cellular_num_x, cellular_num_y, cellular_num_z) {}
 
-    ComplexCell *makeComplexCell(int x, int y) const {
-        return new ComplexCell(this, x, y);
+    ComplexCell *makeComplexCell(int state, int x, int y, int z) const {
+        return new ComplexCell(this, state, x, y, z);
     }
 
-    SimpleCell *makeSimpleCell(int x, int y) const {
-        return new SimpleCell(x, y);
+    SimpleCell *makeSimpleCell(int state, int x, int y) const {
+        return new SimpleCell(state, x, y);
     }
 };
 

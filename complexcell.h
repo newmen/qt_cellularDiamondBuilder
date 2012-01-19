@@ -1,6 +1,7 @@
 #ifndef COMPLEXCELL_H
 #define COMPLEXCELL_H
 
+#include "common.h"
 #include "cell.h"
 #include "simplecell.h"
 #include "cellsfactory.h"
@@ -8,7 +9,7 @@
 class ComplexCell : public Cell<ComplexCell, 8>
 {
 public:
-    ComplexCell(const CellsFactory *cells_factory, int x, int y);
+    ComplexCell(const CellsFactory *cells_factory, int state, int x, int y, int z);
     ~ComplexCell();
 
     void resolvNextState();
@@ -19,8 +20,9 @@ public:
     void initNestedNeighbours();
 
     // для посетителей
-    int x() const { return _x; }
-    int y() const { return _y; }
+    int x() const { return _pos.x; }
+    int y() const { return _pos.y; }
+    int z() const { return _pos.z; }
     SimpleCell *cell(int x, int y) { return _cells[y][x]; }
 
 private:
@@ -29,7 +31,7 @@ private:
     SimpleCell *topFirstCell() { return _cells[1][0]; }
     SimpleCell *topSecondCell() { return _cells[1][1]; }
 
-    int _x, _y;
+    int3 _pos;
     SimpleCell *_cells[2][2];
 };
 

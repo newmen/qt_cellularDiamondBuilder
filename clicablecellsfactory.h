@@ -8,14 +8,15 @@
 class ClicableCellsFactory : public CellsFactory
 {
 public:
-    ClicableCellsFactory(int cellular_num_x, int cellular_num_y) : CellsFactory(cellular_num_x, cellular_num_y) {}
+    ClicableCellsFactory(int cellular_num_x, int cellular_num_y, int cellular_num_z)
+        : CellsFactory(cellular_num_x, cellular_num_y, cellular_num_z) {}
 
-    ComplexCell *makeComplexCell(int x, int y) const {
-        return new ClicableComplexCell(this, x, y);
+    ComplexCell *makeComplexCell(int state, int x, int y, int z) const {
+        return new ClicableComplexCell(this, state, x, y, z);
     }
 
-    SimpleCell *makeSimpleCell(int x, int y) const {
-        return new ClicableSimpleCell(x, y);
+    SimpleCell *makeSimpleCell(int state, int x, int y) const {
+        return new ClicableSimpleCell(state, x, y);
     }
 };
 

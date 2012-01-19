@@ -8,18 +8,19 @@ class Cellular;
 class CellularIterator
 {
 public:
-    explicit CellularIterator(Cellular *cellular) : _cellular(cellular), _x(0), _y(0) {}
+    explicit CellularIterator(Cellular *cellular) : _cellular(cellular) {}
 
     void next();
     bool isDone() const;
     ComplexCell *current() const;
 
-    int x() const { return _x; }
-    int y() const { return _y; }
+    int x() const { return _pos.x; }
+    int y() const { return _pos.y; }
+    int z() const { return _pos.z; }
 
 private:
     Cellular *_cellular;
-    int _x, _y;
+    int3 _pos;
 };
 
 #endif // CELLULARITERATOR_H

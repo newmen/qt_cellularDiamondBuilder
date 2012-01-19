@@ -10,7 +10,7 @@ class RenderArea : public QWidget
 {
     Q_OBJECT
 public:
-    RenderArea(QWidget *parent, Cellular *cellular, int one_side_length);
+    RenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length);
 //    ~RenderArea();
 
     QSize minimumSizeHint() const;
@@ -23,14 +23,16 @@ public:
 signals:
 
 public slots:
-    void next();
+    void moveZ(int z);
 
 protected:
     void drawCellular(QPainter *qpainter, CellsPainter *cells_painter);
     Cellular *cellular() { return _cellular; }
+    int currZ() const { return _curr_z; }
 
 private:
     Cellular *_cellular;
+    int _curr_z;
     const int _one_side_length;
 };
 
