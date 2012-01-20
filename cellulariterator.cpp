@@ -3,15 +3,15 @@
 #include "iteratoroutofbounds.h"
 
 void CellularIterator::next() {
-    if (++_pos.x < _cellular->numX()) return;
+    if (++_pos.x < _cellular->dimX()) return;
     _pos.x = 0;
-    if (++_pos.y < _cellular->numY()) return;
+    if (++_pos.y < _cellular->dimY()) return;
     _pos.y = 0;
     ++_pos.z;
 }
 
 bool CellularIterator::isDone() const {
-    return _pos.z >= _cellular->numZ();
+    return _pos.z >= _cellular->dimZ();
 }
 
 ComplexCell *CellularIterator::current() const {

@@ -1,22 +1,21 @@
 #ifndef CELLSFACTORY_H
 #define CELLSFACTORY_H
 
+#include "singlecellularfactory.h"
 #include "common.h"
 
-class Cellular;
 class ComplexCell;
 class SimpleCell;
 
-class CellsFactory
+class CellsFactory : public virtual SingleCellularFactory
 {
 public:
-    virtual ~CellsFactory();
-    virtual Cellular *makeCellular();
+    ~CellsFactory();
+
+    Cellular *cellularInstance();
 
     virtual ComplexCell *makeComplexCell(int state, int x, int y, int z) const = 0;
     virtual SimpleCell *makeSimpleCell(int state, int x, int y) const = 0;
-
-    Cellular *cellularInstance() { return _single_cellular; }
 
 protected:
     CellsFactory(int cellular_num_x, int cellular_num_y, int cellular_num_z)

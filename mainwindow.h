@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "button.h"
 #include "renderarea.h"
+#include "renderarea3d.h"
 #include "renderfactory.h"
 
 class MainWindow : public QWidget
@@ -13,8 +14,13 @@ public:
     explicit MainWindow();
     ~MainWindow();
 
+protected:
+    void init();
+
 private slots:
-    void next();
+    void updateRenderAreas();
+    void formDimers();
+    void moveZ(int z);
 
 private:
     void moveWindowToCenter();
@@ -23,8 +29,10 @@ private:
 
     RenderFactory *_factory;
     RenderArea *_render_area;
+    RenderArea3D *_render_area_3d;
+
     QSlider *_slider;
-    Button *_next_button;
+    Button *_form_dimer_button;
 };
 
 #endif // MAINWINDOW_H

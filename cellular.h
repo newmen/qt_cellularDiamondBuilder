@@ -11,21 +11,21 @@ public:
     Cellular(const CellsFactory *cells_factory, int nums_x, int nums_y, int nums_z);
     ~Cellular();
 
+    void buildDimers();
     void next();
+
     void store(CellsVisitor *visitor);
     void storeSlice(int z, CellsVisitor *visitor);
 
-    int numX() const { return _dims.x; }
-    int numY() const { return _dims.y; }
-    int numZ() const { return _dims.z; }
+    int dimX() const { return _dims.x; }
+    int dimY() const { return _dims.y; }
+    int dimZ() const { return _dims.z; }
 
     // для итератора
     ComplexCell *cell(int x, int y, int z) { return _cells[z][y][x]; }
 
 private:
     void initNeighbours();
-    void buildDimers();
-
     const dim3 _dims;
     ComplexCell ****_cells;
 };

@@ -2,8 +2,8 @@
 #include "cellulariterator.h"
 #include "dimersbuilder.h"
 
-Cellular::Cellular(const CellsFactory *cells_factory, int num_x, int num_y, int num_z)
-    : _dims(num_x, num_y, num_z)
+Cellular::Cellular(const CellsFactory *cells_factory, int dim_x, int dim_y, int dim_z)
+    : _dims(dim_x, dim_y, dim_z)
 {
     _cells = new ComplexCell***[_dims.z];
     for (int z = 0; z < _dims.z; ++z) {
@@ -11,7 +11,8 @@ Cellular::Cellular(const CellsFactory *cells_factory, int num_x, int num_y, int 
         for (int y = 0; y < _dims.y; ++y) {
             _cells[z][y] = new ComplexCell*[_dims.x];
             for (int x = 0; x < _dims.x; ++x) {
-                _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0), x, y, z);
+                _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0 || z == 1), x, y, z);
+//                _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0), x, y, z);
             }
         }
     }
@@ -33,13 +34,13 @@ Cellular::~Cellular() {
 }
 
 void Cellular::next() {
-//    for (CellularIterator p(this); !p.isDone(); p.next()) {
-//        p.current()->resolvNextState();
-//    }
+    for (CellularIterator p(this); !p.isDone(); p.next()) {
+        p.current()->resolvNextState();
+    }
 
-//    for (CellularIterator p(this); !p.isDone(); p.next()) {
-//        p.current()->next();
-//    }
+    for (CellularIterator p(this); !p.isDone(); p.next()) {
+        p.current()->next();
+    }
 
     buildDimers();
 }

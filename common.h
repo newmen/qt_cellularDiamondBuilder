@@ -1,10 +1,16 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-template<typename T, T DefaultValue>
+template<typename T, int DefaultValue>
 struct ___x3 {
 public:
     T x, y, z;
+
+    void operator() (const T &x, const T &y, const T &z) {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+    }
 
 protected:
     ___x3() : x(DefaultValue), y(DefaultValue), z(DefaultValue) {}
@@ -12,6 +18,11 @@ protected:
 };
 
 // по красоте, надо написать макросы
+
+struct float3 : public ___x3<float, 0> {
+    float3() {}
+    float3(float x, float y, float z) : ___x3(x, y, z) {}
+};
 
 struct int3 : public ___x3<int, 0> {
     int3() {}

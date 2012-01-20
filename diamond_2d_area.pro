@@ -4,11 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui opengl xml
+#QT += opengl xml
 
 TARGET = diamond_2d_area
 TEMPLATE = app
 
+LIBS += -lqglviewer-qt4
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -37,7 +39,11 @@ SOURCES += main.cpp\
     celli.cpp \
     renderfactory.cpp \
     typicalrenderfactory.cpp \
-    clicablerenderfactory.cpp
+    clicablerenderfactory.cpp \
+    renderarea3d.cpp \
+    singlecellularfactory.cpp \
+    cellspainter3d.cpp \
+    renderareai.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -66,7 +72,12 @@ HEADERS  += mainwindow.h \
     renderfactory.h \
     typicalrenderfactory.h \
     clicablerenderfactory.h \
-    common.h
+    common.h \
+    renderarea3d.h \
+    singlecellularfactory.h \
+    cellspainter3d.h \
+    renderareai.h
 
 OTHER_FILES += \
     TODO.txt
+

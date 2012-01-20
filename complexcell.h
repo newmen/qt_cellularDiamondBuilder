@@ -20,6 +20,7 @@ public:
     void initNestedNeighbours();
 
     // для посетителей
+    const int3 &pos() const { return _pos; }
     int x() const { return _pos.x; }
     int y() const { return _pos.y; }
     int z() const { return _pos.z; }
