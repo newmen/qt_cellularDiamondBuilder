@@ -13,6 +13,7 @@ Cellular::Cellular(const CellsFactory *cells_factory, int dim_x, int dim_y, int 
             for (int x = 0; x < _dims.x; ++x) {
 //                _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0 || z == 1), x, y, z);
                 _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0), x, y, z);
+//                _cells[z][y][x] = cells_factory->makeComplexCell(0, x, y, z);
             }
         }
     }

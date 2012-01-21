@@ -58,6 +58,10 @@ MainWindow::~MainWindow() {
     delete _render_group;
 }
 
+QSize MainWindow::minimumSizeHint() const {
+    return QSize(width(), height());
+}
+
 void MainWindow::updateRenderAreas() {
     _render_area->update();
     _render_area_3d->repaint();

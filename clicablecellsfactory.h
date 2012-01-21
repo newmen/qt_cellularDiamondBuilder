@@ -5,12 +5,9 @@
 #include "clicablecomplexcell.h"
 #include "clicablesimplecell.h"
 
-class ClicableCellsFactory : public CellsFactory
+class ClicableCellsFactory : public virtual CellsFactory
 {
 public:
-    ClicableCellsFactory(int cellular_num_x, int cellular_num_y, int cellular_num_z)
-        : CellsFactory(cellular_num_x, cellular_num_y, cellular_num_z) {}
-
     ComplexCell *makeComplexCell(int state, int x, int y, int z) const {
         return new ClicableComplexCell(this, state, x, y, z);
     }

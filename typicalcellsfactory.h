@@ -6,12 +6,9 @@
 #include "complexcell.h"
 #include "simplecell.h"
 
-class TypicalCellsFactory : public CellsFactory
+class TypicalCellsFactory : public virtual CellsFactory
 {
 public:
-    TypicalCellsFactory(int cellular_num_x, int cellular_num_y, int cellular_num_z)
-        : CellsFactory(cellular_num_x, cellular_num_y, cellular_num_z) {}
-
     ComplexCell *makeComplexCell(int state, int x, int y, int z) const {
         return new ComplexCell(this, state, x, y, z);
     }

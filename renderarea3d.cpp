@@ -47,7 +47,7 @@ void RenderArea3D::init() {
 ////    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
     setRadiusAndCenter();
-    _cells_painter = this->createCellsPainter();
+    _cells_painter = createCellsPainter();
 }
 
 void RenderArea3D::draw() {

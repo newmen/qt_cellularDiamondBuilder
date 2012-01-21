@@ -26,6 +26,7 @@ public:
 
 private:
     void initNeighbours();
+
     const dim3 _dims;
     ComplexCell ****_cells;
 };

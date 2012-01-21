@@ -19,7 +19,7 @@ QSize RenderArea::minimumSizeHint() const {
 
 void RenderArea::paintEvent(QPaintEvent *) {
     QPainter qpainter(this);
-    CellsPainter *cells_painter = this->createCellsPainter(&qpainter);
+    CellsPainter *cells_painter = createCellsPainter(&qpainter);
 
     qpainter.setRenderHint(QPainter::Antialiasing, true);
     cellular()->storeSlice(currZ(), cells_painter);

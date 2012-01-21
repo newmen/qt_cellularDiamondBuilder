@@ -41,7 +41,6 @@ SOURCES += main.cpp\
     typicalrenderfactory.cpp \
     clicablerenderfactory.cpp \
     renderarea3d.cpp \
-    singlecellularfactory.cpp \
     cellspainter3d.cpp \
     renderareai.cpp \
     inforenderarea3d.cpp \
@@ -76,7 +75,6 @@ HEADERS  += mainwindow.h \
     clicablerenderfactory.h \
     common.h \
     renderarea3d.h \
-    singlecellularfactory.h \
     cellspainter3d.h \
     renderareai.h \
     inforenderarea3d.h \
