@@ -21,10 +21,10 @@ void InfoCellsPainter3D::visitSimpleCell(SimpleCell &cell) {
                 alpha = 1.f;
                 break;
             case ClicableCell::NEIGHBOUR:
-                alpha = .9f;
+                alpha = .67f;
                 break;
             default:
-                alpha = .005f;
+                alpha = .067f;
             }
         } else {
             alpha = 1.f;
@@ -39,10 +39,10 @@ void InfoCellsPainter3D::visitSimpleCell(SimpleCell &cell) {
     float info_alpha;
     switch (_curr_complex_cell_info) {
     case ClicableCell::SHOW:
-        info_alpha = .7f;
+        info_alpha = .5f;
         break;
     case ClicableCell::NEIGHBOUR:
-        info_alpha = .3f;
+        info_alpha = .25f;
         break;
     }
 

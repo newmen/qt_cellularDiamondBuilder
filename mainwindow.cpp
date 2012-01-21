@@ -4,10 +4,10 @@
 //#include "typicalrenderfactory.h"
 
 MainWindow::MainWindow() {
-    int cellular_height = 5;
+    int cellular_height = 3;
     int curr_cellular_z = 1;
 
-    _factory = new ClicableRenderFactory(16, 12, cellular_height);
+    _factory = new ClicableRenderFactory(12, 8, cellular_height);
 //    _factory = new TypicalRenderFactory(12, 8, cellular_height);
     _render_area = _factory->makeRenderArea(this, curr_cellular_z, 20);
 

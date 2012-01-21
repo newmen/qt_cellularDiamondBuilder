@@ -29,16 +29,24 @@ void RenderArea3D::drawHalfDimer(const float3 &center, float alpha) {
     const float half_width = .25f;
     const float half_height = .05f;
 
-    primitiveParallelogram(center, float3(half_width, half_width, half_height), float3(.9f, .9f, .9f), alpha);
+    primitiveParallelepiped(center, float3(half_width, half_width, half_height), float3(.9f, .9f, .9f), alpha);
 }
 
 void RenderArea3D::init() {
-    glDisable(GL_LIGHTING);
+//    glDisable(GL_LIGHTING);
+
+    float ambient[4] = {.3f, .3f, .3f, 1.f};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    setRadiusAndCenter();
+////    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+//    GLfloat gl_diff_color[] = { 1, 1, 1, 1 };
+//    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, gl_diff_color);
+////    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
+    setRadiusAndCenter();
     _cells_painter = this->createCellsPainter();
 }
 
@@ -52,14 +60,14 @@ CellsPainter3D *RenderArea3D::createCellsPainter() {
 }
 
 void RenderArea3D::primitiveCube(const float3 &center, float half_side_length, const float3 &color, float alpha) {
-    primitiveParallelogram(center, float3(half_side_length, half_side_length, half_side_length), color, alpha);
+    primitiveParallelepiped(center, float3(half_side_length, half_side_length, half_side_length), color, alpha);
 }
 
 void RenderArea3D::primitiveCubeBorder(const float3 &center, float half_side_length, const float3 &color, float alpha) {
-    primitiveParallelogramBorder(center, float3(half_side_length, half_side_length, half_side_length), 2.f, color, alpha);
+    primitiveParallelepipedBorder(center, float3(half_side_length, half_side_length, half_side_length), 2.f, color, alpha);
 }
 
-void RenderArea3D::primitiveParallelogram(const float3 &center, const float3 &half_side_lengths, const float3 &color, float alpha) {
+void RenderArea3D::primitiveParallelepiped(const float3 &center, const float3 &half_side_lengths, const float3 &color, float alpha) {
     setColor(color, alpha);
 
     glBegin(GL_QUADS);
@@ -95,7 +103,7 @@ void RenderArea3D::primitiveParallelogram(const float3 &center, const float3 &ha
     glEnd();
 }
 
-void RenderArea3D::primitiveParallelogramBorder(const float3 &center, const float3 &half_side_lengths, float border_width,
+void RenderArea3D::primitiveParallelepipedBorder(const float3 &center, const float3 &half_side_lengths, float border_width,
                                                 const float3 &color, float alpha)
 {
     setColor(color, alpha);

@@ -34,8 +34,8 @@ protected:
     void primitiveCube(const float3 &center, float half_side_length, const float3 &color, float alpha);
     void primitiveCubeBorder(const float3 &center, float half_side_length, const float3 &color, float alpha);
 
-    void primitiveParallelogram(const float3 &center, const float3 &half_side_lengths, const float3 &color, float alpha);
-    void primitiveParallelogramBorder(const float3 &center, const float3 &half_side_lengths, float border_width,
+    void primitiveParallelepiped(const float3 &center, const float3 &half_side_lengths, const float3 &color, float alpha);
+    void primitiveParallelepipedBorder(const float3 &center, const float3 &half_side_lengths, float border_width,
                                       const float3 &color, float alpha);
 
 signals:
