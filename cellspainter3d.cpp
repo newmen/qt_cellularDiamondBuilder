@@ -19,7 +19,10 @@ void CellsPainter3D::visitComplexCell(ComplexCell &cell) {
 
 void CellsPainter3D::visitSimpleCell(SimpleCell &cell) {
     if (cell.state() != 1) return;
+    drawSimpleCellCube(cell);
+}
 
+float3 CellsPainter3D::currSimpleCellPos(const SimpleCell &cell) const {
     float3 pos = _seek;
     if (cell.y() == 0) {
         pos.y += cell.x();
@@ -30,7 +33,12 @@ void CellsPainter3D::visitSimpleCell(SimpleCell &cell) {
     }
     pos.y = _cellular_max_y - pos.y;
 
-    _render_area->drawBCube(pos, _color);
+    return pos;
+}
+
+void CellsPainter3D::drawSimpleCellCube(const SimpleCell &cell, float alpha) {
+    float3 pos = currSimpleCellPos(cell);
+    _render_area->drawBCube(pos, _color, alpha);
 
     if (cell.dimer() == SimpleCell::NONE) return;
 
@@ -39,5 +47,5 @@ void CellsPainter3D::visitSimpleCell(SimpleCell &cell) {
     else pos.x += dimer_seek;
     pos.z += .5f;
 
-    _render_area->drawHalfDimer(pos);
+    _render_area->drawHalfDimer(pos, alpha * .78f);
 }

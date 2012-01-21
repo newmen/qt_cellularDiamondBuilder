@@ -16,7 +16,7 @@ public:
 
 protected:
     void drawComplexCell(ComplexCell &cell, const QColor &color);
-    void drawSimpleCell(SimpleCell &cell, const QColor &color);
+    void drawSimpleCell(const SimpleCell &cell, const QColor &color);
 
 private:
     RenderArea *_render_area;

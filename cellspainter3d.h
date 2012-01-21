@@ -14,6 +14,12 @@ public:
     void visitComplexCell(ComplexCell &cell);
     void visitSimpleCell(SimpleCell &cell);
 
+protected:
+    RenderArea3D *renderArea() { return _render_area; }
+
+    float3 currSimpleCellPos(const SimpleCell &cell) const;
+    void drawSimpleCellCube(const SimpleCell &cell, float alpha = 1.f);
+
 private:
     RenderArea3D *_render_area;
     int _cellular_max_y;

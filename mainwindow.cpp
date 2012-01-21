@@ -14,6 +14,12 @@ MainWindow::MainWindow() {
     int area3d_size = _render_area->height();
     _render_area_3d = _factory->makeRenderArea3D(this, curr_cellular_z, area3d_size);
 
+#ifdef CLICABLERENDERFACTORY_H
+    connect(_render_area, SIGNAL(cellStateChanged()), _render_area_3d, SLOT(repaint()));
+    connect(_render_area, SIGNAL(showInfo()), _render_area_3d, SLOT(showInfo()));
+    connect(_render_area, SIGNAL(hideInfo()), _render_area_3d, SLOT(hideInfo()));
+#endif
+
     _slider = new QSlider(Qt::Vertical, this);
     _slider->setTickPosition(QSlider::TicksBothSides);
     _slider->setTickInterval(2);
@@ -22,10 +28,10 @@ MainWindow::MainWindow() {
     _slider->setMaximum(cellular_height - 1);
     _slider->setValue(curr_cellular_z);
 
+    connect(_slider, SIGNAL(valueChanged(int)), this, SLOT(moveZ(int)));
+
     _form_dimer_button = new Button(tr("Build dimer rows"), this);
 
-    connect(_slider, SIGNAL(valueChanged(int)), this, SLOT(moveZ(int)));
-    connect(_render_area, SIGNAL(cellStateChanged()), this, SLOT(updateRenderAreas()));
     connect(_form_dimer_button, SIGNAL(clicked()), this, SLOT(formDimers()));
 
     _render_group = new QGroupBox(this);

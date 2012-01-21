@@ -4,6 +4,7 @@
 #include "typicalcellsfactory.h"
 #include "renderfactory.h"
 #include "renderarea.h"
+#include "renderarea3d.h"
 
 class TypicalRenderFactory : public TypicalCellsFactory, public RenderFactory
 {
@@ -14,6 +15,11 @@ public:
     RenderArea *makeRenderArea(QWidget *parent, int curr_cellular_z, int one_side_length) {
         return new RenderArea(parent, cellularInstance(), curr_cellular_z, one_side_length);
     }
+
+    RenderArea3D *makeRenderArea3D(QWidget *parent, int curr_cellular_z, int area_size) {
+        return new RenderArea3D(parent, cellularInstance(), curr_cellular_z, area_size);
+    }
+
 };
 
 #endif // TYPICALRENDERFACTORY_H

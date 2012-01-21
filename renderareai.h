@@ -6,7 +6,7 @@
 class RenderAreaI
 {
 public:
-    virtual void moveZ(int z) { _curr_z = z; }
+    void moveZ(int z) { _curr_z = z; }
 
 protected:
     RenderAreaI(Cellular *cellular, int z) : _cellular(cellular), _curr_z(z) {}

@@ -57,6 +57,8 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
 
         simple_cell->showInfo();
         _curr_simple_cell = simple_cell;
+
+        emit showInfo();
     }
 
     update();
@@ -66,12 +68,11 @@ void ClicableRenderArea::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() != Qt::RightButton) return;
     _curr_complex_cell->hideInfo();
     _curr_simple_cell->hideInfo();
+    emit hideInfo();
 
     update();
 }
 
-void ClicableRenderArea::paintEvent(QPaintEvent *) {
-    QPainter qpainter(this);
-    ClicableCellsPainter cells_painter(this, &qpainter);
-    drawCellular(&qpainter, &cells_painter);
+CellsPainter *ClicableRenderArea::createCellsPainter(QPainter *qpainter) {
+    return new ClicableCellsPainter(this, qpainter);
 }

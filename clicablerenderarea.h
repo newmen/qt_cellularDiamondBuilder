@@ -13,10 +13,14 @@ public:
 
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
-    void paintEvent(QPaintEvent *);
+
+protected:
+    virtual CellsPainter *createCellsPainter(QPainter *qpainter);
 
 signals:
     void cellStateChanged();
+    void showInfo();
+    void hideInfo();
 
 private:
     ClicableComplexCell *_curr_complex_cell;

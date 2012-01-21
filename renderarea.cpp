@@ -19,12 +19,15 @@ QSize RenderArea::minimumSizeHint() const {
 
 void RenderArea::paintEvent(QPaintEvent *) {
     QPainter qpainter(this);
-    CellsPainter cells_painter(this, &qpainter);
-    drawCellular(&qpainter, &cells_painter);
+    CellsPainter *cells_painter = this->createCellsPainter(&qpainter);
+
+    qpainter.setRenderHint(QPainter::Antialiasing, true);
+    cellular()->storeSlice(currZ(), cells_painter);
+    qpainter.setRenderHint(QPainter::Antialiasing, false);
+
+    delete cells_painter;
 }
 
-void RenderArea::drawCellular(QPainter *qpainter, CellsPainter *cells_painter) {
-    qpainter->setRenderHint(QPainter::Antialiasing, true);
-    cellular()->storeSlice(currZ(), cells_painter);
-    qpainter->setRenderHint(QPainter::Antialiasing, false);
+CellsPainter *RenderArea::createCellsPainter(QPainter *qpainter) {
+    return new CellsPainter(this, qpainter);
 }

@@ -5,6 +5,7 @@
 #include "button.h"
 #include "renderarea.h"
 #include "renderarea3d.h"
+//#include "inforenderarea3d.h"
 #include "renderfactory.h"
 
 class MainWindow : public QWidget
@@ -30,6 +31,7 @@ private:
     RenderFactory *_factory;
     RenderArea *_render_area;
     RenderArea3D *_render_area_3d;
+//    InfoRenderArea3D *_render_area_3d;
 
     QSlider *_slider;
     Button *_form_dimer_button;

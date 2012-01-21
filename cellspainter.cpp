@@ -60,7 +60,7 @@ void CellsPainter::drawComplexCell(ComplexCell &cell, const QColor &color) {
     }
 }
 
-void CellsPainter::drawSimpleCell(SimpleCell &cell, const QColor &color) {
+void CellsPainter::drawSimpleCell(const SimpleCell &cell, const QColor &color) {
     int seek = cell.x() * _render_area->oneSideLength();
     int real_x = 0, real_y = 0;
     if (cell.y() == 0) real_y += seek;

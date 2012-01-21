@@ -43,7 +43,9 @@ SOURCES += main.cpp\
     renderarea3d.cpp \
     singlecellularfactory.cpp \
     cellspainter3d.cpp \
-    renderareai.cpp
+    renderareai.cpp \
+    inforenderarea3d.cpp \
+    infocellspainter3d.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -76,7 +78,9 @@ HEADERS  += mainwindow.h \
     renderarea3d.h \
     singlecellularfactory.h \
     cellspainter3d.h \
-    renderareai.h
+    renderareai.h \
+    inforenderarea3d.h \
+    infocellspainter3d.h
 
 OTHER_FILES += \
     TODO.txt

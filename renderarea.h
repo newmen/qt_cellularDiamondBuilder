@@ -27,7 +27,7 @@ signals:
 public slots:
 
 protected:
-    void drawCellular(QPainter *qpainter, CellsPainter *cells_painter);
+    virtual CellsPainter *createCellsPainter(QPainter *qpainter);
 
 private:
     const int _one_side_length;
