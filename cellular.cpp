@@ -148,7 +148,7 @@ void Cellular::buildDimers() {
                         }
                         first = second->front();
 
-                        if (!first->canBeDimer() || !second->canBeDimer()) continue;
+                        if (!first->canBeDimer() || !second->canBeDimer() || second->topFrontIs()) continue;
 
                         if (part == 0) {
                             dr_builder.addDimer(2 * y + i, x, first, second);

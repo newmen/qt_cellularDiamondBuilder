@@ -10,6 +10,7 @@ public:
     ClicableSimpleCell(int state, int x, int y) : SimpleCell(state, x, y) {}
     void invertState() { setState(1 - state()); }
 
+    bool topIs() const;
     bool bottomIs() const;
 
 private:

@@ -19,6 +19,8 @@ public:
 
     SimpleCell *front() const { return typedNeighbour(0); }
 
+    bool topFrontIs() const;
+
     bool canBeDimer() const { return _state == 1; }
     void setDimerDirection(DimerDirection direct) { _dimer = direct; }
     void resetDimer() { _dimer = NONE; }

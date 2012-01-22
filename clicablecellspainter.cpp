@@ -16,8 +16,10 @@ ClicableCellsPainter::ClicableCellsPainter(ClicableRenderArea *render_area, QPai
     _simple_cell_color_neighbour_info = QColor(Qt::red);
     _simple_cell_color_neighbour_info.setAlphaF(0.5);
 
-    _cross_pen = QPen(Qt::red);
-    _cross_pen.setWidth(0.5);
+    _top_cross_pen = QPen(Qt::red);
+    _top_cross_pen.setWidth(0.5);
+    _bottom_cross_pen = QPen(Qt::green);
+    _bottom_cross_pen.setWidth(0.5);
 }
 
 void ClicableCellsPainter::visitComplexCell(ComplexCell &cell) {
@@ -28,8 +30,12 @@ void ClicableCellsPainter::visitComplexCell(ComplexCell &cell) {
 
 void ClicableCellsPainter::visitSimpleCell(SimpleCell &cell) {
     ClicableSimpleCell &clicable_simple_cell = static_cast<ClicableSimpleCell &>(cell);
-    if (clicable_simple_cell.bottomIs()) CellsPainter::visitSimpleCell(cell);
-    else drawCross(cell);
+    if (clicable_simple_cell.bottomIs()) {
+        CellsPainter::visitSimpleCell(cell);
+        if (clicable_simple_cell.topIs()) drawCross(cell, _bottom_cross_pen);
+    } else {
+        drawCross(cell, _top_cross_pen);
+    }
 
     if (const QColor *pcolor = getColor(cell, _simple_cell_color_info, _simple_cell_color_neighbour_info)) {
         drawSimpleCell(cell, *pcolor);
@@ -48,11 +54,11 @@ const QColor *ClicableCellsPainter::getColor(const CellI &cell, const QColor &co
     return 0;
 }
 
-void ClicableCellsPainter::drawCross(const SimpleCell &cell) {
+void ClicableCellsPainter::drawCross(const SimpleCell &cell, const QPen &pen) {
     int real_x, real_y;
     seek(cell, real_x, real_y);
 
-    painter()->setPen(_cross_pen);
+    painter()->setPen(pen);
 
     painter()->save();
     painter()->translate(real_x, real_y);

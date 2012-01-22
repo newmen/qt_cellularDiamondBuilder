@@ -21,7 +21,8 @@ void RenderArea3D::drawCubeBorder(const float3 &center, const float3 &color, flo
 
 void RenderArea3D::drawBCube(const float3 &center, const float3 &color, float alpha) {
     drawCube(center, color, alpha);
-    float3 darken(color.x * .8f, color.y * .8f, color.z * .8f);
+    const float coef = .8f;
+    float3 darken(color.x * coef, color.y * coef, color.z * coef);
     drawCubeBorder(center, darken, alpha);
 }
 
@@ -33,19 +34,21 @@ void RenderArea3D::drawHalfDimer(const float3 &center, float alpha) {
 }
 
 void RenderArea3D::init() {
-//    glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+//    glEnable(GL_LIGHTING);
+//    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
-    float ambient[4] = {.3f, .3f, .3f, 1.f};
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+//    float ambient[4] = {.3f, .3f, .3f, 1.f};
+//    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
 
     glEnable(GL_BLEND);
 //    glDepthMask(GL_FALSE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-////    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+//////    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 //    GLfloat gl_diff_color[] = { 1, 1, 1, 1 };
-//    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, gl_diff_color);
-////    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+//    glMaterialfv(GL_BACK, GL_DIFFUSE, gl_diff_color);
+////    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, gl_diff_color);
 
     setRadiusAndCenter();
     _cells_painter = createCellsPainter();

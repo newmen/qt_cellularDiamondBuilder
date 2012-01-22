@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     cellspainter3d.cpp \
     renderareai.cpp \
     inforenderarea3d.cpp \
-    infocellspainter3d.cpp
+    infocellspainter3d.cpp \
+    zslider.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -80,7 +81,8 @@ HEADERS  += mainwindow.h \
     cellspainter3d.h \
     renderareai.h \
     inforenderarea3d.h \
-    infocellspainter3d.h
+    infocellspainter3d.h \
+    zslider.h
 
 OTHER_FILES += \
     TODO.txt

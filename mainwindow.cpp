@@ -4,10 +4,10 @@
 //#include "typicalrenderfactory.h"
 
 MainWindow::MainWindow() {
-    int cellular_height = 3;
+    int cellular_height = 8;
     int curr_cellular_z = 1;
 
-    _factory = new ClicableRenderFactory(12, 8, cellular_height);
+    _factory = new ClicableRenderFactory(16, 12, cellular_height);
 //    _factory = new TypicalRenderFactory(12, 8, cellular_height);
     _render_area = _factory->makeRenderArea(this, curr_cellular_z, 20);
 
@@ -20,14 +20,7 @@ MainWindow::MainWindow() {
     connect(_render_area, SIGNAL(hideInfo()), _render_area_3d, SLOT(hideInfo()));
 #endif
 
-    _slider = new QSlider(Qt::Vertical, this);
-    _slider->setTickPosition(QSlider::TicksBothSides);
-    _slider->setTickInterval(2);
-    _slider->setSingleStep(1);
-    _slider->setMinimum(0);
-    _slider->setMaximum(cellular_height - 1);
-    _slider->setValue(curr_cellular_z);
-
+    _slider = new ZSlider(this, cellular_height - 1, curr_cellular_z);
     connect(_slider, SIGNAL(valueChanged(int)), this, SLOT(moveZ(int)));
 
     QGridLayout *render_layout = new QGridLayout;
@@ -40,12 +33,16 @@ MainWindow::MainWindow() {
     _form_dimer_button = new Button(tr("Build dimer rows"), this);
     connect(_form_dimer_button, SIGNAL(clicked()), this, SLOT(formDimers()));
 
+    _next_button = new Button(tr("Next"), this);
+    connect(_next_button, SIGNAL(clicked()), this, SLOT(next()));
+
     _reset_camera_button = new Button(tr("Reset camera"), this);
     connect(_reset_camera_button, SIGNAL(clicked()), _render_area_3d, SLOT(resetCamera()));
 
     QGridLayout *buttons_layout = new QGridLayout;
     buttons_layout->addWidget(_form_dimer_button, 0, 0, Qt::AlignCenter);
-    buttons_layout->addWidget(_reset_camera_button, 0, 1, Qt::AlignCenter);
+    buttons_layout->addWidget(_next_button, 0, 1, Qt::AlignCenter);
+    buttons_layout->addWidget(_reset_camera_button, 0, 2, Qt::AlignCenter);
     _buttons_group = new QGroupBox(this);
     _buttons_group->setLayout(buttons_layout);
 
@@ -75,6 +72,11 @@ void MainWindow::updateRenderAreas() {
 
 void MainWindow::formDimers() {
     _factory->cellularInstance()->buildDimers();
+    updateRenderAreas();
+}
+
+void MainWindow::next() {
+    _factory->cellularInstance()->next();
     updateRenderAreas();
 }
 

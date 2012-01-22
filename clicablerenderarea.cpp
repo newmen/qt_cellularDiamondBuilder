@@ -48,7 +48,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
     ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(cellular()->cell(x, y, currZ()));
     ClicableSimpleCell *simple_cell = static_cast<ClicableSimpleCell *>(complex_cell->cell(inner_x, inner_y));
 
-    if (event->button() != Qt::RightButton && simple_cell->bottomIs()) {
+    if (event->button() != Qt::RightButton && simple_cell->bottomIs() && !simple_cell->topIs()) {
         simple_cell->invertState();
 
         emit cellStateChanged();

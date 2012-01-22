@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "button.h"
+#include "zslider.h"
 #include "renderarea.h"
 #include "renderarea3d.h"
 #include "renderfactory.h"
@@ -17,6 +18,7 @@ public:
 private slots:
     void updateRenderAreas();
     void formDimers();
+    void next();
     void moveZ(int z);
 
 private:
@@ -31,10 +33,11 @@ private:
     RenderArea *_render_area;
     RenderArea3D *_render_area_3d;
 
-    QSlider *_slider;
+    ZSlider *_slider;
 
     QGroupBox *_buttons_group;
     Button *_form_dimer_button;
+    Button *_next_button;
     Button *_reset_camera_button;
 };
 

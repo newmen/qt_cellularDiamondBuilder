@@ -17,11 +17,11 @@ private:
     ClicableCellsPainter &operator= (const ClicableCellsPainter &);
 
     const QColor *getColor(const CellI &clicable_cell, const QColor &color_info, const QColor &color_neighbour) const;
-    void drawCross(const SimpleCell &cell);
+    void drawCross(const SimpleCell &cell, const QPen &pen);
 
     QColor _complex_cell_color_info, _complex_cell_color_neighbour_info;
     QColor _simple_cell_color_info, _simple_cell_color_neighbour_info;
-    QPen _cross_pen;
+    QPen _top_cross_pen, _bottom_cross_pen;
 };
 
 #endif // CLICABLECELLPAINTER_H
