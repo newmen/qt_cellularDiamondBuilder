@@ -41,6 +41,7 @@ protected:
 signals:
 
 public slots:
+    void resetCamera();
 
 private:
     void setColor(const float3 &color, float alpha) { glColor4f(color.x, color.y, color.z, alpha); }

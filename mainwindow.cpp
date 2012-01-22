@@ -30,26 +30,36 @@ MainWindow::MainWindow() {
 
     connect(_slider, SIGNAL(valueChanged(int)), this, SLOT(moveZ(int)));
 
-    _render_group = new QGroupBox(this);
     QGridLayout *render_layout = new QGridLayout;
     render_layout->addWidget(_render_area, 0, 0);
     render_layout->addWidget(_slider, 0, 1);
     render_layout->addWidget(_render_area_3d, 0, 2);
+    _render_group = new QGroupBox(this);
     _render_group->setLayout(render_layout);
 
     _form_dimer_button = new Button(tr("Build dimer rows"), this);
-
     connect(_form_dimer_button, SIGNAL(clicked()), this, SLOT(formDimers()));
+
+    _reset_camera_button = new Button(tr("Reset camera"), this);
+    connect(_reset_camera_button, SIGNAL(clicked()), _render_area_3d, SLOT(resetCamera()));
+
+    QGridLayout *buttons_layout = new QGridLayout;
+    buttons_layout->addWidget(_form_dimer_button, 0, 0, Qt::AlignCenter);
+    buttons_layout->addWidget(_reset_camera_button, 0, 1, Qt::AlignCenter);
+    _buttons_group = new QGroupBox(this);
+    _buttons_group->setLayout(buttons_layout);
 
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->addWidget(_render_group);
-    main_layout->addWidget(_form_dimer_button, 0, Qt::AlignCenter);
+    main_layout->addWidget(_buttons_group);
 
     moveWindowToCenter();
 }
 
 MainWindow::~MainWindow() {
+    delete _reset_camera_button;
     delete _form_dimer_button;
+    delete _buttons_group;
 
     delete _render_area_3d;
     delete _render_area;

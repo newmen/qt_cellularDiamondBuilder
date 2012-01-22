@@ -134,6 +134,13 @@ void RenderArea3D::primitiveParallelepipedBorder(const float3 &center, const flo
     glEnd();
 }
 
+void RenderArea3D::resetCamera() {
+    qglviewer::Quaternion q;
+    q.setAxisAngle(qglviewer::Vec(4, 2, 3), 1.f);
+    camera()->setOrientation(q);
+    showEntireScene();
+}
+
 void RenderArea3D::drawSliceSelector() {
     const float min_x = (currZ() - 1) * .5f;
     const float max_x = cellular()->dimX() + (currZ() + 1) * .5f;
@@ -202,18 +209,12 @@ void RenderArea3D::drawSliceSelector() {
 }
 
 void RenderArea3D::setRadiusAndCenter() {
-    using namespace qglviewer;
-
     const float3 min(-.5f, -(cellular()->dimY() + cellular()->dimZ() * .5f + 1.f), -.5f);
     const float3 max(cellular()->dimX() + cellular()->dimZ() * .5f,
                      cellular()->dimY() - .5f,
                      cellular()->dimZ() * 2 - .5f);
 
-    setSceneBoundingBox(Vec(min.x, min.y, min.z), Vec(max.x, max.y, max.z));
+    setSceneBoundingBox(qglviewer::Vec(min.x, min.y, min.z), qglviewer::Vec(max.x, max.y, max.z));
 
-    Quaternion q;
-    q.setAxisAngle(Vec(4, 2, 3), 1.f);
-    camera()->setOrientation(q);
-//    camera()->setPosition(qglviewer::Vec(_max.x * 1.35f, _max.y * -1.4f, _max.z * 2.8f));
-    showEntireScene();
+    resetCamera();
 }

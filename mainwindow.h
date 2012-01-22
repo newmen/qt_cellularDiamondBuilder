@@ -29,7 +29,10 @@ private:
     RenderArea3D *_render_area_3d;
 
     QSlider *_slider;
+
+    QGroupBox *_buttons_group;
     Button *_form_dimer_button;
+    Button *_reset_camera_button;
 };
 
 #endif // MAINWINDOW_H
