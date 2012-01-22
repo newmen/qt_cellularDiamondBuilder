@@ -39,6 +39,7 @@ void RenderArea3D::init() {
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
 
     glEnable(GL_BLEND);
+//    glDepthMask(GL_FALSE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 ////    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

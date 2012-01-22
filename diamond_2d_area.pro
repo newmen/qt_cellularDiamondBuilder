@@ -7,6 +7,8 @@
 QT += core gui opengl xml
 #QT += opengl xml
 
+QMAKE_CXXFLAGS += -std=c++0x
+
 TARGET = diamond_2d_area
 TEMPLATE = app
 

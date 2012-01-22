@@ -6,7 +6,7 @@
 #include "simplecell.h"
 #include "cellsfactory.h"
 
-class ComplexCell : public Cell<ComplexCell, 8>
+class ComplexCell : public Cell<ComplexCell, 14>
 {
 public:
     ComplexCell(const CellsFactory *cells_factory, int state, int x, int y, int z);

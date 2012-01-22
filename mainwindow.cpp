@@ -30,16 +30,16 @@ MainWindow::MainWindow() {
 
     connect(_slider, SIGNAL(valueChanged(int)), this, SLOT(moveZ(int)));
 
-    _form_dimer_button = new Button(tr("Build dimer rows"), this);
-
-    connect(_form_dimer_button, SIGNAL(clicked()), this, SLOT(formDimers()));
-
     _render_group = new QGroupBox(this);
     QGridLayout *render_layout = new QGridLayout;
     render_layout->addWidget(_render_area, 0, 0);
     render_layout->addWidget(_slider, 0, 1);
     render_layout->addWidget(_render_area_3d, 0, 2);
     _render_group->setLayout(render_layout);
+
+    _form_dimer_button = new Button(tr("Build dimer rows"), this);
+
+    connect(_form_dimer_button, SIGNAL(clicked()), this, SLOT(formDimers()));
 
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->addWidget(_render_group);
@@ -56,10 +56,6 @@ MainWindow::~MainWindow() {
     delete _factory;
 
     delete _render_group;
-}
-
-QSize MainWindow::minimumSizeHint() const {
-    return QSize(width(), height());
 }
 
 void MainWindow::updateRenderAreas() {

@@ -11,6 +11,7 @@ Cellular::Cellular(const CellsFactory *cells_factory, int dim_x, int dim_y, int 
         for (int y = 0; y < _dims.y; ++y) {
             _cells[z][y] = new ComplexCell*[_dims.x];
             for (int x = 0; x < _dims.x; ++x) {
+//                _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 1 || z == 2), x, y, z);
 //                _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0 || z == 1), x, y, z);
                 _cells[z][y][x] = cells_factory->makeComplexCell((int)(z == 0), x, y, z);
 //                _cells[z][y][x] = cells_factory->makeComplexCell(0, x, y, z);
@@ -59,8 +60,21 @@ void Cellular::storeSlice(int z, CellsVisitor *visitor) {
 }
 
 void Cellular::initNeighbours() {
-    int nx, ny;
-    for (CellularIterator p(this); !p.isDone(); p.next()) {
+    int nx, ny, nz;
+    CellularIterator p(this);
+
+    auto change_and_check_nx_lambda = [this, &nx, &p](int ix) {
+        nx = p.x() + ix;
+        if (nx < 0) nx += this->_dims.x;
+        else if (nx >= this->_dims.x) nx -= this->_dims.x;
+    };
+
+    auto check_ny_lambda = [this, &ny]() {
+        if (ny < 0) ny += this->_dims.y;
+        else if (ny >= this->_dims.y) ny -= this->_dims.y;
+    };
+
+    for (; !p.isDone(); p.next()) {
         int neighbour_index = 0;
 
         for (int iy = -1; iy < 2; ++iy) {
@@ -69,16 +83,34 @@ void Cellular::initNeighbours() {
                 if (iy == 1 && ix != 0) continue;
                 if (iy != 0 && (ix == -2 || ix == 2)) continue;
 
-                nx = p.x() + ix;
-                if (nx < 0) nx += _dims.x;
-                else if (nx >= _dims.x) nx -= _dims.x;
+                change_and_check_nx_lambda(ix);
 
                 ny = p.y() + iy;
                 if (p.x() % 2 != 0 && (ix == -1 || ix == 1)) ++ny;
-                if (ny < 0) ny = _dims.y - 1;
-                else if (ny >= _dims.y) ny = 0;
+                check_ny_lambda();
 
                 p.current()->setNeighbour(neighbour_index++, _cells[p.z()][ny][nx]);
+            }
+        }
+
+        for (int iz = -1; iz < 2; iz += 2) {
+            nz = p.z() + iz;
+            for (int ix = -1; ix < 2; ++ix) {
+                int curr_neighbour_index = neighbour_index++;
+
+                if (nz < 0 || nz >= _dims.z) {
+                    p.current()->setNeighbour(curr_neighbour_index, 0);
+                    continue;
+                }
+
+                change_and_check_nx_lambda(ix);
+
+                ny = p.y();
+                if (iz == -1 && ix != 0 && p.x() % 2 != 0) ++ny;
+                else if (iz == 1 && ix != 0 && p.x() % 2 == 0) --ny;
+                check_ny_lambda();
+
+                p.current()->setNeighbour(curr_neighbour_index, _cells[nz][ny][nx]);
             }
         }
     }
