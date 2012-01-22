@@ -44,6 +44,9 @@ public slots:
     void resetCamera();
 
 private:
+    RenderArea3D(const RenderArea3D &);
+    RenderArea3D &operator= (const RenderArea3D &);
+
     void setColor(const float3 &color, float alpha) { glColor4f(color.x, color.y, color.z, alpha); }
     void drawSliceSelector();
     void setRadiusAndCenter();

@@ -17,9 +17,7 @@ public:
     void next();
     void store(CellsVisitor *visitor) { visitor->visitSimpleCell(*this); }
 
-//    SimpleCell *front() const { return neighbour(0); }
     SimpleCell *front() const { return typedNeighbour(0); }
-//    SimpleCell *back() const { return simpleNeighbour(4); }
 
     bool canBeDimer() const { return _state == 1; }
     void setDimerDirection(DimerDirection direct) { _dimer = direct; }
@@ -35,6 +33,9 @@ protected:
     void setState(int state) { _state = state; }
 
 private:
+    SimpleCell(const SimpleCell &);
+    SimpleCell &operator= (const SimpleCell &);
+
     int _x, _y;
     int _state, _next_state;
 //    HydroCarbon* _hc;

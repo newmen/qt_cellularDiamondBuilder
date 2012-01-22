@@ -15,6 +15,13 @@ public:
     SimpleCell *makeSimpleCell(int state, int x, int y) const {
         return new ClicableSimpleCell(state, x, y);
     }
+
+protected:
+    ClicableCellsFactory() {}
+
+private:
+    ClicableCellsFactory(const ClicableCellsFactory &);
+    ClicableCellsFactory &operator= (const ClicableCellsFactory &);
 };
 
 #endif // CLICABLECELLSFACTORY_H

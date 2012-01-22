@@ -20,6 +20,10 @@ protected:
     virtual int neighboursNum() const = 0;
     virtual CellI *neighbour(int index) const = 0;
     virtual CellI *changeableNeighbour(int index) = 0;
+
+private:
+    CellI(const CellI &);
+    CellI &operator= (const CellI &);
 };
 
 #endif // CELLI_H

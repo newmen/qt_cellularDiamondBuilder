@@ -15,10 +15,17 @@ public:
     void visitSimpleCell(SimpleCell &cell);
 
 protected:
+    RenderArea *renderArea() const { return _render_area; }
+    QPainter *painter() { return _painter; }
+
     void drawComplexCell(ComplexCell &cell, const QColor &color);
     void drawSimpleCell(const SimpleCell &cell, const QColor &color);
+    void seek(const SimpleCell &cell, int &x, int &y) const;
 
 private:
+    CellsPainter(const CellsPainter &);
+    CellsPainter &operator= (const CellsPainter &);
+
     RenderArea *_render_area;
     QPainter *_painter;
 

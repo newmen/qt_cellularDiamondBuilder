@@ -23,6 +23,9 @@ signals:
     void hideInfo();
 
 private:
+    ClicableRenderArea(const ClicableRenderArea &);
+    ClicableRenderArea &operator= (const ClicableRenderArea &);
+
     ClicableComplexCell *_curr_complex_cell;
     ClicableSimpleCell *_curr_simple_cell;
 };

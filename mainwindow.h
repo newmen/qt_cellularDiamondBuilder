@@ -20,6 +20,9 @@ private slots:
     void moveZ(int z);
 
 private:
+    MainWindow(const MainWindow &);
+    MainWindow &operator= (const MainWindow &);
+
     void moveWindowToCenter();
 
     QGroupBox *_render_group;

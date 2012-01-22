@@ -8,6 +8,8 @@ public:
 
 private:
     HydroCarbon();
+    HydroCarbon(const HydroCarbon &);
+    HydroCarbon &operator= (const HydroCarbon &);
 
     int _actives, _hydrogens;
 };

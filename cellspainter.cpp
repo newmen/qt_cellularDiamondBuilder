@@ -61,10 +61,8 @@ void CellsPainter::drawComplexCell(ComplexCell &cell, const QColor &color) {
 }
 
 void CellsPainter::drawSimpleCell(const SimpleCell &cell, const QColor &color) {
-    int seek = cell.x() * _render_area->oneSideLength();
-    int real_x = 0, real_y = 0;
-    if (cell.y() == 0) real_y += seek;
-    else real_x += seek;
+    int real_x, real_y;
+    seek(cell, real_x, real_y);
 
     _painter->setBrush(color);
     _painter->setPen(_simple_cell_border_pen);
@@ -88,4 +86,11 @@ void CellsPainter::drawSimpleCell(const SimpleCell &cell, const QColor &color) {
     else _painter->drawLine(0, 0, half_seek, 0);
 
     _painter->restore();
+}
+
+void CellsPainter::seek(const SimpleCell &cell, int &x, int &y) const {
+    int seek = cell.x() * _render_area->oneSideLength();
+    x = 0, y = 0;
+    if (cell.y() == 0) y += seek;
+    else x += seek;
 }

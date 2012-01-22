@@ -30,6 +30,9 @@ protected:
     virtual CellsPainter *createCellsPainter(QPainter *qpainter);
 
 private:
+    RenderArea(const RenderArea &);
+    RenderArea &operator= (const RenderArea &);
+
     const int _one_side_length;
 };
 

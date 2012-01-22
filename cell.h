@@ -20,6 +20,9 @@ protected:
 
 private:
     CellType *_neighbours[NNeighbours];
+
+    Cell(const Cell &);
+    Cell &operator= (const Cell &);
 };
 
 #endif // CELL_H

@@ -14,6 +14,9 @@ public:
     SimpleCell *current() const;
 
 private:
+    ComplexCellIterator(const ComplexCellIterator &);
+    ComplexCellIterator &operator= (const ComplexCellIterator &);
+
     ComplexCell *_complex_cell;
     int _x, _y;
 };

@@ -21,6 +21,9 @@ protected:
     void drawSimpleCellCube(const SimpleCell &cell, float alpha = 1.f);
 
 private:
+    CellsPainter3D(const CellsPainter3D &);
+    CellsPainter3D &operator= (const CellsPainter3D &);
+
     RenderArea3D *_render_area;
     int _cellular_max_y;
     float3 _color;

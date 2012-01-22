@@ -12,6 +12,7 @@ class DimersBuilder
     typedef std::map<int, DimerRows> RowsPlane;
 
 public:
+    DimersBuilder() {}
     virtual ~DimersBuilder();
 
     void reset(int max_vertical_index, int max_horizontal_index);
@@ -21,6 +22,9 @@ public:
     void apply() const;
 
 private:
+    DimersBuilder(const DimersBuilder &);
+    DimersBuilder &operator= (const DimersBuilder &);
+
     RowsPlane::iterator findRowsInPlane(int vertical_index);
 
     DimerRow *buildRow(int vertical_index, int horizontal_index, SimpleCell *first_cell, SimpleCell *second_cell);

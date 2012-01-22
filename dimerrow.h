@@ -38,6 +38,8 @@ public:
 
 private:
     DimerRow();
+    DimerRow(const DimerRow &);
+    DimerRow &operator= (const DimerRow &);
 
     int leftLimitIndex() const { return _horizontal_index + length(); }
 

@@ -14,6 +14,10 @@ public:
 
 protected:
     CellsVisitor() {}
+
+private:
+    CellsVisitor(const CellsVisitor &);
+    CellsVisitor &operator= (const CellsVisitor &);
 };
 
 #endif // CELLSVISITOR_H

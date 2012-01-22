@@ -49,8 +49,8 @@ void ComplexCell::initNestedNeighbours() {
     bottomSecondCell()->setNeighbour(2, typedNeighbour(7)->bottomFirstCell());
     bottomSecondCell()->setNeighbour(3, typedNeighbour(4)->bottomFirstCell());
     if (typedNeighbour(8) == 0) {
-        bottomFirstCell()->setNeighbour(4, 0);
-        bottomFirstCell()->setNeighbour(5, 0);
+        bottomSecondCell()->setNeighbour(4, 0);
+        bottomSecondCell()->setNeighbour(5, 0);
     } else {
         bottomSecondCell()->setNeighbour(4, typedNeighbour(8)->topSecondCell());
         bottomSecondCell()->setNeighbour(5, typedNeighbour(10)->topFirstCell());
@@ -79,8 +79,8 @@ void ComplexCell::initNestedNeighbours() {
     topSecondCell()->setNeighbour(4, typedNeighbour(2)->bottomSecondCell());
     topSecondCell()->setNeighbour(5, typedNeighbour(5)->bottomFirstCell());
     if (typedNeighbour(12) == 0) {
-        topFirstCell()->setNeighbour(6, 0);
-        topFirstCell()->setNeighbour(7, 0);
+        topSecondCell()->setNeighbour(6, 0);
+        topSecondCell()->setNeighbour(7, 0);
     } else {
         topSecondCell()->setNeighbour(6, typedNeighbour(12)->bottomFirstCell());
         topSecondCell()->setNeighbour(7, typedNeighbour(13)->bottomSecondCell());

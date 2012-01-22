@@ -18,7 +18,7 @@ protected:
 
 private:
     RenderAreaI(const RenderAreaI &);
-    RenderAreaI operator= (const RenderAreaI &);
+    RenderAreaI &operator= (const RenderAreaI &);
 
     Cellular *_cellular;
     int _curr_z;

@@ -24,6 +24,9 @@ protected:
         : _single_cellular(0), _cellular_dims(cellular_num_x, cellular_num_y, cellular_num_z) {}
 
 private:
+    RenderFactory(const RenderFactory &);
+    RenderFactory &operator= (const RenderFactory &);
+
     Cellular *_single_cellular;
     dim3 _cellular_dims;
 };

@@ -18,6 +18,10 @@ public slots:
 
 protected:
    CellsPainter3D *createCellsPainter();
+
+private:
+   InfoRenderArea3D(const InfoRenderArea3D &);
+   InfoRenderArea3D &operator= (const InfoRenderArea3D &);
 };
 
 #endif // INFORENDERAREA3D_H

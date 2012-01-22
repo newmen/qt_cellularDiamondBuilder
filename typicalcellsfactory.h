@@ -16,6 +16,13 @@ public:
     SimpleCell *makeSimpleCell(int state, int x, int y) const {
         return new SimpleCell(state, x, y);
     }
+
+protected:
+    TypicalCellsFactory() {}
+
+private:
+    TypicalCellsFactory(const TypicalCellsFactory &);
+    TypicalCellsFactory &operator= (const TypicalCellsFactory &);
 };
 
 #endif // TYPICALCELLSFACTORY_H

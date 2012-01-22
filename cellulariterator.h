@@ -19,6 +19,9 @@ public:
     int z() const { return _pos.z; }
 
 private:
+    CellularIterator(const CellularIterator &);
+    CellularIterator &operator= (const CellularIterator &);
+
     Cellular *_cellular;
     int3 _pos;
 };

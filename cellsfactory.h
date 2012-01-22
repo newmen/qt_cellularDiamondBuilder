@@ -14,6 +14,10 @@ public:
 
 protected:
     CellsFactory() {}
+
+private:
+    CellsFactory(const CellsFactory &);
+    CellsFactory &operator= (const CellsFactory &);
 };
 
 #endif // CELLSFACTORY_H

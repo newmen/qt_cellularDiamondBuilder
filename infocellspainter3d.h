@@ -17,6 +17,9 @@ public:
     void visitSimpleCell(SimpleCell &cell);
 
 private:
+    InfoCellsPainter3D(const InfoCellsPainter3D &);
+    InfoCellsPainter3D &operator= (const InfoCellsPainter3D &);
+
     bool _show_info;
     ClicableCell::Info _curr_complex_cell_info;
 };

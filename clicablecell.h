@@ -16,6 +16,9 @@ public:
     void hideInfo(bool with_neighbours = true);
 
 private:
+    ClicableCell(const ClicableCell &);
+    ClicableCell &operator= (const ClicableCell &);
+
     void neighbourInfo() { _info = NEIGHBOUR; }
     ClicableCell *clicableNeighbour(int index) { return dynamic_cast<ClicableCell *>(changeableNeighbour(index)); }
 

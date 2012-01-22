@@ -25,6 +25,9 @@ public:
     ComplexCell *cell(int x, int y, int z) { return _cells[z][y][x]; }
 
 private:
+    Cellular(const Cellular &);
+    Cellular &operator= (const Cellular &);
+
     void initNeighbours();
 
     const dim3 _dims;

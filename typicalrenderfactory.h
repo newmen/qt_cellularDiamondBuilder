@@ -20,6 +20,9 @@ public:
         return new RenderArea3D(parent, cellularInstance(), curr_cellular_z, area_size);
     }
 
+private:
+    TypicalRenderFactory(const TypicalRenderFactory &);
+    TypicalRenderFactory &operator= (const TypicalRenderFactory &);
 };
 
 #endif // TYPICALRENDERFACTORY_H

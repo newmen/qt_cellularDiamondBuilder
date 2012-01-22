@@ -9,6 +9,12 @@ class ClicableSimpleCell : public ClicableCell, public SimpleCell
 public:
     ClicableSimpleCell(int state, int x, int y) : SimpleCell(state, x, y) {}
     void invertState() { setState(1 - state()); }
+
+    bool bottomIs() const;
+
+private:
+    ClicableSimpleCell(const ClicableSimpleCell &);
+    ClicableSimpleCell &operator= (const ClicableSimpleCell &);
 };
 
 #endif // CLICABLESIMPLECELL_H

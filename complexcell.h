@@ -27,6 +27,9 @@ public:
     SimpleCell *cell(int x, int y) { return _cells[y][x]; }
 
 private:
+    ComplexCell(const ComplexCell &);
+    ComplexCell &operator= (const ComplexCell &);
+
     SimpleCell *bottomFirstCell() { return _cells[0][0]; }
     SimpleCell *bottomSecondCell() { return _cells[0][1]; }
     SimpleCell *topFirstCell() { return _cells[1][0]; }

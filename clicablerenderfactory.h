@@ -19,6 +19,10 @@ public:
     RenderArea3D *makeRenderArea3D(QWidget *parent, int curr_cellular_z, int area_size) {
         return new InfoRenderArea3D(parent, cellularInstance(), curr_cellular_z, area_size);
     }
+
+private:
+    ClicableRenderFactory(const ClicableRenderFactory &);
+    ClicableRenderFactory &operator= (const ClicableRenderFactory &);
 };
 
 #endif // CLICABLERENDERFACTORY_H
