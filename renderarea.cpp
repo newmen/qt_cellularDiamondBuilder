@@ -1,7 +1,8 @@
 #include "renderarea.h"
+#include "cellspainter.h"
 
-RenderArea::RenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length)
-    : QWidget(parent), RenderAreaI(cellular, z), _one_side_length(one_side_length) {}
+RenderArea::RenderArea(QWidget *parent, Cellular *cellular, int one_side_length)
+    : QWidget(parent), RenderAreaI(cellular), _one_side_length(one_side_length) {}
 
 //RenderArea::~RenderArea() {}
 
@@ -18,16 +19,20 @@ QSize RenderArea::minimumSizeHint() const {
 }
 
 void RenderArea::paintEvent(QPaintEvent *) {
-    QPainter qpainter(this);
-    CellsPainter *cells_painter = createCellsPainter(&qpainter);
+    // необходимо обязательно инитить _qpainter, перед созданием посетителя!
+    // TODO: возможно следует переделать на shared_ptr или типа того
+    _qpainter = new QPainter(this);
 
-    qpainter.setRenderHint(QPainter::Antialiasing, true);
+    CellsVisitor *cells_painter = createVisitor();
+
+    _qpainter->setRenderHint(QPainter::Antialiasing, true);
     cellular()->storeSlice(currZ(), cells_painter);
-    qpainter.setRenderHint(QPainter::Antialiasing, false);
+    _qpainter->setRenderHint(QPainter::Antialiasing, false);
 
     delete cells_painter;
+    delete _qpainter;
 }
 
-CellsPainter *RenderArea::createCellsPainter(QPainter *qpainter) {
-    return new CellsPainter(this, qpainter);
+CellsVisitor *RenderArea::createVisitor() {
+    return new CellsPainter(this, _qpainter);
 }

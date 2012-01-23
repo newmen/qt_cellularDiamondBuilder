@@ -1,8 +1,8 @@
 #include "inforenderarea3d.h"
 #include "infocellspainter3d.h"
 
-InfoRenderArea3D::InfoRenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size)
-    : RenderArea3D(parent, cellular, z, area_size) {}
+InfoRenderArea3D::InfoRenderArea3D(QWidget *parent, Cellular *cellular, int area_size)
+    : RenderArea3D(parent, cellular, area_size) {}
 
 void InfoRenderArea3D::drawInfoCell(const float3 &center, const float3 &color, float alpha) {
     primitiveCell(center, .5f, color, alpha);
@@ -18,6 +18,6 @@ void InfoRenderArea3D::hideInfo() {
     repaint();
 }
 
-CellsPainter3D *InfoRenderArea3D::createCellsPainter() {
+CellsVisitor *InfoRenderArea3D::createVisitor() {
     return new InfoCellsPainter3D(this, cellular()->dimY() - 1);
 }

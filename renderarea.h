@@ -4,13 +4,12 @@
 #include <QWidget>
 #include <QtGui>
 #include "renderareai.h"
-#include "cellspainter.h"
 
 class RenderArea : public QWidget, public RenderAreaI
 {
     Q_OBJECT
 public:
-    RenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length);
+    RenderArea(QWidget *parent, Cellular *cellular, int one_side_length);
 //    ~RenderArea();
 
     int width() const;
@@ -27,12 +26,15 @@ signals:
 public slots:
 
 protected:
-    virtual CellsPainter *createCellsPainter(QPainter *qpainter);
+    CellsVisitor *createVisitor();
+
+    QPainter *qpainter() { return _qpainter; }
 
 private:
     RenderArea(const RenderArea &);
     RenderArea &operator= (const RenderArea &);
 
+    QPainter *_qpainter;
     const int _one_side_length;
 };
 

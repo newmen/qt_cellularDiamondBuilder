@@ -7,7 +7,7 @@ class ZSlider : public QSlider
 {
 //    Q_OBJECT
 public:
-    explicit ZSlider(QWidget *parent, int max_value, int curr_value);
+    explicit ZSlider(QWidget *parent, int max_value);
     
 //signals:
 //public slots:

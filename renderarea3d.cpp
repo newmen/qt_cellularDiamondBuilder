@@ -1,7 +1,8 @@
 #include "renderarea3d.h"
+#include "cellspainter3d.h"
 
-RenderArea3D::RenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size)
-    : QGLViewer(parent), RenderAreaI(cellular, z), _area_size(area_size), _cell_height(.5f) {}
+RenderArea3D::RenderArea3D(QWidget *parent, Cellular *cellular, int area_size)
+    : QGLViewer(parent), RenderAreaI(cellular), _area_size(area_size), _cell_height(.5f) {}
 
 RenderArea3D::~RenderArea3D() {
     delete _cells_painter;
@@ -12,11 +13,11 @@ QSize RenderArea3D::minimumSizeHint() const {
 }
 
 void RenderArea3D::drawCell(const float3 &center, const float3 &color, float alpha) {
-    primitiveCell(center, .44f, color, alpha);
+    primitiveCell(center, .46f, color, alpha);
 }
 
 void RenderArea3D::drawCellBorder(const float3 &center, const float3 &color, float alpha) {
-    primitiveCellBorder(center, .45f, color, alpha);
+    primitiveCellBorder(center, .475f, color, alpha);
 }
 
 void RenderArea3D::drawBCell(const float3 &center, const float3 &color, float alpha) {
@@ -51,7 +52,7 @@ void RenderArea3D::init() {
 ////    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, gl_diff_color);
 
     setRadiusAndCenter();
-    _cells_painter = createCellsPainter();
+    _cells_painter = createVisitor();
 }
 
 void RenderArea3D::draw() {
@@ -59,7 +60,7 @@ void RenderArea3D::draw() {
     cellular()->store(cellsPainter());
 }
 
-CellsPainter3D *RenderArea3D::createCellsPainter() {
+CellsVisitor *RenderArea3D::createVisitor() {
     return new CellsPainter3D(this, cellular()->dimY() - 1);
 }
 

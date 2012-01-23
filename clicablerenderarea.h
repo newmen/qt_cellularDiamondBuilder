@@ -9,13 +9,13 @@ class ClicableRenderArea : public RenderArea
 {
     Q_OBJECT
 public:
-    ClicableRenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length);
+    ClicableRenderArea(QWidget *parent, Cellular *cellular, int one_side_length);
 
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
 
 protected:
-    virtual CellsPainter *createCellsPainter(QPainter *qpainter);
+    CellsVisitor *createVisitor();
 
 signals:
     void cellStateChanged();

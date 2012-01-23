@@ -12,9 +12,7 @@ void CellsPainter3D::visitComplexCell(ComplexCell &cell) {
     _seek(slice_seek + pos.x, slice_seek + pos.y * 2, pos.z * _render_area->cellHeight() * 2);
     if (cell.x() % 2 != 0) _seek.y += 1;
 
-    for (int y = 0; y < 2; ++y) {
-        for (int x = 0; x < 2; ++x) cell.cell(x, y)->store(this);
-    }
+    visitSimpleCells(cell);
 }
 
 void CellsPainter3D::visitSimpleCell(SimpleCell &cell) {

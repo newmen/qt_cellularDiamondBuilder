@@ -30,9 +30,9 @@ void ClicableCellsPainter::visitComplexCell(ComplexCell &cell) {
 
 void ClicableCellsPainter::visitSimpleCell(SimpleCell &cell) {
     ClicableSimpleCell &clicable_simple_cell = static_cast<ClicableSimpleCell &>(cell);
-    if (clicable_simple_cell.bottomIs()) {
+    if (clicable_simple_cell.belowIs()) {
         CellsPainter::visitSimpleCell(cell);
-        if (clicable_simple_cell.topIs()) drawCross(cell, _bottom_cross_pen);
+        if (clicable_simple_cell.aboveIs()) drawCross(cell, _bottom_cross_pen);
     } else {
         drawCross(cell, _top_cross_pen);
     }

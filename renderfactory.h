@@ -14,8 +14,8 @@ class RenderFactory : public virtual CellsFactory
 public:
     ~RenderFactory();
 
-    virtual RenderArea *makeRenderArea(QWidget *parent, int curr_cellular_z, int one_side_length) = 0;
-    virtual RenderArea3D *makeRenderArea3D(QWidget *parent, int curr_cellular_z, int area_size) = 0;
+    virtual RenderArea *makeRenderArea(QWidget *parent, int one_side_length) = 0;
+    virtual RenderArea3D *makeRenderArea3D(QWidget *parent, int area_size) = 0;
 
     Cellular *cellularInstance();
 

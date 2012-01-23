@@ -15,7 +15,6 @@ TEMPLATE = app
 LIBS += -lqglviewer-qt4
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     renderarea.cpp \
     simplecell.cpp \
     complexcell.cpp \
@@ -47,7 +46,14 @@ SOURCES += main.cpp\
     renderareai.cpp \
     inforenderarea3d.cpp \
     infocellspainter3d.cpp \
-    zslider.cpp
+    zslider.cpp \
+    mainmenu.cpp \
+    mainwindow.cpp \
+    cellulario.cpp \
+    cellsclearer.cpp \
+    cellularclearer.cpp \
+    cellsreseter.cpp \
+    cellularreseter.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -82,7 +88,13 @@ HEADERS  += mainwindow.h \
     renderareai.h \
     inforenderarea3d.h \
     infocellspainter3d.h \
-    zslider.h
+    zslider.h \
+    mainmenu.h \
+    cellulario.h \
+    cellsclearer.h \
+    cellularclearer.h \
+    cellsreseter.h \
+    cellularreseter.h
 
 OTHER_FILES += \
     TODO.txt

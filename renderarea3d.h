@@ -5,13 +5,12 @@
 #include "renderareai.h"
 #include "cellular.h"
 #include "common.h"
-#include "cellspainter3d.h"
 
 class RenderArea3D : public QGLViewer, public RenderAreaI
 {
     Q_OBJECT
 public:
-    RenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size);
+    RenderArea3D(QWidget *parent, Cellular *cellular, int area_size);
     ~RenderArea3D();
 
     int width() const { return _area_size; }
@@ -30,8 +29,8 @@ protected:
     void init();
     void draw();
 
-    virtual CellsPainter3D *createCellsPainter();
-    CellsPainter3D *cellsPainter() { return _cells_painter; }
+    CellsVisitor *createVisitor();
+    CellsVisitor *cellsPainter() { return _cells_painter; }
 
     void primitiveCell(const float3 &center, float half_side_length, const float3 &color, float alpha);
     void primitiveCellBorder(const float3 &center, float half_side_length, const float3 &color, float alpha);
@@ -56,7 +55,7 @@ private:
     Cellular *_cellular;
     int _area_size;
 
-    CellsPainter3D *_cells_painter;
+    CellsVisitor *_cells_painter;
 
     const float _cell_height;
 };

@@ -28,10 +28,8 @@ public:
     // для посетителей
     int x() const { return _x; }
     int y() const { return _y; }
-    int state() const { return _state; }
     DimerDirection dimer() const { return _dimer; }
-
-protected:
+    int state() const { return _state; }
     void setState(int state) { _state = state; }
 
 private:

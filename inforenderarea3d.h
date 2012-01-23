@@ -7,7 +7,7 @@ class InfoRenderArea3D : public RenderArea3D
 {
     Q_OBJECT
 public:
-    InfoRenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size);
+    InfoRenderArea3D(QWidget *parent, Cellular *cellular, int area_size);
     ~InfoRenderArea3D() {}
 
     void drawInfoCell(const float3 &center, const float3 &color, float alpha);
@@ -17,7 +17,7 @@ public slots:
     void hideInfo();
 
 protected:
-   CellsPainter3D *createCellsPainter();
+   CellsVisitor *createVisitor();
 
 private:
    InfoRenderArea3D(const InfoRenderArea3D &);

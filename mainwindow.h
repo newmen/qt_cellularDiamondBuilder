@@ -1,19 +1,26 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QWidget>
+#include <QMainWindow>
+#include "mainmenu.h"
 #include "button.h"
 #include "zslider.h"
 #include "renderarea.h"
 #include "renderarea3d.h"
 #include "renderfactory.h"
 
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
     explicit MainWindow();
     ~MainWindow();
+
+public slots:
+    void openFile();
+    void saveFile();
+    void resetCellular();
+    void clearCellular();
 
 private slots:
     void updateRenderAreas();
@@ -26,6 +33,8 @@ private:
     MainWindow &operator= (const MainWindow &);
 
     void moveWindowToCenter();
+
+    MainMenu *_main_menu;
 
     QGroupBox *_render_group;
 

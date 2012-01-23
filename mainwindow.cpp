@@ -2,17 +2,21 @@
 #include "mainwindow.h"
 #include "clicablerenderfactory.h"
 //#include "typicalrenderfactory.h"
+#include "cellularclearer.h"
+#include "cellularreseter.h"
 
 MainWindow::MainWindow() {
+    QWidget *widget = new QWidget;
+    setCentralWidget(widget);
+
     int cellular_height = 8;
-    int curr_cellular_z = 1;
 
     _factory = new ClicableRenderFactory(16, 12, cellular_height);
 //    _factory = new TypicalRenderFactory(12, 8, cellular_height);
-    _render_area = _factory->makeRenderArea(this, curr_cellular_z, 20);
+    _render_area = _factory->makeRenderArea(this, 20);
 
     int area3d_size = _render_area->height();
-    _render_area_3d = _factory->makeRenderArea3D(this, curr_cellular_z, area3d_size);
+    _render_area_3d = _factory->makeRenderArea3D(this, area3d_size);
 
 #ifdef CLICABLERENDERFACTORY_H
     connect(_render_area, SIGNAL(cellStateChanged()), _render_area_3d, SLOT(repaint()));
@@ -20,7 +24,7 @@ MainWindow::MainWindow() {
     connect(_render_area, SIGNAL(hideInfo()), _render_area_3d, SLOT(hideInfo()));
 #endif
 
-    _slider = new ZSlider(this, cellular_height - 1, curr_cellular_z);
+    _slider = new ZSlider(this, cellular_height - 1);
     connect(_slider, SIGNAL(valueChanged(int)), this, SLOT(moveZ(int)));
 
     QGridLayout *render_layout = new QGridLayout;
@@ -46,11 +50,18 @@ MainWindow::MainWindow() {
     _buttons_group = new QGroupBox(this);
     _buttons_group->setLayout(buttons_layout);
 
-    QVBoxLayout *main_layout = new QVBoxLayout(this);
+    QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->addWidget(_render_group);
     main_layout->addWidget(_buttons_group);
+    widget->setLayout(main_layout);
 
     moveWindowToCenter();
+    resize(100, 100); // чтобы уменьшилось до минимального размера
+
+    // достаточно создать экземпляр
+    _main_menu = new MainMenu(this);
+
+    resetCellular();
 }
 
 MainWindow::~MainWindow() {
@@ -63,6 +74,26 @@ MainWindow::~MainWindow() {
     delete _factory;
 
     delete _render_group;
+
+    delete _main_menu;
+}
+
+void MainWindow::openFile() {
+
+}
+
+void MainWindow::saveFile() {
+
+}
+
+void MainWindow::resetCellular() {
+    CellularReseter(_factory->cellularInstance()).reset();
+    _slider->setValue(1);
+}
+
+void MainWindow::clearCellular() {
+    CellularClearer(_factory->cellularInstance()).clear();
+    _slider->setValue(0);
 }
 
 void MainWindow::updateRenderAreas() {

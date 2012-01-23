@@ -15,6 +15,8 @@ public:
 protected:
     CellsVisitor() {}
 
+    void visitSimpleCells(ComplexCell &cell);
+
 private:
     CellsVisitor(const CellsVisitor &);
     CellsVisitor &operator= (const CellsVisitor &);

@@ -1,8 +1,8 @@
 #include "clicablerenderarea.h"
 #include "clicablecellspainter.h"
 
-ClicableRenderArea::ClicableRenderArea(QWidget *parent, Cellular *cellular, int z, int one_side_length)
-    : RenderArea(parent, cellular, z, one_side_length), _curr_complex_cell(0), _curr_simple_cell(0) {}
+ClicableRenderArea::ClicableRenderArea(QWidget *parent, Cellular *cellular, int one_side_length)
+    : RenderArea(parent, cellular, one_side_length), _curr_complex_cell(0), _curr_simple_cell(0) {}
 
 void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
     int x, y;
@@ -48,7 +48,7 @@ void ClicableRenderArea::mousePressEvent(QMouseEvent *event) {
     ClicableComplexCell *complex_cell = static_cast<ClicableComplexCell *>(cellular()->cell(x, y, currZ()));
     ClicableSimpleCell *simple_cell = static_cast<ClicableSimpleCell *>(complex_cell->cell(inner_x, inner_y));
 
-    if (event->button() != Qt::RightButton && simple_cell->bottomIs() && !simple_cell->topIs()) {
+    if (event->button() != Qt::RightButton && simple_cell->belowIs() && !simple_cell->aboveIs()) {
         simple_cell->invertState();
 
         emit cellStateChanged();
@@ -75,6 +75,6 @@ void ClicableRenderArea::mouseReleaseEvent(QMouseEvent *event) {
     update();
 }
 
-CellsPainter *ClicableRenderArea::createCellsPainter(QPainter *qpainter) {
-    return new ClicableCellsPainter(this, qpainter);
+CellsVisitor *ClicableRenderArea::createVisitor() {
+    return new ClicableCellsPainter(this, qpainter());
 }
