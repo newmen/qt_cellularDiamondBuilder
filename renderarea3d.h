@@ -18,11 +18,13 @@ public:
     int height() const { return _area_size; }
     QSize minimumSizeHint() const;
 
-    void drawCube(const float3 &center, const float3 &color, float alpha);
-    void drawCubeBorder(const float3 &center, const float3 &color, float alpha);
-    void drawBCube(const float3 &center, const float3 &color, float alpha);
+    void drawCell(const float3 &center, const float3 &color, float alpha);
+    void drawCellBorder(const float3 &center, const float3 &color, float alpha);
+    void drawBCell(const float3 &center, const float3 &color, float alpha);
 
     void drawHalfDimer(const float3 &center, float alpha);
+
+    float cellHeight() const { return _cell_height; }
 
 protected:
     void init();
@@ -31,8 +33,8 @@ protected:
     virtual CellsPainter3D *createCellsPainter();
     CellsPainter3D *cellsPainter() { return _cells_painter; }
 
-    void primitiveCube(const float3 &center, float half_side_length, const float3 &color, float alpha);
-    void primitiveCubeBorder(const float3 &center, float half_side_length, const float3 &color, float alpha);
+    void primitiveCell(const float3 &center, float half_side_length, const float3 &color, float alpha);
+    void primitiveCellBorder(const float3 &center, float half_side_length, const float3 &color, float alpha);
 
     void primitiveParallelepiped(const float3 &center, const float3 &half_side_lengths, const float3 &color, float alpha);
     void primitiveParallelepipedBorder(const float3 &center, const float3 &half_side_lengths, float border_width,
@@ -55,6 +57,8 @@ private:
     int _area_size;
 
     CellsPainter3D *_cells_painter;
+
+    const float _cell_height;
 };
 
 #endif // RENDERAREA3D_H

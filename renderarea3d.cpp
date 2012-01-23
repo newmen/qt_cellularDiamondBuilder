@@ -1,7 +1,7 @@
 #include "renderarea3d.h"
 
 RenderArea3D::RenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size)
-    : QGLViewer(parent), RenderAreaI(cellular, z), _area_size(area_size) {}
+    : QGLViewer(parent), RenderAreaI(cellular, z), _area_size(area_size), _cell_height(.5f) {}
 
 RenderArea3D::~RenderArea3D() {
     delete _cells_painter;
@@ -11,19 +11,19 @@ QSize RenderArea3D::minimumSizeHint() const {
     return QSize(width(), height());
 }
 
-void RenderArea3D::drawCube(const float3 &center, const float3 &color, float alpha) {
-    primitiveCube(center, .44f, color, alpha);
+void RenderArea3D::drawCell(const float3 &center, const float3 &color, float alpha) {
+    primitiveCell(center, .44f, color, alpha);
 }
 
-void RenderArea3D::drawCubeBorder(const float3 &center, const float3 &color, float alpha) {
-    primitiveCubeBorder(center, .45f, color, alpha);
+void RenderArea3D::drawCellBorder(const float3 &center, const float3 &color, float alpha) {
+    primitiveCellBorder(center, .45f, color, alpha);
 }
 
-void RenderArea3D::drawBCube(const float3 &center, const float3 &color, float alpha) {
-    drawCube(center, color, alpha);
+void RenderArea3D::drawBCell(const float3 &center, const float3 &color, float alpha) {
+    drawCell(center, color, alpha);
     const float coef = .8f;
     float3 darken(color.x * coef, color.y * coef, color.z * coef);
-    drawCubeBorder(center, darken, alpha);
+    drawCellBorder(center, darken, alpha);
 }
 
 void RenderArea3D::drawHalfDimer(const float3 &center, float alpha) {
@@ -63,12 +63,12 @@ CellsPainter3D *RenderArea3D::createCellsPainter() {
     return new CellsPainter3D(this, cellular()->dimY() - 1);
 }
 
-void RenderArea3D::primitiveCube(const float3 &center, float half_side_length, const float3 &color, float alpha) {
-    primitiveParallelepiped(center, float3(half_side_length, half_side_length, half_side_length), color, alpha);
+void RenderArea3D::primitiveCell(const float3 &center, float half_side_length, const float3 &color, float alpha) {
+    primitiveParallelepiped(center, float3(half_side_length, half_side_length, half_side_length * _cell_height), color, alpha);
 }
 
-void RenderArea3D::primitiveCubeBorder(const float3 &center, float half_side_length, const float3 &color, float alpha) {
-    primitiveParallelepipedBorder(center, float3(half_side_length, half_side_length, half_side_length), 2.f, color, alpha);
+void RenderArea3D::primitiveCellBorder(const float3 &center, float half_side_length, const float3 &color, float alpha) {
+    primitiveParallelepipedBorder(center, float3(half_side_length, half_side_length, half_side_length * _cell_height), 2.f, color, alpha);
 }
 
 void RenderArea3D::primitiveParallelepiped(const float3 &center, const float3 &half_side_lengths, const float3 &color, float alpha) {
@@ -151,8 +151,8 @@ void RenderArea3D::drawSliceSelector() {
     const float min_y = -cellular()->dimY() - currZ() * .5f - 1.5f;
     const float max_y = cellular()->dimY() - (currZ() + 1) * .5f;
 
-    const float3 center((min_x + max_x) * .5f, (min_y + max_y) * .5f, currZ() * 2.f + .5f);
-    const float half_height = 1.1f;
+    const float3 center((min_x + max_x) * .5f, (min_y + max_y) * .5f, (currZ() * 2.f + .5f) * _cell_height);
+    const float half_height = 1.1f * _cell_height;
     const float half_width_x = (max_x - min_x + 1.f) * .5f;
     const float half_width_y = (max_y - min_y + 1.f) * .5f;
     const float thrid_length_x = (max_x - min_x) * .33f;
@@ -212,10 +212,10 @@ void RenderArea3D::drawSliceSelector() {
 }
 
 void RenderArea3D::setRadiusAndCenter() {
-    const float3 min(-.5f, -(cellular()->dimY() + cellular()->dimZ() * .5f + 1.f), -.5f);
+    const float3 min(-.5f, -(cellular()->dimY() + cellular()->dimZ() * .5f + 1.f), -.5f * _cell_height);
     const float3 max(cellular()->dimX() + cellular()->dimZ() * .5f,
                      cellular()->dimY() - .5f,
-                     cellular()->dimZ() * 2 - .5f);
+                     (cellular()->dimZ() * 2 - .5f) * _cell_height);
 
     setSceneBoundingBox(qglviewer::Vec(min.x, min.y, min.z), qglviewer::Vec(max.x, max.y, max.z));
 

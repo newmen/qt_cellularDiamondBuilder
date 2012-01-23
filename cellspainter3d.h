@@ -18,7 +18,7 @@ protected:
     RenderArea3D *renderArea() { return _render_area; }
 
     float3 currSimpleCellPos(const SimpleCell &cell) const;
-    void drawSimpleCellCube(const SimpleCell &cell, float alpha = 1.f);
+    void drawSimpleCell(const SimpleCell &cell, float alpha = 1.f);
 
 private:
     CellsPainter3D(const CellsPainter3D &);

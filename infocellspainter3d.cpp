@@ -30,7 +30,7 @@ void InfoCellsPainter3D::visitSimpleCell(SimpleCell &cell) {
             alpha = 1.f;
         }
 
-        drawSimpleCellCube(cell, alpha);
+        drawSimpleCell(cell, alpha);
     }
 
     ClicableCell &clicable_cell = dynamic_cast<ClicableCell &>(cell);
@@ -46,5 +46,5 @@ void InfoCellsPainter3D::visitSimpleCell(SimpleCell &cell) {
         break;
     }
 
-    static_cast<InfoRenderArea3D *>(renderArea())->drawInfoCube(currSimpleCellPos(cell), float3(.1f, .5f, 1.f), info_alpha);
+    static_cast<InfoRenderArea3D *>(renderArea())->drawInfoCell(currSimpleCellPos(cell), float3(.1f, .5f, 1.f), info_alpha);
 }

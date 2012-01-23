@@ -10,7 +10,7 @@ public:
     InfoRenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size);
     ~InfoRenderArea3D() {}
 
-    void drawInfoCube(const float3 &center, const float3 &color, float alpha);
+    void drawInfoCell(const float3 &center, const float3 &color, float alpha);
 
 public slots:
     void showInfo();

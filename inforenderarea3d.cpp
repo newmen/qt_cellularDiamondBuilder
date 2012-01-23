@@ -4,8 +4,8 @@
 InfoRenderArea3D::InfoRenderArea3D(QWidget *parent, Cellular *cellular, int z, int area_size)
     : RenderArea3D(parent, cellular, z, area_size) {}
 
-void InfoRenderArea3D::drawInfoCube(const float3 &center, const float3 &color, float alpha) {
-    primitiveCube(center, .5f, color, alpha);
+void InfoRenderArea3D::drawInfoCell(const float3 &center, const float3 &color, float alpha) {
+    primitiveCell(center, .5f, color, alpha);
 }
 
 void InfoRenderArea3D::showInfo() {
