@@ -53,7 +53,14 @@ SOURCES += main.cpp\
     cellsclearer.cpp \
     cellularclearer.cpp \
     cellsreseter.cpp \
-    cellularreseter.cpp
+    cellularreseter.cpp \
+    cellularsaver.cpp \
+    fileerror.cpp \
+    loadfileerror.cpp \
+    savefileerror.cpp \
+    cellssaver.cpp \
+    cellularloader.cpp \
+    hascellular.cpp
 
 HEADERS  += mainwindow.h \
     renderarea.h \
@@ -94,7 +101,14 @@ HEADERS  += mainwindow.h \
     cellsclearer.h \
     cellularclearer.h \
     cellsreseter.h \
-    cellularreseter.h
+    cellularreseter.h \
+    cellularsaver.h \
+    fileerror.h \
+    loadfileerror.h \
+    savefileerror.h \
+    cellssaver.h \
+    cellularloader.h \
+    hascellular.h
 
 OTHER_FILES += \
     TODO.txt

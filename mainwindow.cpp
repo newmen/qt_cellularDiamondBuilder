@@ -2,8 +2,12 @@
 #include "mainwindow.h"
 #include "clicablerenderfactory.h"
 //#include "typicalrenderfactory.h"
-#include "cellularclearer.h"
+
+#include "fileerror.h"
+#include "cellularloader.h"
+#include "cellularsaver.h"
 #include "cellularreseter.h"
+#include "cellularclearer.h"
 
 MainWindow::MainWindow() {
     QWidget *widget = new QWidget;
@@ -79,11 +83,39 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::openFile() {
-
+    QFileDialog::Options options;
+    QString selected_filter;
+    QString file_name = QFileDialog::getOpenFileName(this,
+                                                     tr("Open cellular data file"),
+                                                     tr("~/"),
+                                                     tr("Cellular Data Files (*.cdf);;All Files (*)"),
+                                                     &selected_filter,
+                                                     options);
+    if (file_name.isEmpty()) return;
+    try {
+        CellularLoader(_factory->cellularInstance(), file_name.toStdString()).load();
+    } catch (const FileError &error) {
+        // выводим в строку состояния
+        qDebug() << error.message();
+    }
 }
 
 void MainWindow::saveFile() {
-
+    QFileDialog::Options options;
+    QString selected_filter;
+    QString file_name = QFileDialog::getSaveFileName(this,
+                                                     tr("Save cellular data file"),
+                                                     tr("~/"),
+                                                     tr("Cellular Data Files (*.cdf);;All Files (*)"),
+                                                     &selected_filter,
+                                                     options);
+    if (file_name.isEmpty()) return;
+    try {
+        CellularSaver(_factory->cellularInstance(), file_name.toStdString()).save();
+    } catch (const FileError &error) {
+        // выводим в строку состояния
+        qDebug() << error.message();
+    }
 }
 
 void MainWindow::resetCellular() {

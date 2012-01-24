@@ -8,8 +8,10 @@
 class Cellular
 {
 public:
-    Cellular(const CellsFactory *cells_factory, int nums_x, int nums_y, int nums_z);
+    Cellular(const CellsFactory *cells_factory, int dim_x, int dim_y, int dim_z);
     ~Cellular();
+
+    void resize(const dim3 &dims);
 
     void buildDimers();
     void next();
@@ -28,10 +30,14 @@ private:
     Cellular(const Cellular &);
     Cellular &operator= (const Cellular &);
 
+    void createCells();
+    void destroyCells();
+
     void initNeighbours();
 
-    const dim3 _dims;
+    const CellsFactory *_cells_factory;
     ComplexCell ****_cells;
+    dim3 _dims;
 };
 
 #endif // CELLULAR_H
