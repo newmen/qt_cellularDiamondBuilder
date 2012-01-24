@@ -13,6 +13,9 @@ public:
     void visitSimpleCell(SimpleCell &cell);
 
 private:
+    CellsSaver(const CellsSaver &);
+    CellsSaver &operator= (const CellsSaver &);
+
     bool isEmpty(ComplexCell &cell);
 
     std::ofstream &_file;

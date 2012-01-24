@@ -19,8 +19,11 @@ public:
 signals:
     
 public slots:
-    
+
 private:
+    MainMenu(const MainMenu &);
+    MainMenu &operator= (const MainMenu &);
+
     void buildFileMenu(QMainWindow *parent);
     void buildCellularMenu(QMainWindow *parent);
 

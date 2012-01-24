@@ -12,6 +12,10 @@ public:
 
 protected:
     CellsVisitor *createVisitor();
+
+private:
+    CellularClearer(const CellularClearer &);
+    CellularClearer &operator= (const CellularClearer &);
 };
 
 #endif // CELLULARCLEARER_H

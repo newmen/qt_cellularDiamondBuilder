@@ -32,6 +32,7 @@ private:
     MainWindow(const MainWindow &);
     MainWindow &operator= (const MainWindow &);
 
+    void resetSlider(int new_value);
     void moveWindowToCenter();
 
     MainMenu *_main_menu;

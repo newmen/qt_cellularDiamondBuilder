@@ -12,6 +12,8 @@ protected:
     FileError(const std::string &file_name, const std::string &message) : _file_name(file_name), _message(message) {}
 
 private:
+    FileError &operator= (const FileError &);
+
     std::string _file_name, _message;
 };
 

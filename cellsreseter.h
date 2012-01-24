@@ -12,6 +12,9 @@ public:
     void visitSimpleCell(SimpleCell &cell);
 
 private:
+    CellsReseter(const CellsReseter &);
+    CellsReseter &operator= (const CellsReseter &);
+
     bool _is_lower_layer;
 };
 

@@ -98,6 +98,8 @@ void MainWindow::openFile() {
         // выводим в строку состояния
         qDebug() << error.message();
     }
+
+//    updateRenderAreas(); // видимо происходит автоматически
 }
 
 void MainWindow::saveFile() {
@@ -120,12 +122,12 @@ void MainWindow::saveFile() {
 
 void MainWindow::resetCellular() {
     CellularReseter(_factory->cellularInstance()).reset();
-    _slider->setValue(1);
+    resetSlider(1);
 }
 
 void MainWindow::clearCellular() {
     CellularClearer(_factory->cellularInstance()).clear();
-    _slider->setValue(0);
+    resetSlider(0);
 }
 
 void MainWindow::updateRenderAreas() {
@@ -147,6 +149,11 @@ void MainWindow::moveZ(int z) {
     _render_area->moveZ(z);
     _render_area_3d->moveZ(z);
     updateRenderAreas();
+}
+
+void MainWindow::resetSlider(int new_value) {
+    if (_slider->value() == new_value) updateRenderAreas();
+    else _slider->setValue(new_value);
 }
 
 void MainWindow::moveWindowToCenter() {

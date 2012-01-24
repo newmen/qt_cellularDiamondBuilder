@@ -11,7 +11,10 @@ public:
     
 //signals:
 //public slots:
-    
+
+private:
+    ZSlider(const ZSlider &);
+    ZSlider &operator= (const ZSlider &);
 };
 
 #endif // ZSLIDER_H

@@ -12,6 +12,10 @@ public:
 
 protected:
     CellsVisitor *createVisitor();
+
+private:
+    CellularReseter(const CellularReseter &);
+    CellularReseter &operator= (const CellularReseter &);
 };
 
 #endif // CELLULARRESETER_H
