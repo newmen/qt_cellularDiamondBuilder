@@ -9,10 +9,11 @@ QT += core gui opengl xml
 
 QMAKE_CXXFLAGS += -std=c++0x
 
-TARGET = diamond_2d_area
+TARGET = diamond_3d_cellular
 TEMPLATE = app
 
-LIBS += -lqglviewer-qt4
+#LIBS += -lqglviewer-qt4
+LIBS += -lQGLViewer
 
 SOURCES += main.cpp\
     renderarea.cpp \

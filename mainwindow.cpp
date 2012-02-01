@@ -13,7 +13,7 @@ MainWindow::MainWindow() {
     QWidget *widget = new QWidget;
     setCentralWidget(widget);
 
-    int cellular_height = 8;
+    int cellular_height = 11;
 
     _factory = new ClicableRenderFactory(16, 12, cellular_height);
 //    _factory = new TypicalRenderFactory(12, 8, cellular_height);
